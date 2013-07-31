@@ -2,8 +2,7 @@
 What you'll build
 -----------------
 
-This guide provides an introduction to Spring Boot.
-
+This guide provides an introduction to Spring Boot by building a simple web application. This doesn't demonstrate all of its features but will help you get started with the concepts Spring Boot has to offer.
 
 What you'll need
 ----------------
@@ -114,15 +113,15 @@ In a project directory of your choosing, create the following subdirectory struc
 Warming up with Spring Boot
 ---------------------------
 
-What does Spring Boot provide? At the core, it offers a much faster way to build applications because it looks at what is on your classpath and makes some reasonable assumptions.
+What does Spring Boot provide? At the core, it offers a much faster way to build applications because it make reasonable assumptions such as looking at your classpath and other beans you have configured to see what you're missing.
 
 For example:
-- Got Spring MVC? There are a handful of needed beans people almost always use in that situation. But why stop there? A Spring MVC app 99.9% of the time needs a servlet container so Spring Boot will autoconfigure embedded Tomcat.
-- Got Jetty? You probably do NOT want Tomcat, but instead embedded Jetty.
-- Got Thymeleaf? There are a few beans that must always be added to your application context. Why should you have to track that?
-- Doing multipart file uploads? The [MultipartConfigElement](http://docs.oracle.com/javaee/6/api/javax/servlet/MultipartConfigElement.html) is part of the servlet 3.0 spec and let's you define upload parameters in pure Java. Why should you have to worry about plugging one into a servlet? Define one in your application context and Spring Boot will snatch it up and plug it into Spring MVC's `DispatcherServlet`.
+- Got Spring MVC? There are a handful of needed beans people almost always use in that situation. Spring Boot adds them automatically. But why stop there? A Spring MVC app needs a servlet container so Spring Boot automatically configures embedded Tomcat.
+- Got Jetty? You probably do NOT want Tomcat, but instead embedded Jetty. Don't lift a finger; Spring Boot handles it for you.
+- Got Thymeleaf? There are a few beans that must always be added to your application context. Why should you have to deal with that? Let Spring Boot handle it for you.
+- Doing multipart file uploads? The [MultipartConfigElement](http://docs.oracle.com/javaee/6/api/javax/servlet/MultipartConfigElement.html) is part of the servlet 3.0 spec and let's you define upload parameters in pure Java. Why should you have to worry about plugging that into your servlet? Define one in your application context and Spring Boot will snatch it up and plug it into Spring MVC's battle tested `DispatcherServlet`.
 
-It doesn't stop there. These are just a few examples of the automatic configuration support Spring Boot provides. But they don't get in your way. Spring Boot may make assumptions and add a `SpringTemplateEngine` for your Thymeleaf-based application. But if you proceed to define your own `SpringTemplateEngine`, Spring Boot will step aside and prefer your choice.
+It doesn't stop there. These are just a few examples of the automatic configuration provided by Spring Boot. But it doesn't get in your way. For example, Spring Boot may make assumptions and add a `SpringTemplateEngine` for your Thymeleaf-based application, unless you've already defined one. At that point, Spring Boot automatically steps aside and lets you take control.
 
 Creating a simple web application
 ---------------------------------
@@ -147,7 +146,7 @@ public class HelloController {
 }
 ```
     
-The class is flagged as a `@Controller` meaing it's ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `GET /` to the `index()` method. It returns pure text thanks to the `@ResponseBody` annotation.
+The class is flagged as a `@Controller` meaning it's ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `index()` method. When invoked from a browser or using curl on the command line, it returns pure text thanks to the `@ResponseBody` annotation.
 
 To make it executable, create an `Application` class:
 
@@ -185,12 +184,14 @@ public class Application {
 }
 ```
     
-- `@Configuration` tags the class as the source for defining beans for the application context.
-- `@EnableAutoConfiguration` tells Spring Boot to get going and start adding beans based on classpath settings, other beans, and property settings.
-- `@EnableWebMvc` signals Spring MVC that this application is a web application and to activate key behaviors for that.
+- `@Configuration` tags the class as a source of bean definitions for the application context.
+- `@EnableAutoConfiguration` tells Spring Boot to get going and start adding beans based on classpath settings, other beans, and various property settings.
+- `@EnableWebMvc` signals Spring MVC that this application is a web application and to activate key behaviors such as setting up a `DispatcherServlet`.
 - `@ComponentScanning` tells Spring to look for other components, configurations, and services in the the `hello` package, allowing it to find the `HelloController`.
 
-The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application. The `run()` method returns an `ApplicationContext` and this application then retrieves all the beans that were created either by your app or were automatically added thanks to Spring Boot.
+The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application. Did you notice that there wasn't a single line of XML? No **web.xml** file either. This web application is 100% pure Java and you didn't have to deal with configuring any plumbing or infrastructure.
+
+The `run()` method returns an `ApplicationContext` and this application then retrieves all the beans that were created either by your app or were automatically added thanks to Spring Boot. It sorts them and prints them out.
 
 To run it, execute:
 
@@ -249,7 +250,7 @@ Greetings from Spring Boot!
 
 Switching to Jetty
 ------------------
-What if you preferred Jetty over Tomcat? They're both compliant choices, so it should be darn simple to switch. And it is!
+What if you preferred Jetty over Tomcat? They're both compliant servlet containers, so it should be darn simple to switch. And it is!
 
 Add this to your build file's list of dependencies:
 
@@ -306,7 +307,7 @@ public class Application {
 }
 ```
     
-> **Note:** This `MultipartConfigElement` may not have any settings other than an empty string. A production version would specify things like target upload path, file size upload limits, etc.
+> **Note:** A production version of `MultipartConfigElement` would not be empty but instead specify things like target upload path, file size upload limits, etc.
 
 Re-run the app
 --------------
@@ -360,11 +361,11 @@ simpleControllerHandlerAdapter
 viewControllerHandlerMapping
 ```
 
-There is little change from the previous output, except there is no `tomcatEmbeddedServletContainerFactory`. Instead, there is a new `jettyEmbeddedServletContainer`. 
+There is little change from the previous output, except there is no longer a `tomcatEmbeddedServletContainerFactory`. Instead, there is a new `jettyEmbeddedServletContainer`. 
 
-There is also the `multipartConfigElement` you added. But along with it came a `multipartResolver` [courtesy of Spring Boot](https://github.com/SpringSource/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/MultipartAutoConfiguration.java).
+There is also the `multipartConfigElement` you added. But along with it came a `multipartResolver` [courtesy of Spring Boot](https://github.com/SpringSource/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/MultipartAutoConfiguration.java), a bean recommended to support file uploads with Spring MVC.
 
-Other than that, everything else appears the same, as it should be. Most the beans listed above provide Spring MVC's production-grade features. Just swapping one aspect, the container, and adding some upload support shouldn't cause a system wide ripple.
+Other than that, everything else appears the same, as it should be. Most the beans listed above provide Spring MVC's production-grade features. Just swapping one aspect, the container, and adding upload support shouldn't cause a system wide ripple.
 
 That is not all
 ---------------
