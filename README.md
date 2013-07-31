@@ -64,18 +64,14 @@ In a project directory of your choosing, create the following subdirectory struc
 
     <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-up-parent</artifactId>
+        <artifactId>spring-boot-starter-parent</artifactId>
         <version>0.5.0.BUILD-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-up-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 
@@ -257,7 +253,7 @@ Add this to your build file's list of dependencies:
 ```xml
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-up-jetty</artifactId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
 ```
 

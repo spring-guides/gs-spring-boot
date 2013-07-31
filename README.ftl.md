@@ -125,7 +125,7 @@ Add this to your build file's list of dependencies:
 ```xml
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-up-jetty</artifactId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
 ```
 
