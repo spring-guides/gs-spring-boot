@@ -197,7 +197,7 @@ $ mvn package spring-boot:run
 
 You should see some output like this:
 
-```txt
+```sh
 Let's inspect the beans provided by Spring Boot:
 application
 beanNameHandlerMapping
@@ -316,7 +316,7 @@ $ mvn package spring-boot:run
 
 Now check out the output:
 
-```txt
+```sh
 Let's inspect the beans provided by Spring Boot:
 application
 beanNameHandlerMapping
@@ -384,7 +384,7 @@ class ThisWillActuallyRun {
 ```
 Spring Boot automatically laces the code with key annotations and Groovy Grapes to pull down needed libraries to make the app run. With Spring Boot's CLI tool, all you need do is:
 
-```txt
+```sh
 $ spring run app.groovy
 $ curl localhost:8080
 Hello World!
