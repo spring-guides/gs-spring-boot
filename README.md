@@ -418,6 +418,21 @@ The response shows that shutdown through REST is currently disabled by default (
 
 For more details about each of these REST points and how you can tune their settings with an ``application.properties` file, feel free to dig into the [Spring Boot][spring-boot] project.
 
+Spring Boot's starters
+----------------------
+You have seen some of Spring Boot's **starters**. Here is a complete list:
+- spring-boot-starter-actuator
+- spring-boot-starter-batch
+- spring-boot-starter-data-jpa
+- spring-boot-starter-integration
+- spring-boot-starter-jetty
+- spring-boot-starter-logging
+- spring-boot-starter-parent
+- spring-boot-starter-security
+- spring-boot-starter-tomcat
+- spring-boot-starter-web
+
+
 That is not all
 ---------------
 That last example showed how Spring Boot makes it easy to wire beans you may not be aware you need. And it showed how to turn on convenient management services.
