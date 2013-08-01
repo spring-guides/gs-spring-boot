@@ -10,7 +10,7 @@ Spring Boot provides a wide range of support for various services. It's used for
 * [Creating a Batch Service][gs-batch-processing]
 * [Securing a Web Application][gs-securing-web]
 * [Uploading a File][gs-uploading-files]
-* [Convert JAR to WAR][gs-convert-jar-to-war]
+* [Converting a Spring Boot JAR-based application into a WAR][gs-convert-jar-to-war]
 
 [gs-actuator-service]: /guides/gs/actuator-service/content
 [gs-accessing-data-jpa]: /guides/gs/accessing-data-jpa/content
