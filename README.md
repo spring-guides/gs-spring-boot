@@ -2,7 +2,7 @@
 What you'll build
 -----------------
 
-This guide provides an introduction to Spring Boot by building a simple web application. This doesn't demonstrate all of its features but will help you get started with the concepts Spring Boot has to offer.
+This guide provides an introduction to [Spring Boot][spring-boot] by building a simple web application. This doesn't demonstrate all of its features but will help you get started with the concepts Spring Boot has to offer.
 
 What you'll need
 ----------------
@@ -363,13 +363,69 @@ There is also the `multipartConfigElement` you added. But along with it came a `
 
 Other than that, everything else appears the same, as it should be. Most the beans listed above provide Spring MVC's production-grade features. Just swapping one aspect, the container, and adding upload support shouldn't cause a system wide ripple.
 
+Adding consumer-grade services
+------------------------------
+If you are building a web site for your business, there are probably some management services you are thinking about adding. Spring Boot provides several out of the box with it's [actuator module][spring-boot-actuator] like health, audits, beans, and more.
+
+Add this to your pom.xml:
+```xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+```
+
+Then restart the app:
+
+```sh
+$ mvn package spring-boot:run
+```
+
+You will see a new set of RESTful end points added to the application. These are management services provided by Spring Boot.
+
+```sh
+2013-08-01 08:03:42.592  INFO 43851 --- [lication.main()] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> org.springframework.boot.ops.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2013-08-01 08:03:42.592  INFO 43851 --- [lication.main()] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],methods=[],params=[],headers=[],consumes=[],produces=[text/html],custom=[]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.ops.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest)
+2013-08-01 08:03:42.844  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/env] onto handler of type [class org.springframework.boot.ops.endpoint.EnvironmentEndpoint]
+2013-08-01 08:03:42.844  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/health] onto handler of type [class org.springframework.boot.ops.endpoint.HealthEndpoint]
+2013-08-01 08:03:42.844  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/beans] onto handler of type [class org.springframework.boot.ops.endpoint.BeansEndpoint]
+2013-08-01 08:03:42.844  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/info] onto handler of type [class org.springframework.boot.ops.endpoint.InfoEndpoint]
+2013-08-01 08:03:42.845  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/metrics] onto handler of type [class org.springframework.boot.ops.endpoint.MetricsEndpoint]
+2013-08-01 08:03:42.845  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/trace] onto handler of type [class org.springframework.boot.ops.endpoint.TraceEndpoint]
+2013-08-01 08:03:42.845  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/dump] onto handler of type [class org.springframework.boot.ops.endpoint.DumpEndpoint]
+2013-08-01 08:03:42.845  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/shutdown] onto handler of type [class org.springframework.boot.ops.endpoint.ShutdownEndpoint]
+```
+
+They include:
+- Errors
+- [Environment](http://localhost:8080/env)
+- [Health](http://localhost:8080/health)
+- [Beans](http://localhost:8080/beans)
+- [Info](http://localhost:8080/info)
+- [Metrics](http://localhost:8080/metrics)
+- [Trace](http://localhost:8080/trace)
+- [Dump](http://localhost:8080/dump)
+- Shutdown
+
+You can invoke shutdown through curl.
+
+```sh
+$ curl -X POST localhost:8080/shutdown
+```
+
+The response shows that shutdown through REST is currently disabled:
+```sh
+{"message":"Shutdown not enabled, sorry."}
+```
+
+For more details about each of these REST points, you'll have to dig into the [Spring Boot][spring-boot] project itself.
+
 That is not all
 ---------------
-That last example showed how Spring Boot makes it easy to wire beans you may not be aware you need. But Spring Boot does more than that. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-maven-plugin`.
+That last example showed how Spring Boot makes it easy to wire beans you may not be aware you need. And it showed how to turn on convenient management services.
 
-Spring Boot provides more than a quick way to wire beans. Spring Boot's [actuator module](https://github.com/SpringSource/spring-boot/blob/master/spring-boot-actuator/README.md) adds common needed business components like health, metrics, audits, and other features.
+But Spring Boot does more than that. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-maven-plugin`. On top of that, Spring Boot also have Groovy support, allowing you to build web apps with as little as a single file:
 
-Spring Boot also have Groovy support, allowing you to dynamically build web apps like this:
 ```groovy
 @Controller
 class ThisWillActuallyRun {
@@ -382,7 +438,7 @@ class ThisWillActuallyRun {
 
 }
 ```
-Spring Boot automatically laces the code with key annotations and Groovy Grapes to pull down needed libraries to make the app run. With Spring Boot's CLI tool, all you need do is:
+Spring Boot dynamically adds key annotations toy our code and leverages [Groovy Grapes](http://groovy.codehaus.org/Grape) to pull down needed libraries to make the app run. With Spring Boot's CLI tool, all you need do is:
 
 ```sh
 $ spring run app.groovy
@@ -392,6 +448,9 @@ Hello World!
 
 Congratulations!
 ----------------
-Spring Boot is powerful, but frankly too big to fit into a single guide. This is just a sampling.
+Spring Boot is powerful, but frankly too big to fit into a single guide. This is just a sampling of how much it can ramp up your development pace, letting you focus on business features and not worry about infrastructure.
 
 As you read more of this site's getting started guides, you will see it used all over the place. It might not be obvious at first, because Spring Boot is so good at adding the things you need without getting in your way. But after using it for a bit, you may wonder how you lived without it.
+
+[spring-boot]: https://github.com/SpringSource/spring-boot
+[spring-boot-actuator]: https://github.com/SpringSource/spring-boot/blob/master/spring-boot-actuator/README.md
