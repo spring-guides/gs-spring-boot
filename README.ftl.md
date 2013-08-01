@@ -131,7 +131,7 @@ Add this to your build file's list of dependencies:
 
 Adding multipart upload support
 -------------------------------
-You should also update your configuration and add a `MultipartConfigElement` to the application context.
+Imagine you also want to add file upload support. To do that, update your configuration and add a `MultipartConfigElement` to the application context.
 
     <@snippet path="src/main/java/hello/Application.java" prefix="complete"/>
     
@@ -193,11 +193,11 @@ There is little change from the previous output, except there is no longer a `to
 
 There is also the `multipartConfigElement` you added. But along with it came a `multipartResolver` [courtesy of Spring Boot](https://github.com/SpringSource/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/MultipartAutoConfiguration.java), a bean recommended to support file uploads with Spring MVC.
 
-Other than that, everything else appears the same, as it should be. Most the beans listed above provide Spring MVC's production-grade features. Just swapping one aspect, the container, and adding upload support shouldn't cause a system wide ripple.
+Other than that, everything else appears the same, as it should be. Most the beans listed above provide Spring MVC's production-grade features. Just swapping one part, the servlet container, and adding upload support shouldn't cause a system wide ripple.
 
 Adding consumer-grade services
 ------------------------------
-If you are building a web site for your business, there are probably some management services you are thinking about adding. Spring Boot provides several out of the box with it's [actuator module][spring-boot-actuator] like health, audits, beans, and more.
+If you are building a web site for your business, there are probably some management services you are thinking about adding. Spring Boot provides several out of the box with its [actuator module][spring-boot-actuator] like health, audits, beans, and more.
 
 Add this to your pom.xml:
 ```xml
@@ -245,18 +245,22 @@ You can invoke shutdown through curl.
 $ curl -X POST localhost:8080/shutdown
 ```
 
-The response shows that shutdown through REST is currently disabled:
+The response shows that shutdown through REST is currently disabled by default (thank goodness!):
 ```sh
 {"message":"Shutdown not enabled, sorry."}
 ```
 
-For more details about each of these REST points, you'll have to dig into the [Spring Boot][spring-boot] project itself.
+For more details about each of these REST points and how you can tune their settings with an ``application.properties` file, feel free to dig into the [Spring Boot][spring-boot] project.
 
 That is not all
 ---------------
 That last example showed how Spring Boot makes it easy to wire beans you may not be aware you need. And it showed how to turn on convenient management services.
 
-But Spring Boot does more than that. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-maven-plugin`. On top of that, Spring Boot also have Groovy support, allowing you to build web apps with as little as a single file:
+But Spring Boot does yet more. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-maven-plugin`. 
+
+On top of that, Spring Boot also has Groovy support, allowing you to build web apps with as little as a single file.
+
+Put the following code inside **app.groovy**:
 
 ```groovy
 @Controller
@@ -270,13 +274,18 @@ class ThisWillActuallyRun {
 
 }
 ```
-Spring Boot dynamically adds key annotations toy our code and leverages [Groovy Grapes](http://groovy.codehaus.org/Grape) to pull down needed libraries to make the app run. With Spring Boot's CLI tool, all you need do is:
+
+Next, [install Spring Boot's CLI](https://github.com/SpringSource/spring-boot#installing-the-cli).
+
+Finally, run it as follows:
 
 ```sh
 $ spring run app.groovy
 $ curl localhost:8080
 Hello World!
 ```
+
+Spring Boot dynamically adds key annotations to your code and leverages [Groovy Grapes](http://groovy.codehaus.org/Grape) to pull down needed libraries to make the app run.
 
 Congratulations!
 ----------------
