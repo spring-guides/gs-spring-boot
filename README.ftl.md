@@ -228,16 +228,14 @@ You will see a new set of RESTful end points added to the application. These are
 2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/shutdown] onto handler of type [class org.springframework.boot.ops.endpoint.ShutdownEndpoint]
 ```
 
-They include:
-- Errors
-- [Environment](http://localhost:8080/env)
-- [Health](http://localhost:8080/health)
-- [Beans](http://localhost:8080/beans)
-- [Info](http://localhost:8080/info)
-- [Metrics](http://localhost:8080/metrics)
-- [Trace](http://localhost:8080/trace)
-- [Dump](http://localhost:8080/dump)
-- Shutdown
+They include: errors, [environment](http://localhost:8080/env), [health](http://localhost:8080/health), [beans](http://localhost:8080/beans), [info](http://localhost:8080/info), [metrics](http://localhost:8080/metrics), [trace](http://localhost:8080/trace), [dump](http://localhost:8080/dump), and shutdown.
+
+It's easy to check the health of the app.
+
+```sh
+$ curl localhost:8080/health
+ok
+```
 
 You can invoke shutdown through curl.
 
