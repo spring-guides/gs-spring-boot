@@ -384,16 +384,16 @@ $ mvn package spring-boot:run
 You will see a new set of RESTful end points added to the application. These are management services provided by Spring Boot.
 
 ```sh
-2013-08-01 08:03:42.592  INFO 43851 --- [lication.main()] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> org.springframework.boot.ops.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
-2013-08-01 08:03:42.592  INFO 43851 --- [lication.main()] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],methods=[],params=[],headers=[],consumes=[],produces=[text/html],custom=[]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.ops.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest)
-2013-08-01 08:03:42.844  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/env] onto handler of type [class org.springframework.boot.ops.endpoint.EnvironmentEndpoint]
-2013-08-01 08:03:42.844  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/health] onto handler of type [class org.springframework.boot.ops.endpoint.HealthEndpoint]
-2013-08-01 08:03:42.844  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/beans] onto handler of type [class org.springframework.boot.ops.endpoint.BeansEndpoint]
-2013-08-01 08:03:42.844  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/info] onto handler of type [class org.springframework.boot.ops.endpoint.InfoEndpoint]
-2013-08-01 08:03:42.845  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/metrics] onto handler of type [class org.springframework.boot.ops.endpoint.MetricsEndpoint]
-2013-08-01 08:03:42.845  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/trace] onto handler of type [class org.springframework.boot.ops.endpoint.TraceEndpoint]
-2013-08-01 08:03:42.845  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/dump] onto handler of type [class org.springframework.boot.ops.endpoint.DumpEndpoint]
-2013-08-01 08:03:42.845  INFO 43851 --- [lication.main()] o.s.b.o.e.mvc.EndpointHandlerMapping     : Mapped URL path [/shutdown] onto handler of type [class org.springframework.boot.ops.endpoint.ShutdownEndpoint]
+2013-08-01 08:03:42.592  INFO 43851 ... Mapped "{[/error],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> org.springframework.boot.ops.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2013-08-01 08:03:42.592  INFO 43851 ... Mapped "{[/error],methods=[],params=[],headers=[],consumes=[],produces=[text/html],custom=[]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.ops.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest)
+2013-08-01 08:03:42.844  INFO 43851 ... Mapped URL path [/env] onto handler of type [class org.springframework.boot.ops.endpoint.EnvironmentEndpoint]
+2013-08-01 08:03:42.844  INFO 43851 ... Mapped URL path [/health] onto handler of type [class org.springframework.boot.ops.endpoint.HealthEndpoint]
+2013-08-01 08:03:42.844  INFO 43851 ... Mapped URL path [/beans] onto handler of type [class org.springframework.boot.ops.endpoint.BeansEndpoint]
+2013-08-01 08:03:42.844  INFO 43851 ... Mapped URL path [/info] onto handler of type [class org.springframework.boot.ops.endpoint.InfoEndpoint]
+2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/metrics] onto handler of type [class org.springframework.boot.ops.endpoint.MetricsEndpoint]
+2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/trace] onto handler of type [class org.springframework.boot.ops.endpoint.TraceEndpoint]
+2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/dump] onto handler of type [class org.springframework.boot.ops.endpoint.DumpEndpoint]
+2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/shutdown] onto handler of type [class org.springframework.boot.ops.endpoint.ShutdownEndpoint]
 ```
 
 They include:
