@@ -41,7 +41,6 @@
         </plugins>
     </build>
 
-    <!-- TODO: remove once bootstrap goes GA -->
     <repositories>
         <repository>
             <id>spring-snapshots</id>

@@ -88,7 +88,6 @@ In a project directory of your choosing, create the following subdirectory struc
         </plugins>
     </build>
 
-    <!-- TODO: remove once bootstrap goes GA -->
     <repositories>
         <repository>
             <id>spring-snapshots</id>
