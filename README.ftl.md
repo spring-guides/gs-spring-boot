@@ -35,13 +35,15 @@ For example:
 - Got Spring MVC? There are several specific beans you almost always need, and Spring Boot adds them automatically. A Spring MVC app also needs a servlet container, so Spring Boot automatically configures embedded Tomcat.
 - Got Jetty? If so, you probably do NOT want Tomcat, but instead embedded Jetty. Spring Boot handles that for you.
 - Got Thymeleaf? There are a few beans that must always be added to your application context; Spring Boot adds them for you.
-- Doing multipart file uploads? [MultipartConfigElement](http://docs.oracle.com/javaee/6/api/javax/servlet/MultipartConfigElement.html) is part of the servlet 3.0 spec and lets you define upload parameters in pure Java. With Spring Boot, you don't have to plug that into your servlet. Define one in your application context and Spring Boot will plug it into Spring MVC's battle-tested `DispatcherServlet`.
+- Doing multipart file uploads? [MultipartConfigElement](http://docs.oracle.com/javaee/6/api/javax/servlet/MultipartConfigElement.html) is part of the servlet 3.0 spec and lets you define upload parameters in pure Java. With Spring Boot, you don't have to plug a MultipartConfigElement into your servlet. Just define one in your application context and Spring Boot will plug it into Spring MVC's battle-tested `DispatcherServlet`.
 
-These are just a few examples of the automatic configuration Spring Boot provides. At the same time, Spring Boot doesn't get in your way. For example, Spring Boot may make assumptions and add a `SpringTemplateEngine` for your Thymeleaf-based application, unless you've already defined one. At that point, Spring Boot automatically steps aside and lets you take control.
+These are just a few examples of the automatic configuration Spring Boot provides. At the same time, Spring Boot doesn't get in your way. For example, if Thymeleaf is on your path, Spring Boot adds a `SpringTemplateEngine` to your application context automatically. But if you define your own `SpringTemplateEnginer` with your own settings, then Spring Boot won't add one. This leaves you in control with little effort on your part.
+
+> **Note:** Spring Boot doesn't generate code or make edits to your files. Instead, when you start up your application, Spring Boot dynamically wires up beans and settings and applies them to your application context.
 
 Create a simple web application
 ---------------------------------
-You already have the base build file at the top. Now you can create a web controller for a simple web application.
+Now you can create a web controller for a simple web application.
 
     <@snippet path="src/main/java/hello/HelloController.java" prefix="initial"/>
     
@@ -121,7 +123,7 @@ Greetings from Spring Boot!
 
 Switch from Tomcat to Jetty
 ---------------------------
-Jetty and Tomcat are both compliant servlet containers, so it's easy to switch.
+What if you prefer Jetty over Tomcat? Jetty and Tomcat are both compliant servlet containers, so it should be easy to switch. With Spring Boot, it is!
 
 Add this to your build file's list of dependencies:
 
@@ -134,7 +136,7 @@ Add this to your build file's list of dependencies:
 
 Add multipart upload support
 -------------------------------
-Suppose you want to add file upload support. To do that, update your configuration and add a `MultipartConfigElement` to the application context.
+Suppose you want to add file upload support. To do that, update your configuration by adding a `MultipartConfigElement` to the application context.
 
     <@snippet path="src/main/java/hello/Application.java" prefix="complete"/>
     
@@ -149,7 +151,7 @@ Run the app again:
 $ mvn package spring-boot:run
 ```
 
-Now check the output:
+Now check out the output:
 
 ```sh
 Let's inspect the beans provided by Spring Boot:
@@ -251,6 +253,8 @@ The response shows that shutdown through REST is currently disabled by default:
 {"message":"Shutdown not enabled, sorry."}
 ```
 
+Whew! You probably don't want that until you are ready to turn on proper security settings, it at all.
+
 For more details about each of these REST points and how you can tune their settings with an ``application.properties` file, check out the [Spring Boot][spring-boot] project.
 
 View Spring Boot's starters
@@ -276,7 +280,7 @@ But Spring Boot does yet more. It supports not only traditional WAR file deploym
 
 On top of that, Spring Boot also has Groovy support, allowing you to build web apps with as little as a single file.
 
-Put the following code inside **app.groovy**:
+Create a new file called **app.groovy** and put the following code in it:
 
 ```groovy
 @Controller
@@ -291,12 +295,18 @@ class ThisWillActuallyRun {
 }
 ```
 
+> **Note:** It doesn't matter where the file is.
+
 Next, [install Spring Boot's CLI](https://github.com/SpringSource/spring-boot#installing-the-cli).
 
 Run it as follows:
 
 ```sh
 $ spring run app.groovy
+```
+
+From a different terminal window:
+```sh
 $ curl localhost:8080
 Hello World!
 ```

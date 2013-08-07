@@ -2,7 +2,7 @@
 What you'll build
 -----------------
 
-This guide provides an introduction to [Spring Boot][spring-boot] by building a simple web application. This doesn't demonstrate all of its features but will help you get started with the concepts Spring Boot has to offer.
+This guide walks you through the process of building a simple web application with [Spring Boot][spring-boot]. The guide provides a sampling of how Spring Boot helps you accelerate and facilitate app development. As you read more Spring getting started guides, you will see more use cases for Spring Boot.
 
 What you'll need
 ----------------
@@ -14,7 +14,6 @@ What you'll need
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 [mvn]: http://maven.apache.org/download.cgi
-
 
 How to complete this guide
 --------------------------
@@ -28,7 +27,7 @@ To **skip the basics**, do the following:
  - [Download][zip] and unzip the source repository for this guide, or clone it using [git](/understanding/git):
 `git clone https://github.com/springframework-meta/gs-spring-boot.git`
  - cd into `gs-spring-boot/initial`.
- - Jump ahead to [Warming up with Spring Boot](#initial).
+ - Jump ahead to [Learn what you can do with Spring Boot](#initial).
 
 **When you're finished**, you can check your results against the code in `gs-spring-boot/complete`.
 [zip]: https://github.com/springframework-meta/gs-spring-boot/archive/master.zip
@@ -105,22 +104,24 @@ In a project directory of your choosing, create the following subdirectory struc
 </project>
 ```
 
-Warming up with Spring Boot
----------------------------
+Learn what you can do with Spring Boot
+--------------------------------------
 
-What does Spring Boot provide? At the core, it offers a much faster way to build applications because it make reasonable assumptions such as looking at your classpath and other beans you have configured to see what you're missing.
+Spring Boot offers a fast way to build applications. It looks at your classpath and at beans you have configured, makes reasonable assumptions about what you're missing, and adds it. With Spring Boot you can focus more on business features and less on infrastructure.
 
 For example:
-- Got Spring MVC? There are a handful of needed beans people almost always use in that situation. Spring Boot adds them automatically. But why stop there? A Spring MVC app needs a servlet container so Spring Boot automatically configures embedded Tomcat.
-- Got Jetty? You probably do NOT want Tomcat, but instead embedded Jetty. Don't lift a finger; Spring Boot handles it for you.
-- Got Thymeleaf? There are a few beans that must always be added to your application context. Why should you have to deal with that? Let Spring Boot handle it for you.
-- Doing multipart file uploads? The [MultipartConfigElement](http://docs.oracle.com/javaee/6/api/javax/servlet/MultipartConfigElement.html) is part of the servlet 3.0 spec and let's you define upload parameters in pure Java. Why should you have to worry about plugging that into your servlet? Define one in your application context and Spring Boot will snatch it up and plug it into Spring MVC's battle tested `DispatcherServlet`.
+- Got Spring MVC? There are several specific beans you almost always need, and Spring Boot adds them automatically. A Spring MVC app also needs a servlet container, so Spring Boot automatically configures embedded Tomcat.
+- Got Jetty? If so, you probably do NOT want Tomcat, but instead embedded Jetty. Spring Boot handles that for you.
+- Got Thymeleaf? There are a few beans that must always be added to your application context; Spring Boot adds them for you.
+- Doing multipart file uploads? [MultipartConfigElement](http://docs.oracle.com/javaee/6/api/javax/servlet/MultipartConfigElement.html) is part of the servlet 3.0 spec and lets you define upload parameters in pure Java. With Spring Boot, you don't have to plug a MultipartConfigElement into your servlet. Just define one in your application context and Spring Boot will plug it into Spring MVC's battle-tested `DispatcherServlet`.
 
-It doesn't stop there. These are just a few examples of the automatic configuration provided by Spring Boot. But it doesn't get in your way. For example, Spring Boot may make assumptions and add a `SpringTemplateEngine` for your Thymeleaf-based application, unless you've already defined one. At that point, Spring Boot automatically steps aside and lets you take control.
+These are just a few examples of the automatic configuration Spring Boot provides. At the same time, Spring Boot doesn't get in your way. For example, if Thymeleaf is on your path, Spring Boot adds a `SpringTemplateEngine` to your application context automatically. But if you define your own `SpringTemplateEnginer` with your own settings, then Spring Boot won't add one. This leaves you in control with little effort on your part.
 
-Creating a simple web application
+> **Note:** Spring Boot doesn't generate code or make edits to your files. Instead, when you start up your application, Spring Boot dynamically wires up beans and settings and applies them to your application context.
+
+Create a simple web application
 ---------------------------------
-You already have the base build file at the top. Next step is to create a web controller for a simple web application.
+Now you can create a web controller for a simple web application.
 
 `src/main/java/hello/HelloController.java`
 ```java
@@ -141,9 +142,11 @@ public class HelloController {
 }
 ```
     
-The class is flagged as a `@Controller` meaning it's ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `index()` method. When invoked from a browser or using curl on the command line, it returns pure text thanks to the `@ResponseBody` annotation.
+The class is flagged as a `@Controller`, meaning it's ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `index()` method. When invoked from a browser or using curl on the command line, the method returns pure text thanks to the `@ResponseBody` annotation.
 
-To make it executable, create an `Application` class:
+Create an Application class
+---------------------------
+Here you create an `Application` class with the components:
 
 `src/main/java/hello/Application.java`
 ```java
@@ -180,7 +183,7 @@ public class Application {
 ```
     
 - `@Configuration` tags the class as a source of bean definitions for the application context.
-- `@EnableAutoConfiguration` tells Spring Boot to get going and start adding beans based on classpath settings, other beans, and various property settings.
+- `@EnableAutoConfiguration` tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
 - `@EnableWebMvc` signals Spring MVC that this application is a web application and to activate key behaviors such as setting up a `DispatcherServlet`.
 - `@ComponentScanning` tells Spring to look for other components, configurations, and services in the the `hello` package, allowing it to find the `HelloController`.
 
@@ -188,7 +191,9 @@ The `main()` method uses Spring Boot's `SpringApplication.run()` method to launc
 
 The `run()` method returns an `ApplicationContext` and this application then retrieves all the beans that were created either by your app or were automatically added thanks to Spring Boot. It sorts them and prints them out.
 
-To run it, execute:
+Run the application
+-------------------
+To run the application, execute:
 
 ```sh
 $ mvn package spring-boot:run
@@ -243,9 +248,9 @@ $ curl localhost:8080
 Greetings from Spring Boot!
 ```
 
-Switching to Jetty
-------------------
-What if you preferred Jetty over Tomcat? They're both compliant servlet containers, so it should be darn simple to switch. And it is!
+Switch from Tomcat to Jetty
+---------------------------
+What if you prefer Jetty over Tomcat? Jetty and Tomcat are both compliant servlet containers, so it should be easy to switch. With Spring Boot, it is!
 
 Add this to your build file's list of dependencies:
 
@@ -256,9 +261,9 @@ Add this to your build file's list of dependencies:
         </dependency>
 ```
 
-Adding multipart upload support
+Add multipart upload support
 -------------------------------
-Imagine you also want to add file upload support. To do that, update your configuration and add a `MultipartConfigElement` to the application context.
+Suppose you want to add file upload support. To do that, update your configuration by adding a `MultipartConfigElement` to the application context.
 
 `src/main/java/hello/Application.java`
 ```java
@@ -302,10 +307,10 @@ public class Application {
 }
 ```
     
-> **Note:** A production version of `MultipartConfigElement` would not be empty but instead specify things like target upload path, file size upload limits, etc.
+> **Note:** A production version of `MultipartConfigElement` would not be empty; it would specify target upload path, file size upload limits, and so forth.
 
-Re-run the app
---------------
+Re-run the application
+----------------------
 
 Run the app again:
 
@@ -356,15 +361,15 @@ simpleControllerHandlerAdapter
 viewControllerHandlerMapping
 ```
 
-There is little change from the previous output, except there is no longer a `tomcatEmbeddedServletContainerFactory`. Instead, there is a new `jettyEmbeddedServletContainer`. 
+Little changes from the previous output, except there is no longer a `tomcatEmbeddedServletContainerFactory`. Instead, there is a new `jettyEmbeddedServletContainer`. 
 
 There is also the `multipartConfigElement` you added. But along with it came a `multipartResolver` [courtesy of Spring Boot](https://github.com/SpringSource/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/MultipartAutoConfiguration.java), a bean recommended to support file uploads with Spring MVC.
 
-Other than that, everything else appears the same, as it should be. Most the beans listed above provide Spring MVC's production-grade features. Just swapping one part, the servlet container, and adding upload support shouldn't cause a system wide ripple.
+Otherwise, everything is the same, as it should be. Most beans listed above provide Spring MVC's production-grade features. Simply swapping one part, the servlet container, and adding upload support shouldn't cause a system-wide ripple.
 
-Adding consumer-grade services
+Add consumer-grade services
 ------------------------------
-If you are building a web site for your business, there are probably some management services you are thinking about adding. Spring Boot provides several out of the box with its [actuator module][spring-boot-actuator] like health, audits, beans, and more.
+If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its [actuator module][spring-boot-actuator], such as health, audits, beans, and more.
 
 Add this to your pom.xml:
 ```xml
@@ -410,14 +415,16 @@ You can invoke shutdown through curl.
 $ curl -X POST localhost:8080/shutdown
 ```
 
-The response shows that shutdown through REST is currently disabled by default (thank goodness!):
+The response shows that shutdown through REST is currently disabled by default:
 ```sh
 {"message":"Shutdown not enabled, sorry."}
 ```
 
-For more details about each of these REST points and how you can tune their settings with an ``application.properties` file, feel free to dig into the [Spring Boot][spring-boot] project.
+Whew! You probably don't want that until you are ready to turn on proper security settings, it at all.
 
-Spring Boot's starters
+For more details about each of these REST points and how you can tune their settings with an ``application.properties` file, check out the [Spring Boot][spring-boot] project.
+
+View Spring Boot's starters
 ----------------------
 You have seen some of Spring Boot's **starters**. Here is a complete list:
 - spring-boot-starter-actuator
@@ -432,15 +439,15 @@ You have seen some of Spring Boot's **starters**. Here is a complete list:
 - spring-boot-starter-web
 
 
-That is not all
----------------
-That last example showed how Spring Boot makes it easy to wire beans you may not be aware you need. And it showed how to turn on convenient management services.
+JAR support and Groovy support
+------------------------------
+The last example showed how Spring Boot makes it easy to wire beans you may not be aware that you need. And it showed how to turn on convenient management services.
 
 But Spring Boot does yet more. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-maven-plugin`. 
 
 On top of that, Spring Boot also has Groovy support, allowing you to build web apps with as little as a single file.
 
-Put the following code inside **app.groovy**:
+Create a new file called **app.groovy** and put the following code in it:
 
 ```groovy
 @Controller
@@ -455,23 +462,27 @@ class ThisWillActuallyRun {
 }
 ```
 
+> **Note:** It doesn't matter where the file is.
+
 Next, [install Spring Boot's CLI](https://github.com/SpringSource/spring-boot#installing-the-cli).
 
-Finally, run it as follows:
+Run it as follows:
 
 ```sh
 $ spring run app.groovy
+```
+
+From a different terminal window:
+```sh
 $ curl localhost:8080
 Hello World!
 ```
 
 Spring Boot dynamically adds key annotations to your code and leverages [Groovy Grapes](http://groovy.codehaus.org/Grape) to pull down needed libraries to make the app run.
 
-Congratulations!
+Summary
 ----------------
-Spring Boot is powerful, but frankly too big to fit into a single guide. This is just a sampling of how much it can ramp up your development pace, letting you focus on business features and not worry about infrastructure.
-
-As you read more of this site's getting started guides, you will see it used all over the place. It might not be obvious at first, because Spring Boot is so good at adding the things you need without getting in your way. But after using it for a bit, you may wonder how you lived without it.
+Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. 
 
 [spring-boot]: https://github.com/SpringSource/spring-boot
 [spring-boot-actuator]: https://github.com/SpringSource/spring-boot/blob/master/spring-boot-actuator/README.md
