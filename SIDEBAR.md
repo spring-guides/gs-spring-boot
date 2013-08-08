@@ -12,13 +12,13 @@ Spring Boot provides a wide range of support for various services, including mos
 * [Uploading a File][gs-uploading-files]
 * [Converting a Spring Boot JAR-based application to a WAR][gs-convert-jar-to-war]
 
-[gs-actuator-service]: /guides/gs/actuator-service/content
-[gs-accessing-data-jpa]: /guides/gs/accessing-data-jpa/content
-[gs-async-method]: /guides/gs/async-method/content
-[gs-batch-processing]: /guides/gs/batch-processing/content
-[gs-securing-web]: /guides/gs/securing-web/content
-[gs-uploading-files]: /guides/gs/uploading-files/content
-[gs-convert-jar-to-war]: /guides/gs/convert-jar-to-war/content
+[gs-actuator-service]: /guides/gs/actuator-service
+[gs-accessing-data-jpa]: /guides/gs/accessing-data-jpa
+[gs-async-method]: /guides/gs/async-method
+[gs-batch-processing]: /guides/gs/batch-processing
+[gs-securing-web]: /guides/gs/securing-web
+[gs-uploading-files]: /guides/gs/uploading-files
+[gs-convert-jar-to-war]: /guides/gs/convert-jar-to-war
 
 ### Tutorials
 
