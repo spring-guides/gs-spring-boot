@@ -1,9 +1,10 @@
 <#assign project_id="gs-spring-boot">
+This guide walks you through the process of building a simple web application with [Spring Boot][spring-boot].
 
 What you'll build
 -----------------
 
-This guide walks you through the process of building a simple web application with [Spring Boot][spring-boot]. The guide provides a sampling of how Spring Boot helps you accelerate and facilitate app development. As you read more Spring getting started guides, you will see more use cases for Spring Boot.
+The guide provides a sampling of how Spring Boot helps you accelerate and facilitate app development. As you read more Spring getting started guides, you will see more use cases for Spring Boot.
 
 What you'll need
 ----------------

@@ -1,8 +1,9 @@
+This guide walks you through the process of building a simple web application with [Spring Boot][spring-boot].
 
 What you'll build
 -----------------
 
-This guide walks you through the process of building a simple web application with [Spring Boot][spring-boot]. The guide provides a sampling of how Spring Boot helps you accelerate and facilitate app development. As you read more Spring getting started guides, you will see more use cases for Spring Boot.
+The guide provides a sampling of how Spring Boot helps you accelerate and facilitate app development. As you read more Spring getting started guides, you will see more use cases for Spring Boot.
 
 What you'll need
 ----------------
@@ -37,7 +38,7 @@ To **skip the basics**, do the following:
 Set up the project
 ------------------
 
-First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Maven](/guides/gs/maven/) or [Building Java Projects with Gradle](/guides/gs/gradle/).
+First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Maven](/guides/gs/maven) or [Building Java Projects with Gradle](/guides/gs/gradle/).
 
 ### Create the directory structure
 
