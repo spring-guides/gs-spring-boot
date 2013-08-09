@@ -81,6 +81,10 @@ In a project directory of your choosing, create the following subdirectory struc
 
     <build>
         <plugins>
+            <plugin> 
+                <artifactId>maven-compiler-plugin</artifactId> 
+                <version>2.3.2</version> 
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
