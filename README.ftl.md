@@ -296,7 +296,7 @@ class ThisWillActuallyRun {
 }
 ```
 
-> **Note:** It doesn't matter where the file is. You can fit an that small inside a [single tweet](https://twitter.com/rob_winch/status/364871658483351552)!
+> **Note:** It doesn't matter where the file is. You can fit an application that small inside a [single tweet](https://twitter.com/rob_winch/status/364871658483351552)!
 
 Next, [install Spring Boot's CLI](https://github.com/SpringSource/spring-boot#installing-the-cli).
 
