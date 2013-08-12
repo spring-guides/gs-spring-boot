@@ -425,9 +425,9 @@ The response shows that shutdown through REST is currently disabled by default:
 {"message":"Shutdown not enabled, sorry."}
 ```
 
-Whew! You probably don't want that until you are ready to turn on proper security settings, it at all.
+Whew! You probably don't want that until you are ready to turn on proper security settings, if at all.
 
-For more details about each of these REST points and how you can tune their settings with an ``application.properties` file, check out the [Spring Boot][spring-boot] project.
+For more details about each of these REST points and how you can tune their settings with an `application.properties` file, check out the [Spring Boot][spring-boot] project.
 
 View Spring Boot's starters
 ----------------------
@@ -467,7 +467,7 @@ class ThisWillActuallyRun {
 }
 ```
 
-> **Note:** It doesn't matter where the file is.
+> **Note:** It doesn't matter where the file is. You can fit an that small inside a [single tweet](https://twitter.com/rob_winch/status/364871658483351552)!
 
 Next, [install Spring Boot's CLI](https://github.com/SpringSource/spring-boot#installing-the-cli).
 
