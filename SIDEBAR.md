@@ -31,5 +31,5 @@ Spring Boot provides a wide range of support for various services, including mos
 * [REST][u-rest]
 * [JSON][u-json]
 
-<@u_rest/>
-<@u_json/>
+[u-rest]: /understanding/REST
+[u-json]: /understanding/JSON
