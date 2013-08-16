@@ -11,9 +11,10 @@ What you'll need
  - About 15 minutes
  - A favorite text editor or IDE
  - [JDK 6][jdk] or later
- - [Maven 3.0][mvn] or later
+ - [Gradle 1.7+][gradle] or [Maven 3.0+][mvn]
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+[gradle]: http://www.gradle.org/
 [mvn]: http://maven.apache.org/download.cgi
 
 How to complete this guide
@@ -39,7 +40,7 @@ To **skip the basics**, do the following:
 Set up the project
 ------------------
 
-First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Maven](/guides/gs/maven) or [Building Java Projects with Gradle](/guides/gs/gradle/).
+First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Gradle](http://gradle.org) and [Maven](https://maven.apache.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Gradle](/guides/gs/gradle/) or [Building Java Projects with Maven](/guides/gs/maven).
 
 ### Create the directory structure
 
@@ -50,64 +51,43 @@ In a project directory of your choosing, create the following subdirectory struc
             └── java
                 └── hello
 
-### Create a Maven POM
+### Create a Gradle build file
 
-`pom.xml`
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+`build.gradle`
+```gradle
+buildscript {
+    repositories {
+        maven { url "http://repo.springsource.org/libs-snapshot" }
+        mavenLocal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:0.5.0.BUILD-SNAPSHOT")
+    }
+}
 
-    <groupId>org.springframework</groupId>
-    <artifactId>gs-spring-boot</artifactId>
-    <version>0.1.0</version>
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>0.5.0.BUILD-SNAPSHOT</version>
-    </parent>
+jar {
+    baseName = 'gs-spring-boot'
+    version =  '0.1.0'
+}
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-    </dependencies>
+repositories {
+    mavenCentral()
+    maven { url "http://repo.springsource.org/libs-snapshot" }
+}
 
-    <properties>
-        <start-class>hello.Application</start-class>
-    </properties>
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.BUILD-SNAPSHOT")
+    testCompile("junit:junit:4.11")
+}
 
-    <build>
-        <plugins>
-            <plugin> 
-                <artifactId>maven-compiler-plugin</artifactId> 
-                <version>2.3.2</version> 
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
-    <repositories>
-        <repository>
-            <id>spring-snapshots</id>
-            <url>http://repo.springsource.org/libs-snapshot</url>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <url>http://repo.springsource.org/libs-snapshot</url>
-            <snapshots><enabled>true</enabled></snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-</project>
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.7'
+}
 ```
 
 Learn what you can do with Spring Boot
@@ -121,7 +101,7 @@ For example:
 - Got Thymeleaf? There are a few beans that must always be added to your application context; Spring Boot adds them for you.
 - Doing multipart file uploads? [MultipartConfigElement](http://docs.oracle.com/javaee/6/api/javax/servlet/MultipartConfigElement.html) is part of the servlet 3.0 spec and lets you define upload parameters in pure Java. With Spring Boot, you don't have to plug a MultipartConfigElement into your servlet. Just define one in your application context and Spring Boot will plug it into Spring MVC's battle-tested `DispatcherServlet`.
 
-These are just a few examples of the automatic configuration Spring Boot provides. At the same time, Spring Boot doesn't get in your way. For example, if Thymeleaf is on your path, Spring Boot adds a `SpringTemplateEngine` to your application context automatically. But if you define your own `SpringTemplateEnginer` with your own settings, then Spring Boot won't add one. This leaves you in control with little effort on your part.
+These are just a few examples of the automatic configuration Spring Boot provides. At the same time, Spring Boot doesn't get in your way. For example, if Thymeleaf is on your path, Spring Boot adds a `SpringTemplateEngine` to your application context automatically. But if you define your own `SpringTemplateEngine` with your own settings, then Spring Boot won't add one. This leaves you in control with little effort on your part.
 
 > **Note:** Spring Boot doesn't generate code or make edits to your files. Instead, when you start up your application, Spring Boot dynamically wires up beans and settings and applies them to your application context.
 
@@ -202,7 +182,7 @@ Run the application
 To run the application, execute:
 
 ```sh
-$ mvn package spring-boot:run
+$ ./gradlew build && java -jar build/libs/gs-spring-boot-0.1.0.jar
 ```
 
 You should see some output like this:
@@ -260,11 +240,8 @@ What if you prefer Jetty over Tomcat? Jetty and Tomcat are both compliant servle
 
 Add this to your build file's list of dependencies:
 
-```xml
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jetty</artifactId>
-        </dependency>
+```groovy
+    compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.BUILD-SNAPSHOT")
 ```
 
 Add multipart upload support
@@ -321,7 +298,7 @@ Re-run the application
 Run the app again:
 
 ```sh
-$ mvn package spring-boot:run
+$ ./gradlew build && java -jar build/libs/gs-spring-boot-0.1.0.jar
 ```
 
 Now check out the output:
@@ -377,18 +354,16 @@ Add consumer-grade services
 ------------------------------
 If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its [actuator module][spring-boot-actuator], such as health, audits, beans, and more.
 
-Add this to your pom.xml:
-```xml
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+Add this to your build file's list of dependencies:
+
+```groovy
+    compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.BUILD-SNAPSHOT")
 ```
 
 Then restart the app:
 
 ```sh
-$ mvn package spring-boot:run
+$ ./gradlew build && java -jar build/libs/gs-spring-boot-0.1.0.jar
 ```
 
 You will see a new set of RESTful end points added to the application. These are management services provided by Spring Boot.
@@ -449,7 +424,7 @@ JAR support and Groovy support
 ------------------------------
 The last example showed how Spring Boot makes it easy to wire beans you may not be aware that you need. And it showed how to turn on convenient management services.
 
-But Spring Boot does yet more. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-maven-plugin`. 
+But Spring Boot does yet more. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-gradle-plugin`.
 
 On top of that, Spring Boot also has Groovy support, allowing you to build web apps with as little as a single file.
 
@@ -468,7 +443,7 @@ class ThisWillActuallyRun {
 }
 ```
 
-> **Note:** It doesn't matter where the file is. You can fit an application that small inside a [single tweet](https://twitter.com/rob_winch/status/364871658483351552)!
+> **Note:** It doesn't matter where the file is. You can even fit an application that small inside a [single tweet](https://twitter.com/rob_winch/status/364871658483351552)!
 
 Next, [install Spring Boot's CLI](https://github.com/SpringSource/spring-boot#installing-the-cli).
 
@@ -477,6 +452,8 @@ Run it as follows:
 ```sh
 $ spring run app.groovy
 ```
+
+> **Note:** This assumes you shut down the previous application, to avoid a port collision.
 
 From a different terminal window:
 ```sh
@@ -488,7 +465,7 @@ Spring Boot dynamically adds key annotations to your code and leverages [Groovy 
 
 Summary
 ----------------
-Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. 
+Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. You also turned on some handy production services.
 
 [spring-boot]: https://github.com/SpringSource/spring-boot
 [spring-boot-actuator]: https://github.com/SpringSource/spring-boot/blob/master/spring-boot-actuator/README.md

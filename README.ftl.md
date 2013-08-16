@@ -23,9 +23,9 @@ Set up the project
 
 <@create_directory_structure_hello/>
 
-### Create a Maven POM
+### Create a Gradle build file
 
-    <@snippet path="pom.xml" prefix="initial"/>
+    <@snippet path="build.gradle" prefix="initial"/>
 
 Learn what you can do with Spring Boot
 --------------------------------------
@@ -38,7 +38,7 @@ For example:
 - Got Thymeleaf? There are a few beans that must always be added to your application context; Spring Boot adds them for you.
 - Doing multipart file uploads? [MultipartConfigElement](http://docs.oracle.com/javaee/6/api/javax/servlet/MultipartConfigElement.html) is part of the servlet 3.0 spec and lets you define upload parameters in pure Java. With Spring Boot, you don't have to plug a MultipartConfigElement into your servlet. Just define one in your application context and Spring Boot will plug it into Spring MVC's battle-tested `DispatcherServlet`.
 
-These are just a few examples of the automatic configuration Spring Boot provides. At the same time, Spring Boot doesn't get in your way. For example, if Thymeleaf is on your path, Spring Boot adds a `SpringTemplateEngine` to your application context automatically. But if you define your own `SpringTemplateEnginer` with your own settings, then Spring Boot won't add one. This leaves you in control with little effort on your part.
+These are just a few examples of the automatic configuration Spring Boot provides. At the same time, Spring Boot doesn't get in your way. For example, if Thymeleaf is on your path, Spring Boot adds a `SpringTemplateEngine` to your application context automatically. But if you define your own `SpringTemplateEngine` with your own settings, then Spring Boot won't add one. This leaves you in control with little effort on your part.
 
 > **Note:** Spring Boot doesn't generate code or make edits to your files. Instead, when you start up your application, Spring Boot dynamically wires up beans and settings and applies them to your application context.
 
@@ -70,7 +70,7 @@ Run the application
 To run the application, execute:
 
 ```sh
-$ mvn package spring-boot:run
+$ ./gradlew build && java -jar build/libs/${project_id}-0.1.0.jar
 ```
 
 You should see some output like this:
@@ -128,11 +128,8 @@ What if you prefer Jetty over Tomcat? Jetty and Tomcat are both compliant servle
 
 Add this to your build file's list of dependencies:
 
-```xml
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jetty</artifactId>
-        </dependency>
+```groovy
+    compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.BUILD-SNAPSHOT")
 ```
 
 Add multipart upload support
@@ -149,7 +146,7 @@ Re-run the application
 Run the app again:
 
 ```sh
-$ mvn package spring-boot:run
+$ ./gradlew build && java -jar build/libs/${project_id}-0.1.0.jar
 ```
 
 Now check out the output:
@@ -205,18 +202,16 @@ Add consumer-grade services
 ------------------------------
 If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its [actuator module][spring-boot-actuator], such as health, audits, beans, and more.
 
-Add this to your pom.xml:
-```xml
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+Add this to your build file's list of dependencies:
+
+```groovy
+    compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.BUILD-SNAPSHOT")
 ```
 
 Then restart the app:
 
 ```sh
-$ mvn package spring-boot:run
+$ ./gradlew build && java -jar build/libs/${project_id}-0.1.0.jar
 ```
 
 You will see a new set of RESTful end points added to the application. These are management services provided by Spring Boot.
@@ -277,7 +272,7 @@ JAR support and Groovy support
 ------------------------------
 The last example showed how Spring Boot makes it easy to wire beans you may not be aware that you need. And it showed how to turn on convenient management services.
 
-But Spring Boot does yet more. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-maven-plugin`. 
+But Spring Boot does yet more. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-gradle-plugin`.
 
 On top of that, Spring Boot also has Groovy support, allowing you to build web apps with as little as a single file.
 
@@ -296,7 +291,7 @@ class ThisWillActuallyRun {
 }
 ```
 
-> **Note:** It doesn't matter where the file is. You can fit an application that small inside a [single tweet](https://twitter.com/rob_winch/status/364871658483351552)!
+> **Note:** It doesn't matter where the file is. You can even fit an application that small inside a [single tweet](https://twitter.com/rob_winch/status/364871658483351552)!
 
 Next, [install Spring Boot's CLI](https://github.com/SpringSource/spring-boot#installing-the-cli).
 
@@ -305,6 +300,8 @@ Run it as follows:
 ```sh
 $ spring run app.groovy
 ```
+
+> **Note:** This assumes you shut down the previous application, to avoid a port collision.
 
 From a different terminal window:
 ```sh
@@ -316,7 +313,7 @@ Spring Boot dynamically adds key annotations to your code and leverages [Groovy 
 
 Summary
 ----------------
-Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. 
+Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. You also turned on some handy production services.
 
 [spring-boot]: https://github.com/SpringSource/spring-boot
 [spring-boot-actuator]: https://github.com/SpringSource/spring-boot/blob/master/spring-boot-actuator/README.md

@@ -11,6 +11,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'spring-boot'
 
 jar {
     baseName = 'gs-spring-boot'
