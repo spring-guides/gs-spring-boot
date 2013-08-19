@@ -1,6 +1,6 @@
 ## Related resources
 
-Spring Boot provides a wide range of support for various services, including most services doumented in the Spring Getting Started guides. Some of these guides are listed here.
+Spring Boot provides a wide range of support for various services, including most services documented in the Spring Getting Started guides. Some of these guides are listed here.
 
 ### Getting Started guides
 
@@ -9,8 +9,8 @@ Spring Boot provides a wide range of support for various services, including mos
 * [Creating Asynchronous Methods][gs-async-method]
 * [Creating a Batch Service][gs-batch-processing]
 * [Securing a Web Application][gs-securing-web]
-* [Uploading a File][gs-uploading-files]
-* [Converting a Spring Boot JAR-based application to a WAR][gs-convert-jar-to-war]
+* [Uploading Files][gs-uploading-files]
+* [Converting a Spring Boot JAR Application to a WAR][gs-convert-jar-to-war]
 
 [gs-actuator-service]: /guides/gs/actuator-service
 [gs-accessing-data-jpa]: /guides/gs/accessing-data-jpa
