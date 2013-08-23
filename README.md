@@ -50,7 +50,9 @@ In a project directory of your choosing, create the following subdirectory struc
             └── java
                 └── hello
 
+
 ### Create a Gradle build file
+Below is the [initial Gradle build file](https://github.com/springframework-meta/gs-spring-boot/blob/master/initial/build.gradle). But you can also use Maven. The pom.xml file is included [right here](https://github.com/springframework-meta/gs-spring-boot/blob/master/initial/pom.xml).
 
 `build.gradle`
 ```gradle
@@ -88,6 +90,8 @@ task wrapper(type: Wrapper) {
     gradleVersion = '1.7'
 }
 ```
+    
+    
 
 Learn what you can do with Spring Boot
 --------------------------------------
@@ -184,6 +188,12 @@ To run the application, execute:
 $ ./gradlew build && java -jar build/libs/gs-spring-boot-0.1.0.jar
 ```
 
+If you are using Maven, execute:
+
+```sh
+$ mvn package && java -jar target/gs-spring-boot-0.1.0.jar
+```
+
 You should see some output like this:
 
 ```sh
@@ -237,10 +247,19 @@ Switch from Tomcat to Jetty
 ---------------------------
 What if you prefer Jetty over Tomcat? Jetty and Tomcat are both compliant servlet containers, so it should be easy to switch. With Spring Boot, it is!
 
-Add this to your build file's list of dependencies:
+Add this to your `build.gradle` list of dependencies:
 
 ```groovy
     compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.BUILD-SNAPSHOT")
+```
+
+If you are using Maven, add this to your list of dependencies:
+
+```xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
+        </dependency>
 ```
 
 Add multipart upload support
@@ -298,6 +317,12 @@ Run the app again:
 
 ```sh
 $ ./gradlew build && java -jar build/libs/gs-spring-boot-0.1.0.jar
+```
+
+If you are using Maven, execute:
+
+```sh
+$ mvn package && java -jar target/gs-spring-boot-0.1.0.jar
 ```
 
 Now check out the output:
@@ -359,10 +384,25 @@ Add this to your build file's list of dependencies:
     compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.BUILD-SNAPSHOT")
 ```
 
+If you are using Maven, add this to your list of dependencies:
+
+```xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+```
+
 Then restart the app:
 
 ```sh
 $ ./gradlew build && java -jar build/libs/gs-spring-boot-0.1.0.jar
+```
+
+If you are using Maven, execute:
+
+```sh
+$ mvn package && java -jar target/gs-spring-boot-0.1.0.jar
 ```
 
 You will see a new set of RESTful end points added to the application. These are management services provided by Spring Boot.
