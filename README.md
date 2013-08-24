@@ -26,12 +26,12 @@ To **start from scratch**, move on to [Set up the project](#scratch).
 To **skip the basics**, do the following:
 
  - [Download][zip] and unzip the source repository for this guide, or clone it using [Git][u-git]:
-`git clone https://github.com/springframework-meta/gs-spring-boot.git`
+`git clone https://github.com/spring-guides/gs-spring-boot.git`
  - cd into `gs-spring-boot/initial`.
  - Jump ahead to [Learn what you can do with Spring Boot](#initial).
 
 **When you're finished**, you can check your results against the code in `gs-spring-boot/complete`.
-[zip]: https://github.com/springframework-meta/gs-spring-boot/archive/master.zip
+[zip]: https://github.com/spring-guides/gs-spring-boot/archive/master.zip
 [u-git]: /understanding/Git
 
 
@@ -52,7 +52,7 @@ In a project directory of your choosing, create the following subdirectory struc
 
 
 ### Create a Gradle build file
-Below is the [initial Gradle build file](https://github.com/springframework-meta/gs-spring-boot/blob/master/initial/build.gradle). But you can also use Maven. The pom.xml file is included [right here](https://github.com/springframework-meta/gs-spring-boot/blob/master/initial/pom.xml).
+Below is the [initial Gradle build file](https://github.com/spring-guides/gs-spring-boot/blob/master/initial/build.gradle). But you can also use Maven. The pom.xml file is included [right here](https://github.com/spring-guides/gs-spring-boot/blob/master/initial/pom.xml).
 
 `build.gradle`
 ```gradle
