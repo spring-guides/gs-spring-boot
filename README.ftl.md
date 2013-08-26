@@ -79,7 +79,7 @@ $ mvn package && java -jar target/${project_id}-0.1.0.jar
 
 You should see some output like this:
 
-```sh
+```
 Let's inspect the beans provided by Spring Boot:
 application
 beanNameHandlerMapping
@@ -170,7 +170,7 @@ $ mvn package && java -jar target/${project_id}-0.1.0.jar
 
 Now check out the output:
 
-```sh
+```
 Let's inspect the beans provided by Spring Boot:
 application
 beanNameHandlerMapping
