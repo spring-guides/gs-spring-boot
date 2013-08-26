@@ -129,15 +129,28 @@ Switch from Tomcat to Jetty
 ---------------------------
 What if you prefer Jetty over Tomcat? Jetty and Tomcat are both compliant servlet containers, so it should be easy to switch. With Spring Boot, it is!
 
-Add this to your `build.gradle` list of dependencies:
+Change your `build.gradle` to exclude tomcat then add Jetty to the list of dependencies:
 
 ```groovy
+    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.BUILD-SNAPSHOT") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
     compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.BUILD-SNAPSHOT")
 ```
 
-If you are using Maven, add this to your list of dependencies:
+If you are using Maven, the changes look like this:
 
 ```xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jetty</artifactId>
