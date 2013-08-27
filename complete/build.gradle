@@ -24,7 +24,9 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.BUILD-SNAPSHOT")
+    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.BUILD-SNAPSHOT") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
     compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.BUILD-SNAPSHOT")
     compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.BUILD-SNAPSHOT")
     testCompile("junit:junit:4.11")

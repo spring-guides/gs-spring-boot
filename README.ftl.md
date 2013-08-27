@@ -56,7 +56,6 @@ Here you create an `Application` class with the components:
     
 - `@Configuration` tags the class as a source of bean definitions for the application context.
 - `@EnableAutoConfiguration` tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
-- `@EnableWebMvc` signals Spring MVC that this application is a web application and to activate key behaviors such as setting up a `DispatcherServlet`.
 - `@ComponentScanning` tells Spring to look for other components, configurations, and services in the the `hello` package, allowing it to find the `HelloController`.
 
 The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application. Did you notice that there wasn't a single line of XML? No **web.xml** file either. This web application is 100% pure Java and you didn't have to deal with configuring any plumbing or infrastructure.
@@ -79,7 +78,7 @@ $ mvn package && java -jar target/${project_id}-0.1.0.jar
 
 You should see some output like this:
 
-```sh
+```
 Let's inspect the beans provided by Spring Boot:
 application
 beanNameHandlerMapping
@@ -130,15 +129,28 @@ Switch from Tomcat to Jetty
 ---------------------------
 What if you prefer Jetty over Tomcat? Jetty and Tomcat are both compliant servlet containers, so it should be easy to switch. With Spring Boot, it is!
 
-Add this to your `build.gradle` list of dependencies:
+Change your `build.gradle` to exclude tomcat then add Jetty to the list of dependencies:
 
 ```groovy
+    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.BUILD-SNAPSHOT") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
     compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.BUILD-SNAPSHOT")
 ```
 
-If you are using Maven, add this to your list of dependencies:
+If you are using Maven, the changes look like this:
 
 ```xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jetty</artifactId>
@@ -170,7 +182,7 @@ $ mvn package && java -jar target/${project_id}-0.1.0.jar
 
 Now check out the output:
 
-```sh
+```
 Let's inspect the beans provided by Spring Boot:
 application
 beanNameHandlerMapping
