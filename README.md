@@ -148,7 +148,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableAutoConfiguration
@@ -195,7 +194,7 @@ $ mvn package && java -jar target/gs-spring-boot-0.1.0.jar
 
 You should see some output like this:
 
-```sh
+```
 Let's inspect the beans provided by Spring Boot:
 application
 beanNameHandlerMapping
@@ -246,24 +245,39 @@ Switch from Tomcat to Jetty
 ---------------------------
 What if you prefer Jetty over Tomcat? Jetty and Tomcat are both compliant servlet containers, so it should be easy to switch. With Spring Boot, it is!
 
-Add this to your `build.gradle` list of dependencies:
+Change your `build.gradle` to exclude Tomcat then add Jetty to the list of dependencies:
 
 ```groovy
+    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.BUILD-SNAPSHOT") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
     compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.BUILD-SNAPSHOT")
 ```
 
-If you are using Maven, add this to your list of dependencies:
+If you are using Maven, the changes look like this:
 
 ```xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
 ```
 
-Add multipart upload support
--------------------------------
-Suppose you want to add file upload support. To do that, update your configuration by adding a `MultipartConfigElement` to the application context.
+This change isn't about comparing Tomcat vs. Jetty. Instead, it demonstrates how Spring Boot reacts to what is on your classpath.
+
+Another example is [Uploading Files][gs-uploading-files]. In that guide, you can see how Spring Boot reacts to adding a `MultipartConfigElement` to your application context. Spring Boot automatically plugs that bean into the DispatcherServlet and adds some other beans needed to support file uploads.
+
+As you can see below, the code is the same as before:
 
 `src/main/java/hello/Application.java`
 ```java
@@ -271,25 +285,16 @@ package hello;
 
 import java.util.Arrays;
 
-import javax.servlet.MultipartConfigElement;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class Application {
-    
-    @Bean
-    MultipartConfigElement multipartConfigElement() {
-        return new MultipartConfigElement("");
-    }
     
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
@@ -306,7 +311,6 @@ public class Application {
 }
 ```
     
-> **Note:** A production version of `MultipartConfigElement` would not be empty; it would specify target upload path, file size upload limits, and so forth.
 
 Re-run the application
 ----------------------
@@ -325,20 +329,21 @@ $ mvn package && java -jar target/gs-spring-boot-0.1.0.jar
 
 Now check out the output:
 
-```sh
+```
 Let's inspect the beans provided by Spring Boot:
 application
 beanNameHandlerMapping
 defaultServletHandlerMapping
 dispatcherServlet
 embeddedServletContainerCustomizerBeanPostProcessor
+faviconHandlerMapping
+faviconRequestHandler
 handlerExceptionResolver
 helloController
+hiddenHttpMethodFilter
 httpRequestHandlerAdapter
 jettyEmbeddedServletContainerFactory
 messageSource
-multipartConfigElement
-multipartResolver
 mvcContentNegotiationManager
 mvcConversionService
 mvcValidator
@@ -347,8 +352,10 @@ org.springframework.boot.autoconfigure.PropertyPlaceholderAutoConfiguration
 org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration
 org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration$DispatcherServletConfiguration
 org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration$EmbeddedJetty
-org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration
 org.springframework.boot.autoconfigure.web.ServerPropertiesAutoConfiguration
+org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration
+org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter
+org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter$FaviconConfiguration
 org.springframework.boot.context.embedded.properties.ServerProperties
 org.springframework.context.annotation.ConfigurationClassPostProcessor.enhancedConfigurationProcessor
 org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor
@@ -366,11 +373,9 @@ simpleControllerHandlerAdapter
 viewControllerHandlerMapping
 ```
 
-Little changes from the previous output, except there is no longer a `tomcatEmbeddedServletContainerFactory`. Instead, there is a new `jettyEmbeddedServletContainer`. 
+There is little change from the previous output, except there is no longer a `tomcatEmbeddedServletContainerFactory`. Instead, there is a new `jettyEmbeddedServletContainer`. 
 
-There is also the `multipartConfigElement` you added. But along with it came a `multipartResolver` [courtesy of Spring Boot](https://github.com/SpringSource/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/MultipartAutoConfiguration.java), a bean recommended to support file uploads with Spring MVC.
-
-Otherwise, everything is the same, as it should be. Most beans listed above provide Spring MVC's production-grade features. Simply swapping one part, the servlet container, and adding upload support shouldn't cause a system-wide ripple.
+Otherwise, everything is the same, as it should be. Most beans listed above provide Spring MVC's production-grade features. Simply swapping one part, the servlet container, shouldn't cause a system-wide ripple.
 
 Add consumer-grade services
 ------------------------------
@@ -405,7 +410,7 @@ $ mvn package && java -jar target/gs-spring-boot-0.1.0.jar
 
 You will see a new set of RESTful end points added to the application. These are management services provided by Spring Boot.
 
-```sh
+```
 2013-08-01 08:03:42.592  INFO 43851 ... Mapped "{[/error],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> org.springframework.boot.ops.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
 2013-08-01 08:03:42.592  INFO 43851 ... Mapped "{[/error],methods=[],params=[],headers=[],consumes=[],produces=[text/html],custom=[]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.ops.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest)
 2013-08-01 08:03:42.844  INFO 43851 ... Mapped URL path [/env] onto handler of type [class org.springframework.boot.ops.endpoint.EnvironmentEndpoint]
@@ -461,9 +466,9 @@ JAR support and Groovy support
 ------------------------------
 The last example showed how Spring Boot makes it easy to wire beans you may not be aware that you need. And it showed how to turn on convenient management services.
 
-But Spring Boot does yet more. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-gradle-plugin`.
+But Spring Boot does yet more. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-gradle-plugin` and `spring-boot-maven-plugin`.
 
-On top of that, Spring Boot also has Groovy support, allowing you to build web apps with as little as a single file.
+On top of that, Spring Boot also has Groovy support, allowing you to build Spring MVC web apps with as little as a single file.
 
 Create a new file called **app.groovy** and put the following code in it:
 
@@ -498,7 +503,7 @@ $ curl localhost:8080
 Hello World!
 ```
 
-Spring Boot dynamically adds key annotations to your code and leverages [Groovy Grapes](http://groovy.codehaus.org/Grape) to pull down needed libraries to make the app run.
+Spring Boot does this by dynamically adding key annotations to your code and leveraging [Groovy Grapes](http://groovy.codehaus.org/Grape) to pull down needed libraries to make the app run.
 
 Summary
 ----------------
@@ -506,3 +511,4 @@ Congratulations! You built a simple web application with Spring Boot and learned
 
 [spring-boot]: https://github.com/SpringSource/spring-boot
 [spring-boot-actuator]: https://github.com/SpringSource/spring-boot/blob/master/spring-boot-actuator/README.md
+[gs-uploading-files]: /guides/gs/uploading-files
