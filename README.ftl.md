@@ -160,8 +160,6 @@ If you are using Maven, the changes look like this:
 
 This change isn't about comparing Tomcat vs. Jetty. Instead, it demonstrates how Spring Boot reacts to what is on your classpath.
 
-Another example is [Uploading Files][gs-uploading-files]. In that guide, you can see how Spring Boot reacts to adding a `MultipartConfigElement` to your application context. Spring Boot automatically plugs that bean into the DispatcherServlet and adds some other beans needed to support file uploads.
-
 As you can see below, the code is the same as before:
 
     <@snippet path="src/main/java/hello/Application.java" prefix="complete"/>
@@ -232,7 +230,7 @@ There is little change from the previous output, except there is no longer a `to
 
 Otherwise, everything is the same, as it should be. Most beans listed above provide Spring MVC's production-grade features. Simply swapping one part, the servlet container, shouldn't cause a system-wide ripple.
 
-Add consumer-grade services
+Add production-grade services
 ------------------------------
 If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its [actuator module][spring-boot-actuator], such as health, audits, beans, and more.
 
