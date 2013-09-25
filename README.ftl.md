@@ -46,7 +46,7 @@ Now you can create a web controller for a simple web application.
 
     <@snippet path="src/main/java/hello/HelloController.java" prefix="initial"/>
     
-The class is flagged as a `@Controller`, meaning it's ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `index()` method. When invoked from a browser or using curl on the command line, the method returns pure text thanks to the `@ResponseBody` annotation.
+The class is flagged as a `@RestController`, meaning it's ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `index()` method. When invoked from a browser or using curl on the command line, the method returns pure text. That's because `@RestController` combines `@Controller` and `@ResponseBody`, two annotations that results in web requests returning data rather than a view.
 
 Create an Application class
 ---------------------------
@@ -326,11 +326,10 @@ On top of that, Spring Boot also has Groovy support, allowing you to build Sprin
 Create a new file called **app.groovy** and put the following code in it:
 
 ```groovy
-@Controller
+@RestController
 class ThisWillActuallyRun {
 
     @RequestMapping("/")
-    @ResponseBody
     String home() {
         return "Hello World!"
     }
