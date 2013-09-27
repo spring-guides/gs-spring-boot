@@ -133,10 +133,10 @@ What if you prefer Jetty over Tomcat? Jetty and Tomcat are both compliant servle
 Change your `build.gradle` to exclude Tomcat then add Jetty to the list of dependencies:
 
 ```groovy
-    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M2") {
+    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M4") {
         exclude module: "spring-boot-starter-tomcat"
     }
-    compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.M2")
+    compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.M4")
 ```
 
 If you are using Maven, the changes look like this:
@@ -237,7 +237,7 @@ If you are building a web site for your business, you probably need to add some 
 Add this to your build file's list of dependencies:
 
 ```groovy
-    compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.M2")
+    compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.M4")
 ```
 
 If you are using Maven, add this to your list of dependencies:
