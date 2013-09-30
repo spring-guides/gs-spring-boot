@@ -485,7 +485,7 @@ class ThisWillActuallyRun {
 
 > **Note:** It doesn't matter where the file is. You can even fit an application that small inside a [single tweet](https://twitter.com/rob_winch/status/364871658483351552)!
 
-Next, [install Spring Boot's CLI](https://github.com/SpringSource/spring-boot#installing-the-cli).
+Next, [install Spring Boot's CLI](https://github.com/spring-projects/spring-boot#installing-the-cli).
 
 Run it as follows:
 
@@ -507,6 +507,6 @@ Summary
 ----------------
 Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. You also turned on some handy production services.
 
-[spring-boot]: https://github.com/SpringSource/spring-boot
-[spring-boot-actuator]: https://github.com/SpringSource/spring-boot/blob/master/spring-boot-actuator/README.md
+[spring-boot]: https://github.com/spring-projects/spring-boot
+[spring-boot-actuator]: https://github.com/spring-projects/spring-boot/blob/master/spring-boot-actuator/README.md
 [gs-uploading-files]: /guides/gs/uploading-files
