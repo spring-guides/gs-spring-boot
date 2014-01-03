@@ -79,12 +79,14 @@ The `run()` method returns an `ApplicationContext` and this application then ret
 == Run the application
 To run the application, execute:
 
+[subs="attributes"]
 ----
 ./gradlew build && java -jar build/libs/{project_id}-0.1.0.jar
 ----
 
 If you are using Maven, execute:
 
+[subs="attributes"]
 ----
 mvn package && java -jar target/{project_id}-0.1.0.jar
 ----
@@ -186,12 +188,14 @@ include::complete/src/main/java/hello/Application.java[]
 
 Run the app again:
 
+[subs="attributes"]
 ----
 ./gradlew build && java -jar build/libs/{project_id}-0.1.0.jar
 ----
 
 If you are using Maven, execute:
 
+[subs="attributes"]
 ----
 mvn package && java -jar target/{project_id}-0.1.0.jar
 ----
