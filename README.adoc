@@ -370,3 +370,5 @@ Spring Boot does this by dynamically adding key annotations to your code and lev
 
 == Summary
 Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. You also turned on some handy production services.
+This is only a small sampling of what Spring Boot can do. Checkout http://projects.spring.io/spring-boot/docs/README.html[Spring Boot's README]
+if you want to dig deeper.
