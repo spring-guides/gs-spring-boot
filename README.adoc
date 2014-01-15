@@ -1,3 +1,7 @@
+---
+tags: []
+projects: [spring-boot]
+---
 :spring_boot_version: 0.5.0.M6
 :spring-boot: https://github.com/spring-projects/spring-boot
 :toc:
