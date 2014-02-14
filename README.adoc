@@ -2,7 +2,7 @@
 tags: [spring-boot]
 projects: [spring-boot]
 ---
-:spring_boot_version: 0.5.0.M6
+:spring_boot_version: 1.0.0.RC3
 :spring-boot: https://github.com/spring-projects/spring-boot
 :toc:
 :icons: font
@@ -154,30 +154,14 @@ Change your `build.gradle` to exclude Tomcat then add Jetty to the list of depen
 
 [source,groovy]
 ----
-    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M6") {
-        exclude module: "spring-boot-starter-tomcat"
-    }
-    compile("org.springframework.boot:spring-boot-starter-jetty:0.5.0.M6")
+include::complete/build.gradle[tag=jetty]
 ----
 
 If you are using Maven, the changes look like this:
 
 [source,xml]
 ----
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jetty</artifactId>
-        </dependency>
+include::complete/pom.xml[tag=jetty]
 ----
 
 This change isn't about comparing Tomcat vs. Jetty. Instead, it demonstrates how Spring Boot reacts to what is on your classpath.
@@ -264,17 +248,14 @@ Add this to your build file's list of dependencies:
 
 [source,groovy]
 ----
-    compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.M6")
+include::complete/build.gradle[tag=actuator]
 ----
 
 If you are using Maven, add this to your list of dependencies:
 
 [source,xml]
 ----
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+include::complete/pom.xml[tag=actuator]
 ----
 
 Then restart the app:

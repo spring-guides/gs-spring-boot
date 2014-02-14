@@ -24,11 +24,15 @@ repositories {
 }
 
 dependencies {
+    // tag::jetty[]
     compile("org.springframework.boot:spring-boot-starter-web:1.0.0.RC3") {
         exclude module: "spring-boot-starter-tomcat"
     }
     compile("org.springframework.boot:spring-boot-starter-jetty:1.0.0.RC3")
+    // end::jetty[]
+    // tag::actuator[]
     compile("org.springframework.boot:spring-boot-starter-actuator:1.0.0.RC3")
+    // end::actuator[]
     testCompile("junit:junit")
 }
 

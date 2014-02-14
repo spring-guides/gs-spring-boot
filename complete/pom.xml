@@ -14,6 +14,7 @@
     </parent>
 
     <dependencies>
+	    <!-- tag::jetty[] -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -28,10 +29,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
+        <!-- end::jetty[] -->
+        <!-- tag::actuator[] -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <!-- end::actuator[] -->
     </dependencies>
 
     <properties>
