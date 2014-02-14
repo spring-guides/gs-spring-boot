@@ -4,7 +4,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC2")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC3")
     }
 }
 
@@ -24,11 +24,11 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:1.0.0.RC2") {
+    compile("org.springframework.boot:spring-boot-starter-web:1.0.0.RC3") {
         exclude module: "spring-boot-starter-tomcat"
     }
-    compile("org.springframework.boot:spring-boot-starter-jetty:1.0.0.RC2")
-    compile("org.springframework.boot:spring-boot-starter-actuator:1.0.0.RC2")
+    compile("org.springframework.boot:spring-boot-starter-jetty:1.0.0.RC3")
+    compile("org.springframework.boot:spring-boot-starter-actuator:1.0.0.RC3")
     testCompile("junit:junit")
 }
 
