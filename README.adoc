@@ -2,7 +2,7 @@
 tags: [spring-boot, groovy]
 projects: [spring-boot]
 ---
-:spring_boot_version: 1.0.0.RC3
+:spring_boot_version: 1.0.0.RC4
 :spring-boot: https://github.com/spring-projects/spring-boot
 :toc:
 :icons: font
@@ -164,7 +164,7 @@ If you are using Maven, the changes look like this:
 include::complete/pom.xml[tag=jetty]
 ----
 
-This change isn't about comparing Tomcat vs. Jetty. Instead, it demonstrates how Spring Boot reacts to what is on your classpath.
+This change isn't about comparing Tomcat vs. Jetty. Instead, it demonstrates how Spring Boot reacts to what is on your classpath. And by no means does it assert which servlet container is right for you.
 
 As you can see below, the code is the same as before:
 
