@@ -190,10 +190,9 @@ You will see a new set of RESTful end points added to the application. These are
 2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/metrics] onto handler of type [class org.springframework.boot.ops.endpoint.MetricsEndpoint]
 2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/trace] onto handler of type [class org.springframework.boot.ops.endpoint.TraceEndpoint]
 2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/dump] onto handler of type [class org.springframework.boot.ops.endpoint.DumpEndpoint]
-2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/shutdown] onto handler of type [class org.springframework.boot.ops.endpoint.ShutdownEndpoint]
 ....
 
-They include: errors, http://localhost:8080/env[environment], http://localhost:8080/health[health], http://localhost:8080/beans[beans], http://localhost:8080/info[info], http://localhost:8080/metrics[metrics], http://localhost:8080/trace[trace], http://localhost:8080/dump[dump], and shutdown.
+They include: errors, http://localhost:8080/env[environment], http://localhost:8080/health[health], http://localhost:8080/beans[beans], http://localhost:8080/info[info], http://localhost:8080/metrics[metrics], http://localhost:8080/trace[trace], and http://localhost:8080/dump[dump].
 
 It's easy to check the health of the app.
 
@@ -201,19 +200,6 @@ It's easy to check the health of the app.
 $ curl localhost:8080/health
 ok
 ----
-
-You can invoke shutdown through curl.
-
-----
-$ curl -X POST localhost:8080/shutdown
-----
-
-The response shows that shutdown through REST is currently disabled by default:
-----
-{"message":"Shutdown not enabled, sorry."}
-----
-
-Whew! You probably don't want that until you are ready to turn on proper security settings, if at all.
 
 For more details about each of these REST points and how you can tune their settings with an `application.properties` file, check out the {spring-boot}[Spring Boot] project.
 
