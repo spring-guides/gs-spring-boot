@@ -18,20 +18,20 @@ You'll build a simple web application with Spring Boot and add some useful servi
 
 == What you'll need
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
 
 [[scratch]]
 == Set up the project
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/build_system_intro.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_system_intro.adoc[]
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/create_directory_structure_hello.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/create_directory_structure_hello.adoc[]
 
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master/create_both_builds.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/create_both_builds.adoc[]
 
 `build.gradle`
 // AsciiDoc source formatting doesn't support groovy, so using java instead
