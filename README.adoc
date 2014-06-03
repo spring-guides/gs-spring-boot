@@ -40,6 +40,8 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 include::initial/build.gradle[]
 ----
 
+NOTE: There are several comments embedded in this build file. They are used to extract out fragments for more detailed explanation further down in this guide.
+
 == Learn what you can do with Spring Boot
 
 Spring Boot offers a fast way to build applications. It looks at your classpath and at beans you have configured, makes reasonable assumptions about what you're missing, and adds it. With Spring Boot you can focus more on business features and less on infrastructure.
@@ -148,7 +150,7 @@ Greetings from Spring Boot!
 ....
 
 == Add production-grade services
-If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its https://github.com/spring-projects/spring-boot/blob/master/spring-boot-actuator/README.md[actuator module], such as health, audits, beans, and more.
+If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready[actuator module], such as health, audits, beans, and more.
 
 Add this to your build file's list of dependencies:
 
@@ -215,10 +217,10 @@ The response shows that shutdown through REST is currently disabled by default:
 
 Whew! You probably don't want that until you are ready to turn on proper security settings, if at all.
 
-For more details about each of these REST points and how you can tune their settings with an `application.properties` file, check out the {spring-boot}[Spring Boot] project.
+For more details about each of these REST points and how you can tune their settings with an `application.properties` file, you can read detailed http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints[docs about the endpoints].
 
 == View Spring Boot's starters
-You have seen some of Spring Boot's **starters**. You can see them all https://github.com/spring-projects/spring-boot/tree/master/spring-boot-starters[here].
+You have seen some of http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#using-boot-starter-poms[Spring Boot's "starters"]. You can see them all https://github.com/spring-projects/spring-boot/tree/master/spring-boot-starters[here in source code].
 
 == JAR support and Groovy support
 The last example showed how Spring Boot makes it easy to wire beans you may not be aware that you need. And it showed how to turn on convenient management services.
@@ -244,7 +246,7 @@ class ThisWillActuallyRun {
 
 NOTE: It doesn't matter where the file is. You can even fit an application that small inside a https://twitter.com/rob_winch/status/364871658483351552[single tweet]!
 
-Next, https://github.com/spring-projects/spring-boot#installing-the-cli[install Spring Boot's CLI].
+Next, http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#getting-started-installing-the-cli[install Spring Boot's CLI].
 
 Run it as follows:
 
@@ -260,9 +262,9 @@ $ curl localhost:8080
 Hello World!
 ----
 
-Spring Boot does this by dynamically adding key annotations to your code and leveraging http://groovy.codehaus.org/Grape[Groovy Grapes] to pull down needed libraries to make the app run.
+Spring Boot does this by dynamically adding key annotations to your code and leveraging http://groovy.codehaus.org/Grape[Groovy Grape] to pull down needed libraries to make the app run.
 
 == Summary
 Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. You also turned on some handy production services.
-This is only a small sampling of what Spring Boot can do. Checkout http://projects.spring.io/spring-boot/docs/README.html[Spring Boot's README]
+This is only a small sampling of what Spring Boot can do. Checkout http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle[Spring Boot's online docs]
 if you want to dig deeper.
