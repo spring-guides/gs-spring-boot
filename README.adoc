@@ -148,7 +148,7 @@ Greetings from Spring Boot!
 ....
 
 == Add production-grade services
-If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its https://github.com/spring-projects/spring-boot/blob/master/spring-boot-actuator/README.md[actuator module], such as health, audits, beans, and more.
+If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its https://github.com/spring-projects/spring-boot/tree/master/spring-boot-actuator[actuator module], such as health, audits, beans, and more.
 
 Add this to your build file's list of dependencies:
 
