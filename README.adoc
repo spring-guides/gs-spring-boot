@@ -183,19 +183,28 @@ mvn package && java -jar target/{project_id}-0.1.0.jar
 You will see a new set of RESTful end points added to the application. These are management services provided by Spring Boot.
 
 ....
-2013-08-01 08:03:42.592  INFO 43851 ... Mapped "{[/error],methods=[],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public java.util.Map<java.lang.String, java.lang.Object> org.springframework.boot.ops.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
-2013-08-01 08:03:42.592  INFO 43851 ... Mapped "{[/error],methods=[],params=[],headers=[],consumes=[],produces=[text/html],custom=[]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.ops.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest)
-2013-08-01 08:03:42.844  INFO 43851 ... Mapped URL path [/env] onto handler of type [class org.springframework.boot.ops.endpoint.EnvironmentEndpoint]
-2013-08-01 08:03:42.844  INFO 43851 ... Mapped URL path [/health] onto handler of type [class org.springframework.boot.ops.endpoint.HealthEndpoint]
-2013-08-01 08:03:42.844  INFO 43851 ... Mapped URL path [/beans] onto handler of type [class org.springframework.boot.ops.endpoint.BeansEndpoint]
-2013-08-01 08:03:42.844  INFO 43851 ... Mapped URL path [/info] onto handler of type [class org.springframework.boot.ops.endpoint.InfoEndpoint]
-2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/metrics] onto handler of type [class org.springframework.boot.ops.endpoint.MetricsEndpoint]
-2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/trace] onto handler of type [class org.springframework.boot.ops.endpoint.TraceEndpoint]
-2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/dump] onto handler of type [class org.springframework.boot.ops.endpoint.DumpEndpoint]
-2013-08-01 08:03:42.845  INFO 43851 ... Mapped URL path [/shutdown] onto handler of type [class org.springframework.boot.ops.endpoint.ShutdownEndpoint]
+2014-06-03 13:23:28.119  ... : Mapped "{[/error],methods=[],params=[],headers=[],consumes...
+2014-06-03 13:23:28.119  ... : Mapped "{[/error],methods=[],params=[],headers=[],consumes...
+2014-06-03 13:23:28.136  ... : Mapped URL path [/**] onto handler of type [class org.spri...
+2014-06-03 13:23:28.136  ... : Mapped URL path [/webjars/**] onto handler of type [class ...
+2014-06-03 13:23:28.440  ... : Mapped "{[/info],methods=[GET],params=[],headers=[],consum...
+2014-06-03 13:23:28.441  ... : Mapped "{[/autoconfig],methods=[GET],params=[],headers=[],...
+2014-06-03 13:23:28.441  ... : Mapped "{[/mappings],methods=[GET],params=[],headers=[],co...
+2014-06-03 13:23:28.442  ... : Mapped "{[/trace],methods=[GET],params=[],headers=[],consu...
+2014-06-03 13:23:28.442  ... : Mapped "{[/env/{name:.*}],methods=[GET],params=[],headers=...
+2014-06-03 13:23:28.442  ... : Mapped "{[/env],methods=[GET],params=[],headers=[],consume...
+2014-06-03 13:23:28.443  ... : Mapped "{[/configprops],methods=[GET],params=[],headers=[]...
+2014-06-03 13:23:28.443  ... : Mapped "{[/metrics/{name:.*}],methods=[GET],params=[],head...
+2014-06-03 13:23:28.443  ... : Mapped "{[/metrics],methods=[GET],params=[],headers=[],con...
+2014-06-03 13:23:28.444  ... : Mapped "{[/health],methods=[GET],params=[],headers=[],cons...
+2014-06-03 13:23:28.444  ... : Mapped "{[/dump],methods=[GET],params=[],headers=[],consum...
+2014-06-03 13:23:28.445  ... : Mapped "{[/beans],methods=[GET],params=[],headers=[],consu...
 ....
 
-They include: errors, http://localhost:8080/env[environment], http://localhost:8080/health[health], http://localhost:8080/beans[beans], http://localhost:8080/info[info], http://localhost:8080/metrics[metrics], http://localhost:8080/trace[trace], http://localhost:8080/dump[dump], and shutdown.
+They include: errors, http://localhost:8080/env[environment], http://localhost:8080/health[health], http://localhost:8080/beans[beans], http://localhost:8080/info[info], http://localhost:8080/metrics[metrics], http://localhost:8080/trace[trace], http://localhost:8080/configprops[configprops], and http://localhost:8080/dump[dump].
+
+NOTE: There is also a `/shutdown` endpoint, but it's only visible by default via JMX. To http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-customizing-endpoints[enable it as an HTTP endpoint], add 
+`endpoints.shutdown.enabled=true` to your `application.properties` file.
 
 It's easy to check the health of the app.
 
@@ -204,18 +213,14 @@ $ curl localhost:8080/health
 ok
 ----
 
-You can invoke shutdown through curl.
+You can try to invoke shutdown through curl.
 
 ----
 $ curl -X POST localhost:8080/shutdown
+{"timestamp":1401820343710,"error":"Method Not Allowed","status":405,"message":"Request method 'POST' not supported"}
 ----
 
-The response shows that shutdown through REST is currently disabled by default:
-----
-{"message":"Shutdown not enabled, sorry."}
-----
-
-Whew! You probably don't want that until you are ready to turn on proper security settings, if at all.
+Because we didn't enable it, the request is blocked by the virtue of not existing.
 
 For more details about each of these REST points and how you can tune their settings with an `application.properties` file, you can read detailed http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints[docs about the endpoints].
 
