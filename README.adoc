@@ -136,6 +136,44 @@ $ curl localhost:8080
 Greetings from Spring Boot!
 ....
 
+== Add Unit Tests
+
+You will want to add a test for the endpoint you added, and Spring Test already provides some machinery for that, and it's easy to include in your project.
+
+Add this to your build file's list of dependencies:
+
+[source,groovy]
+----
+include::complete/build.gradle[tag=tests]
+----
+
+If you are using Maven, add this to your list of dependencies:
+
+[source,xml]
+----
+include::complete/pom.xml[tag=tests]
+----
+
+Now write a simple unit test that mocks the servlet request and response through your endpoint:
+
+`src/test/java/hello/HelloControllerTest.java`
+[source,java]
+----
+include::initial/src/test/java/hello/HelloControllerTest.java[]
+----
+
+Note the use of the `MockServletContext` to set up an empty `WebApplicationContext` so the `HelloController` can be created in the `@Before` and passed to `MockMvcBuilders.standaloneSetup()`. An alternative would be to create the full application context using the `Application` class and `@Autowired` the `HelloController` into the test. The `MockMvc` comes from Spring Test and allows you, via a set of convenient builder classes, to send HTTP requests into the `DispatcherServlet` and make assertions about the result.
+
+As well as mocking the HTTP request cycle we can also use Spring Boot to write a very simple full-stack integration test. For example, instead of (or as well as) the mock test above we could do this:
+
+`src/test/java/hello/HelloControllerTest.java`
+[source,java]
+----
+include::initial/src/test/java/hello/HelloControllerIT.java[]
+----
+
+The embedded server is started up on a random port by virtue of the `@IntegrationTest("${server.port=0}")` and the actual port is discovered at runtime with the `@Value("${local.server.port}")`.
+
 == Add production-grade services
 If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready[actuator module], such as health, audits, beans, and more.
 
