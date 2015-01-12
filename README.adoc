@@ -159,17 +159,17 @@ Now write a simple unit test that mocks the servlet request and response through
 `src/test/java/hello/HelloControllerTest.java`
 [source,java]
 ----
-include::initial/src/test/java/hello/HelloControllerTest.java[]
+include::complete/src/test/java/hello/HelloControllerTest.java[]
 ----
 
 Note the use of the `MockServletContext` to set up an empty `WebApplicationContext` so the `HelloController` can be created in the `@Before` and passed to `MockMvcBuilders.standaloneSetup()`. An alternative would be to create the full application context using the `Application` class and `@Autowired` the `HelloController` into the test. The `MockMvc` comes from Spring Test and allows you, via a set of convenient builder classes, to send HTTP requests into the `DispatcherServlet` and make assertions about the result.
 
 As well as mocking the HTTP request cycle we can also use Spring Boot to write a very simple full-stack integration test. For example, instead of (or as well as) the mock test above we could do this:
 
-`src/test/java/hello/HelloControllerTest.java`
+`src/test/java/hello/HelloControllerIT.java`
 [source,java]
 ----
-include::initial/src/test/java/hello/HelloControllerIT.java[]
+include::complete/src/test/java/hello/HelloControllerIT.java[]
 ----
 
 The embedded server is started up on a random port by virtue of the `@IntegrationTest("${server.port=0}")` and the actual port is discovered at runtime with the `@Value("${local.server.port}")`.
