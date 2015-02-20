@@ -1,6 +1,6 @@
 package hello;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.net.URL;
@@ -38,6 +38,6 @@ public class HelloControllerIT {
 	@Test
 	public void getHello() throws Exception {
 		ResponseEntity<String> response = template.getForEntity(base.toString(), String.class);
-		assertThat(response.getBody(), is("Greetings from Spring Boot!"));
+		assertThat(response.getBody(), equalTo("Greetings from Spring Boot!"));
 	}
 }

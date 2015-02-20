@@ -62,6 +62,8 @@ Here you create an `Application` class with the components:
 ----
 include::initial/src/main/java/hello/Application.java[]
 ----
+
+`@SpringBootApplication` is a convenience annotation that adds all of the following:
     
 - `@Configuration` tags the class as a source of bean definitions for the application context.
 - `@EnableAutoConfiguration` tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
@@ -235,7 +237,7 @@ It's easy to check the health of the app.
 
 ----
 $ curl localhost:8080/health
-ok
+{"status":"UP"}
 ----
 
 You can try to invoke shutdown through curl.
