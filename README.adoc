@@ -301,3 +301,6 @@ Spring Boot does this by dynamically adding key annotations to your code and lev
 Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. You also turned on some handy production services.
 This is only a small sampling of what Spring Boot can do. Checkout http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle[Spring Boot's online docs]
 if you want to dig deeper.
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+
