@@ -73,7 +73,7 @@ include::initial/src/main/java/hello/Application.java[]
 
 The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application. Did you notice that there wasn't a single line of XML? No **web.xml** file either. This web application is 100% pure Java and you didn't have to deal with configuring any plumbing or infrastructure.
 
-The `run()` method returns an `ApplicationContext` and this application then retrieves all the beans that were created either by your app or were automatically added thanks to Spring Boot. It sorts them and prints them out.
+There is also a `CommandLineRunner` method marked as a `@Bean` and this runs on start up. It retrieves all the beans that were created either by your app or were automatically added thanks to Spring Boot. It sorts them and prints them out.
 
 == Run the application
 To run the application, execute:
@@ -165,7 +165,7 @@ Now write a simple unit test that mocks the servlet request and response through
 include::complete/src/test/java/hello/HelloControllerTest.java[]
 ----
 
-Note the use of the `MockServletContext` to set up an empty `WebApplicationContext` so the `HelloController` can be created in the `@Before` and passed to `MockMvcBuilders.standaloneSetup()`. An alternative would be to create the full application context using the `Application` class and `@Autowired` the `HelloController` into the test. The `MockMvc` comes from Spring Test and allows you, via a set of convenient builder classes, to send HTTP requests into the `DispatcherServlet` and make assertions about the result.
+The `MockMvc` comes from Spring Test and allows you, via a set of convenient builder classes, to send HTTP requests into the `DispatcherServlet` and make assertions about the result. Note the use of the `@AutoConfigureMockMvc` together with `@SpringBootTest` to inject a `MockMvc` instance. Having used `@SpringBootTest` we are asking for the whole application context to be created.  An alternative would be to ask Spring Boot to create only the web layers of the context using the `@WebMvcTest`. Spring Boot automatically tries to locate the main application class of your application in either case, but you can override it, or narrow it down, if you want to build something different.
 
 As well as mocking the HTTP request cycle we can also use Spring Boot to write a very simple full-stack integration test. For example, instead of (or as well as) the mock test above we could do this:
 
@@ -175,7 +175,7 @@ As well as mocking the HTTP request cycle we can also use Spring Boot to write a
 include::complete/src/test/java/hello/HelloControllerIT.java[]
 ----
 
-The embedded server is started up on a random port by virtue of the `@IntegrationTest("${server.port=0}")` and the actual port is discovered at runtime with the `@Value("${local.server.port}")`.
+The embedded server is started up on a random port by virtue of the `webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT` and the actual port is discovered at runtime with the `@LocalServerPort`.
 
 == Add production-grade services
 If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready[actuator module], such as health, audits, beans, and more.
@@ -238,7 +238,7 @@ It's easy to check the health of the app.
 
 ----
 $ curl localhost:8080/health
-{"status":"UP"}
+{"status":"UP","diskSpace":{"status":"UP","total":397635555328,"free":328389529600,"threshold":10485760}}}
 ----
 
 You can try to invoke shutdown through curl.
@@ -295,7 +295,7 @@ $ curl localhost:8080
 Hello World!
 ----
 
-Spring Boot does this by dynamically adding key annotations to your code and leveraging http://groovy.codehaus.org/Grape[Groovy Grape] to pull down needed libraries to make the app run.
+Spring Boot does this by dynamically adding key annotations to your code and using http://groovy.codehaus.org/Grape[Groovy Grape] to pull down libraries needed to make the app run.
 
 == Summary
 Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. You also turned on some handy production services.
