@@ -1,5 +1,5 @@
 ---
-tags: [spring-boot, groovy]
+tags: [spring-boot, groovy, test]
 projects: [spring-boot]
 ---
 :spring_boot_version: 1.4.0.RELEASE
