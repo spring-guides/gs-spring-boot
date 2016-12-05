@@ -61,7 +61,7 @@ Here you create an `Application` class with the components:
 `src/main/java/hello/Application.java`
 [source,java]
 ----
-include::initial/src/main/java/hello/Application.java[]
+include::complete/src/main/java/hello/Application.java[]
 ----
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
