@@ -9,7 +9,7 @@ projects: [spring-boot]
 :source-highlighter: prettify
 :project_id: gs-spring-boot
 This guide provides a sampling of how {spring-boot}[Spring Boot] helps you accelerate and facilitate application development. As you read more Spring Getting Started guides, you will see more use cases for Spring Boot.
-It is meant to give you a quick taste of Spring Boot. If you want to create your own Spring Boot-based project, visit 
+It is meant to give you a quick taste of Spring Boot. If you want to create your own Spring Boot-based project, visit
 http://start.spring.io/[Spring Initializr], fill in your project details, pick your options, and you can download either
 a Maven build file, or a bundled up project as a zip file.
 
@@ -52,7 +52,7 @@ Now you can create a web controller for a simple web application.
 ----
 include::initial/src/main/java/hello/HelloController.java[]
 ----
-    
+
 The class is flagged as a `@RestController`, meaning it's ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `index()` method. When invoked from a browser or using curl on the command line, the method returns pure text. That's because `@RestController` combines `@Controller` and `@ResponseBody`, two annotations that results in web requests returning data rather than a view.
 
 == Create an Application class
@@ -224,7 +224,7 @@ You will see a new set of RESTful end points added to the application. These are
 
 They include: errors, http://localhost:8080/env[environment], http://localhost:8080/health[health], http://localhost:8080/beans[beans], http://localhost:8080/info[info], http://localhost:8080/metrics[metrics], http://localhost:8080/trace[trace], http://localhost:8080/configprops[configprops], and http://localhost:8080/dump[dump].
 
-NOTE: There is also a `/shutdown` endpoint, but it's only visible by default via JMX. To http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-customizing-endpoints[enable it as an HTTP endpoint], add 
+NOTE: There is also a `/shutdown` endpoint, but it's only visible by default via JMX. To http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-customizing-endpoints[enable it as an HTTP endpoint], add
 `endpoints.shutdown.enabled=true` to your `application.properties` file.
 
 It's easy to check the health of the app.
@@ -295,5 +295,11 @@ Congratulations! You built a simple web application with Spring Boot and learned
 This is only a small sampling of what Spring Boot can do. Checkout http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle[Spring Boot's online docs]
 if you want to dig deeper.
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+== See Also
 
+The following guides may also be helpful:
+
+* https://spring.io/guides/gs/securing-web/[Securing a Web Application]
+* https://spring.io/guides/gs/serving-web-content/[Serving Web Content with Spring MVC]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
