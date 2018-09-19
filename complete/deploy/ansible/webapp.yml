@@ -1,0 +1,29 @@
+- name: Create Azure VM
+  hosts: localhost
+  connection: local
+  vars:
+    resource_group: "{{ lookup('env', 'RES_GROUP') }}"
+    webapp_name: "{{ lookup('env', 'WEB_APP_NAME') }}"
+    location: eastus
+  tasks:
+    - name: Create a resource group
+      azure_rm_resourcegroup:
+        name: "{{ resource_group }}"
+        location: "{{ location }}"
+
+    - name: Create a linux web app with java framework
+      azure_rm_webapp:
+        resource_group: "{{ resource_group }}"
+        name: "{{ webapp_name }}"
+        plan:
+          resource_group: "{{ resource_group }}"
+          name: myappplan
+          is_linux: true
+          sku: S1
+          number_of_workers: 1
+        frameworks:
+          - name: "java"
+            version: "8"
+            settings:
+              java_container: tomcat
+              java_container_version: 8.5
