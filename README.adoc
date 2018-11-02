@@ -231,7 +231,7 @@ $ curl -X POST localhost:8080/actuator/shutdown
 
 Because we didn't enable it, the request is blocked by the virtue of not existing.
 
-For more details about each of these REST points and how you can tune their settings with an `application.properties` file, you can read detailed http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints[docs about the endpoints].
+For more details about each of these REST points and how you can tune their settings with an `application.properties` file (in `src/main/resources`), you can read detailed http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints[docs about the endpoints].
 
 == View Spring Boot's starters
 You have seen some of http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#using-boot-starter[Spring Boot's "starters"]. You can see them all https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters[here in source code].
