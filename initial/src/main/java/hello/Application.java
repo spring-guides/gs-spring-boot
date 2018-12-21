@@ -6,7 +6,6 @@ package hello;
 public class Application {
 
     public static void main(String[] args) {
-        
         open();
         baseSleep();
         open();
