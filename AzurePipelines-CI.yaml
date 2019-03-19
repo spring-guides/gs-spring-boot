@@ -1,5 +1,5 @@
 pool:
-  vmImage: Hosted Ubuntu 1604
+  vmImage: 'ubuntu-16.04' # Hosted Ubuntu 1604
   demands: maven
 
 #Your build pipeline references an undefined variable named ‘Parameters.mavenPOMFile’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
