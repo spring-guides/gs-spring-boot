@@ -6,7 +6,7 @@
 :project_id: gs-spring-boot
 This guide provides a sampling of how {spring-boot}[Spring Boot] helps you accelerate and facilitate application development. As you read more Spring Getting Started guides, you will see more use cases for Spring Boot.
 It is meant to give you a quick taste of Spring Boot. If you want to create your own Spring Boot-based project, visit
-http://start.spring.io/[Spring Initializr], fill in your project details, pick your options, and you can download either
+https://start.spring.io/[Spring Initializr], fill in your project details, pick your options, and you can download either
 a Maven build file, or a bundled up project as a zip file.
 
 == What you'll build
@@ -168,7 +168,7 @@ include::complete/src/test/java/hello/HelloControllerIT.java[]
 The embedded server is started up on a random port by virtue of the `webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT` and the actual port is discovered at runtime with the `@LocalServerPort`.
 
 == Add production-grade services
-If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready[actuator module], such as health, audits, beans, and more.
+If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready[actuator module], such as health, audits, beans, and more.
 
 Add this to your build file's list of dependencies:
 
@@ -213,7 +213,7 @@ You will see a new set of RESTful end points added to the application. These are
 
 They include: errors, http://localhost:8080/actuator/health[actuator/health], http://localhost:8080/actuator/info[actuator/info], http://localhost:8080/actuator[actuator].
 
-NOTE: There is also a `/actuator/shutdown` endpoint, but it's only visible by default via JMX. To http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints-enabling-endpoints[enable it as an HTTP endpoint], add
+NOTE: There is also a `/actuator/shutdown` endpoint, but it's only visible by default via JMX. To https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints-enabling-endpoints[enable it as an HTTP endpoint], add
 `management.endpoints.shutdown.enabled=true` to your `application.properties` file.
 
 It's easy to check the health of the app.
@@ -232,10 +232,10 @@ $ curl -X POST localhost:8080/actuator/shutdown
 
 Because we didn't enable it, the request is blocked by the virtue of not existing.
 
-For more details about each of these REST points and how you can tune their settings with an `application.properties` file (in `src/main/resources`), you can read detailed http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints[docs about the endpoints].
+For more details about each of these REST points and how you can tune their settings with an `application.properties` file (in `src/main/resources`), you can read detailed https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints[docs about the endpoints].
 
 == View Spring Boot's starters
-You have seen some of http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#using-boot-starter[Spring Boot's "starters"]. You can see them all https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters[here in source code].
+You have seen some of https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#using-boot-starter[Spring Boot's "starters"]. You can see them all https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters[here in source code].
 
 == JAR support and Groovy support
 The last example showed how Spring Boot makes it easy to wire beans you may not be aware that you need. And it showed how to turn on convenient management services.
@@ -261,7 +261,7 @@ class ThisWillActuallyRun {
 
 NOTE: It doesn't matter where the file is. You can even fit an application that small inside a https://twitter.com/rob_winch/status/364871658483351552[single tweet]!
 
-Next, http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#getting-started-installing-the-cli[install Spring Boot's CLI].
+Next, https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#getting-started-installing-the-cli[install Spring Boot's CLI].
 
 Run it as follows:
 
@@ -277,11 +277,11 @@ $ curl localhost:8080
 Hello World!
 ----
 
-Spring Boot does this by dynamically adding key annotations to your code and using http://groovy.codehaus.org/Grape[Groovy Grape] to pull down libraries needed to make the app run.
+Spring Boot does this by dynamically adding key annotations to your code and using https://groovy.codehaus.org/Grape[Groovy Grape] to pull down libraries needed to make the app run.
 
 == Summary
 Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. You also turned on some handy production services.
-This is only a small sampling of what Spring Boot can do. Checkout http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle[Spring Boot's online docs]
+This is only a small sampling of what Spring Boot can do. Checkout https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle[Spring Boot's online docs]
 if you want to dig deeper.
 
 == See Also
