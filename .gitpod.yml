@@ -1,0 +1,10 @@
+ports:
+  - port: 8080
+    onOpen: open-preview
+tasks:
+  - before: cd complete
+    init: ./gradlew clean build
+    command: ./gradlew bootRun
+github:
+  prebuilds:
+      pullRequestsFromForks: true
