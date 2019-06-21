@@ -1,4 +1,4 @@
-:spring_boot_version: 2.1.4.RELEASE
+:spring_boot_version: 2.1.6.RELEASE
 :spring-boot: https://github.com/spring-projects/spring-boot
 :toc:
 :icons: font
