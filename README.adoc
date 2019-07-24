@@ -213,7 +213,7 @@ You will see a new set of RESTful end points added to the application. These are
 They include: errors, http://localhost:8080/actuator/health[actuator/health], http://localhost:8080/actuator/info[actuator/info], http://localhost:8080/actuator[actuator].
 
 NOTE: There is also a `/actuator/shutdown` endpoint, but it's only visible by default via JMX. To http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints-enabling-endpoints[enable it as an HTTP endpoint], add
-`management.endpoints.shutdown.enabled=true` to your `application.properties` file.
+`management.endpoints.web.exposure.include=*` and `management.endpoint.shutdown.enabled=true` to your `application.properties` file.
 
 It's easy to check the health of the app.
 
