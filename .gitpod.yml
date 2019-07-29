@@ -4,7 +4,9 @@ ports:
 tasks:
   - before: cd complete
     init: ./gradlew clean build
-    command: ./gradlew bootRun
+    command: >
+      code complete/src/main/java/hello/HelloController.java &&
+      ./gradlew bootRun
 github:
   prebuilds:
       pullRequestsFromForks: true
