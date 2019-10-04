@@ -4,85 +4,150 @@
 :icons: font
 :source-highlighter: prettify
 :project_id: gs-spring-boot
-This guide provides a sampling of how {spring-boot}[Spring Boot] helps you accelerate and facilitate application development. As you read more Spring Getting Started guides, you will see more use cases for Spring Boot.
-It is meant to give you a quick taste of Spring Boot. If you want to create your own Spring Boot-based project, visit
-https://start.spring.io/[Spring Initializr], fill in your project details, pick your options, and you can download either
-a Maven build file, or a bundled up project as a zip file.
 
-== What you'll build
-You'll build a simple web application with Spring Boot and add some useful services to it.
+This guide provides a sampling of how {spring-boot}[Spring Boot] helps you accelerate
+application development. As you read more Spring Getting Started guides, you will see more
+use cases for Spring Boot. This guide is meant to give you a quick taste of Spring Boot.
+If you want to create your own Spring Boot-based project, visit
+http://start.spring.io/[Spring Initializr], fill in your project details, pick your
+options, and download a bundled up project as a zip file.
 
-== What you'll need
+== What You Will build
+
+You will build a simple web application with Spring Boot and add some useful services to
+it.
+
+== What You Need
 
 :java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
+== Learn What You Can Do with Spring Boot
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-gradle.adoc[]
+Spring Boot offers a fast way to build applications. It looks at your classpath and at the
+beans you have configured, makes reasonable assumptions about what you are missing, and
+adds those items. With Spring Boot, you can focus more on business features and less on
+infrastructure.
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-maven.adoc[]
+The following examples show what Spring Boot can do for you:
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-sts.adoc[]
+- Is Spring MVC on the classpath? There are several specific beans you almost always need,
+and Spring Boot adds them automatically. A Spring MVC application also needs a servlet
+container, so Spring Boot automatically configures embedded Tomcat.
+- Is Jetty on the classpath? If so, you probably do NOT want Tomcat but instead want
+embedded Jetty. Spring Boot handles that for you.
+- Is Thymeleaf on the classpath? If so, there are a few beans that must always be added to
+your application context. Spring Boot adds them for you.
+
+These are just a few examples of the automatic configuration Spring Boot provides. At the
+same time, Spring Boot does not get in your way. For example, if Thymeleaf is on your
+path, Spring Boot automatically adds a `SpringTemplateEngine` to your application context.
+But if you define your own `SpringTemplateEngine` with your own settings, Spring Boot does
+not add one. This leaves you in control with little effort on your part.
+
+NOTE: Spring Boot does not generate code or make edits to your files. Instead, when you
+start your application, Spring Boot dynamically wires up beans and settings and applies
+them to your application context.
+
+[[scratch]]
+== Starting with Spring Initializr
+
+For all Spring applications, you should start with the https://start.spring.io[Spring
+Initializr]. The Initializr offers a fast way to pull in all the dependencies you need for
+an application and does a lot of the setup for you. This example needs only the Spring Web
+dependency. The following image shows the Initializr set up for this sample project:
+
+image::images/initializr.png[]
+
+NOTE: The preceding image shows the Initializr with Maven chosen as the build tool. You
+can also use Gradle. It also shows values of `com.example` and `spring-boot` as the Group
+and Artifact, respectively. You will use those values throughout the rest of this sample.
+
+The following listing shows the `pom.xml` file that is created when you choose Maven:
+
+====
+[source,xml]
+----
+include::initial/pom.xml[]
+----
+====
+
+The following listing shows the `build.gradle` file that is created when you choose Gradle:
+
+====
+[source,text]
+----
+include::initial/build.gradle[]
+----
+====
 
 [[initial]]
-== Learn what you can do with Spring Boot
+== Create a Simple Web Application
 
-Spring Boot offers a fast way to build applications. It looks at your classpath and at beans you have configured, makes reasonable assumptions about what you're missing, and adds it. With Spring Boot you can focus more on business features and less on infrastructure.
+Now you can create a web controller for a simple web application, as the following listing
+(from `src/main/java/com/example/springboot/HelloController.java`) shows:
 
-For example:
-
-- Got Spring MVC? There are several specific beans you almost always need, and Spring Boot adds them automatically. A Spring MVC app also needs a servlet container, so Spring Boot automatically configures embedded Tomcat.
-- Got Jetty? If so, you probably do NOT want Tomcat, but instead embedded Jetty. Spring Boot handles that for you.
-- Got Thymeleaf? There are a few beans that must always be added to your application context; Spring Boot adds them for you.
-
-These are just a few examples of the automatic configuration Spring Boot provides. At the same time, Spring Boot doesn't get in your way. For example, if Thymeleaf is on your path, Spring Boot adds a `SpringTemplateEngine` to your application context automatically. But if you define your own `SpringTemplateEngine` with your own settings, then Spring Boot won't add one. This leaves you in control with little effort on your part.
-
-NOTE: Spring Boot doesn't generate code or make edits to your files. Instead, when you start up your application, Spring Boot dynamically wires up beans and settings and applies them to your application context.
-
-== Create a simple web application
-Now you can create a web controller for a simple web application.
-
-`src/main/java/hello/HelloController.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::initial/src/main/java/hello/HelloController.java[]
+include::initial/src/main/java/com/example/springboot/HelloController.java[]
 ----
+====
 
-The class is flagged as a `@RestController`, meaning it's ready for use by Spring MVC to handle web requests. `@RequestMapping` maps `/` to the `index()` method. When invoked from a browser or using curl on the command line, the method returns pure text. That's because `@RestController` combines `@Controller` and `@ResponseBody`, two annotations that results in web requests returning data rather than a view.
+The class is flagged as a `@RestController`, meaning it is ready for use by Spring MVC to
+handle web requests. `@RequestMapping` maps `/` to the `index()` method. When invoked from
+a browser or by using curl on the command line, the method returns pure text. That is
+because `@RestController` combines `@Controller` and `@ResponseBody`, two annotations that
+results in web requests returning data rather than a view.
 
 == Create an Application class
-Here you create an `Application` class with the components:
 
-`src/main/java/hello/Application.java`
-[source,java,tabsize=2]
+The Spring Initializr creates a simple application class for you. However, in this case,
+it is too simple. You need to modify the application class to match the following listing
+(from `src/main/java/com/example/springboot/Application.java`):
+
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/Application.java[]
+include::complete/src/main/java/com/example/springboot/Application.java[]
 ----
+====
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application-new-path.adoc[]
 
-There is also a `CommandLineRunner` method marked as a `@Bean` and this runs on start up. It retrieves all the beans that were created either by your app or were automatically added thanks to Spring Boot. It sorts them and prints them out.
+There is also a `CommandLineRunner` method marked as a `@Bean`, and this runs on start up.
+It retrieves all the beans that were created by your application or that were
+automatically added by Spring Boot. It sorts them and prints them out.
 
-== Run the application
-To run the application, execute:
+== Run the Application
 
+To run the application, run the following command in a terminal window (in the `complete`)
+directory:
+
+====
 [subs="attributes"]
 ----
-./gradlew build && java -jar build/libs/{project_id}-0.1.0.jar
+./gradlew bootRun
 ----
+====
 
-If you are using Maven, execute:
+If you use Maven, run the following command in a terminal window (in the `complete`)
+directory:
 
+====
 [subs="attributes"]
 ----
-mvn package && java -jar target/{project_id}-0.1.0.jar
+./mvnw spring-boot:run
 ----
+====
 
-You should see some output like this:
+You should see output similar to the following:
 
-....
+====
+[source,text]
+----
 Let's inspect the beans provided by Spring Boot:
 application
 beanNameHandlerMapping
@@ -118,171 +183,257 @@ resourceHandlerMapping
 simpleControllerHandlerAdapter
 tomcatEmbeddedServletContainerFactory
 viewControllerHandlerMapping
-....
+----
+====
 
-You can clearly see **org.springframework.boot.autoconfigure** beans. There is also a `tomcatEmbeddedServletContainerFactory`.
+You can clearly see `org.springframework.boot.autoconfigure` beans. There is also a `tomcatEmbeddedServletContainerFactory`.
 
-Check out the service.
+Now run the service with curl (in a separate terminal window), by running the following
+command (shown with its output):
 
-....
+====
+[source,text]
+----
 $ curl localhost:8080
 Greetings from Spring Boot!
-....
+----
+====
 
 == Add Unit Tests
 
-You will want to add a test for the endpoint you added, and Spring Test already provides some machinery for that, and it's easy to include in your project.
+You will want to add a test for the endpoint you added, and Spring Test provides some
+machinery for that.
 
-Add this to your build file's list of dependencies:
+If you use Gradle, add the following dependency to your `build.gradle` file:
 
-[source,groovy]
+[source,groovy,indent=0]
 ----
 include::complete/build.gradle[tag=tests]
 ----
 
-If you are using Maven, add this to your list of dependencies:
+If you use Maven, add the following to your `pom.xml` file:
 
-[source,xml]
+[source,xml,indent=0]
 ----
 include::complete/pom.xml[tag=tests]
 ----
 
-Now write a simple unit test that mocks the servlet request and response through your endpoint:
+Now write a simple unit test that mocks the servlet request and response through your
+endpoint, as the following listing (from
+`src/test/java/com/example/springboot/HelloControllerTest.java`) shows:
 
-`src/test/java/hello/HelloControllerTest.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/test/java/hello/HelloControllerTest.java[]
+include::complete/src/test/java/com/example/springboot/HelloControllerTest.java[]
 ----
+====
 
-The `MockMvc` comes from Spring Test and allows you, via a set of convenient builder classes, to send HTTP requests into the `DispatcherServlet` and make assertions about the result. Note the use of the `@AutoConfigureMockMvc` together with `@SpringBootTest` to inject a `MockMvc` instance. Having used `@SpringBootTest` we are asking for the whole application context to be created.  An alternative would be to ask Spring Boot to create only the web layers of the context using the `@WebMvcTest`. Spring Boot automatically tries to locate the main application class of your application in either case, but you can override it, or narrow it down, if you want to build something different.
+`MockMvc` comes from Spring Test and lets you, through a set of convenient builder
+classes, send HTTP requests into the `DispatcherServlet` and make assertions about the
+result. Note the use of `@AutoConfigureMockMvc` and `@SpringBootTest` to inject a
+`MockMvc` instance. Having used `@SpringBootTest`, we are asking for the whole application
+context to be created. An alternative would be to ask Spring Boot to create only the web
+layers of the context by using `@WebMvcTest`. In either case, Spring Boot automatically
+tries to locate the main application class of your application, but you can override it or
+narrow it down if you want to build something different.
 
-As well as mocking the HTTP request cycle we can also use Spring Boot to write a very simple full-stack integration test. For example, instead of (or as well as) the mock test above we could do this:
+As well as mocking the HTTP request cycle, you can also use Spring Boot to write a simple
+full-stack integration test. For example, instead of (or as well as) the mock test shown
+earlier, we could create the following test (from
+`src/test/java/com/example/springboot/HelloControllerIT.java`):
 
-`src/test/java/hello/HelloControllerIT.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/test/java/hello/HelloControllerIT.java[]
+include::complete/src/test/java/com/example/springboot/HelloControllerIT.java[]
 ----
+====
 
-The embedded server is started up on a random port by virtue of the `webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT` and the actual port is discovered at runtime with the `@LocalServerPort`.
+The embedded server starts on a random port because of
+`webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT`, and the actual port is
+discovered at runtime with `@LocalServerPort`.
 
-== Add production-grade services
-If you are building a web site for your business, you probably need to add some management services. Spring Boot provides several out of the box with its https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready[actuator module], such as health, audits, beans, and more.
+== Add Production-grade Services
 
-Add this to your build file's list of dependencies:
+If you are building a web site for your business, you probably need to add some management
+services. Spring Boot provides several such services (such as health, audits, beans, and
+more) with its
+http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready[actuator module].
 
-[source,groovy]
+If you use Gradle, add the following dependency to your `build.gradle` file:
+
+[source,groovy,indent=0]
 ----
 include::complete/build.gradle[tag=actuator]
 ----
 
-If you are using Maven, add this to your list of dependencies:
+If you use Maven, add the following dependency to your `pom.xml` file:
 
-[source,xml]
+[source,xml,indent=0]
 ----
 include::complete/pom.xml[tag=actuator]
 ----
 
-Then restart the app:
+Then restart the application. If you use Gradle, run the following command in a terminal
+window (in the `complete` directory):
 
+====
 [subs="attributes"]
 ----
-./gradlew build && java -jar build/libs/{project_id}-0.1.0.jar
+./gradlew bootRun
 ----
+====
 
-If you are using Maven, execute:
+If you use Maven, run the following command in a terminal window (in the `complete`
+directory):
 
+====
 [subs="attributes"]
 ----
-mvn package && java -jar target/{project_id}-0.1.0.jar
+./mvnw spring-boot:run
 ----
+====
 
-You will see a new set of RESTful end points added to the application. These are management services provided by Spring Boot.
+You should see that a new set of RESTful end points have been added to the application.
+These are management services provided by Spring Boot. The following listing shows typical
+output:
 
-....
-2018-03-17 15:42:20.088  ... : Mapped "{[/error],produces=[text/html]}" onto public org.s...
-2018-03-17 15:42:20.089  ... : Mapped "{[/error]}" onto public org.springframework.http.R...
-2018-03-17 15:42:20.121  ... : Mapped URL path [/webjars/**] onto handler of type [class ...
-2018-03-17 15:42:20.121  ... : Mapped URL path [/**] onto handler of type [class org.spri...
-2018-03-17 15:42:20.157  ... : Mapped URL path [/**/favicon.ico] onto handler of type [cl...
-2018-03-17 15:42:20.488  ... : Mapped "{[/actuator/health],methods=[GET],produces=[application/vnd...
-2018-03-17 15:42:20.490  ... : Mapped "{[/actuator/info],methods=[GET],produces=[application/vnd.s...
-2018-03-17 15:42:20.491  ... : Mapped "{[/actuator],methods=[GET],produces=[application/vnd.spring...
-....
+====
+[source,text]
+----
+management.endpoint.configprops-org.springframework.boot.actuate.autoconfigure.context.properties.ConfigurationPropertiesReportEndpointProperties
+management.endpoint.env-org.springframework.boot.actuate.autoconfigure.env.EnvironmentEndpointProperties
+management.endpoint.health-org.springframework.boot.actuate.autoconfigure.health.HealthEndpointProperties
+management.endpoint.logfile-org.springframework.boot.actuate.autoconfigure.logging.LogFileWebEndpointProperties
+management.endpoints.jmx-org.springframework.boot.actuate.autoconfigure.endpoint.jmx.JmxEndpointProperties
+management.endpoints.web-org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties
+management.endpoints.web.cors-org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties
+management.health.status-org.springframework.boot.actuate.autoconfigure.health.HealthIndicatorProperties
+management.info-org.springframework.boot.actuate.autoconfigure.info.InfoContributorProperties
+management.metrics-org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties
+management.metrics.export.simple-org.springframework.boot.actuate.autoconfigure.metrics.export.simple.SimpleProperties
+management.server-org.springframework.boot.actuate.autoconfigure.web.server.ManagementServerProperties
+management.trace.http-org.springframework.boot.actuate.autoconfigure.trace.http.HttpTraceProperties
+----
+====
 
-They include: errors, http://localhost:8080/actuator/health[actuator/health], http://localhost:8080/actuator/info[actuator/info], http://localhost:8080/actuator[actuator].
+The actuator exposes the following:
 
-NOTE: There is also a `/actuator/shutdown` endpoint, but it's not visible by default. To http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints-enabling-endpoints[enable it as an HTTP endpoint], add
-`management.endpoints.web.exposure.include=health,info,shutdown` to your `application.properties` file.
+* errors
+* http://localhost:8080/actuator/health[actuator/health]
+* http://localhost:8080/actuator/info[actuator/info]
+* http://localhost:8080/actuator[actuator]
 
-It's easy to check the health of the app.
+NOTE: There is also an `/actuator/shutdown` endpoint, but, by default, it is visible only
+through JMX. To
+http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints-enabling-endpoints[enable it as an HTTP endpoint],
+add `management.endpoints.shutdown.enabled=true` to your `application.properties` file.
+However, you probably should not enable the shutdown endpoint for a publicly available
+application.
 
+You can check the health of the application by running the following command:
+
+====
+[source,bash]
 ----
 $ curl localhost:8080/actuator/health
 {"status":"UP"}
 ----
+====
 
-You can try to invoke shutdown through curl.
+You can try also to invoke shutdown through curl, to see what happens when you have not
+added the necessary line (shown in the preceding note) to `application.properties`:
 
+====
+[source,bash]
 ----
 $ curl -X POST localhost:8080/actuator/shutdown
 {"timestamp":1401820343710,"error":"Method Not Allowed","status":405,"message":"Request method 'POST' not supported"}
 ----
+====
 
-Because we didn't enable it, the request is blocked by the virtue of not existing.
+Because we did not enable it, the request is blocked (because the endpoint does not
+exist).
 
-For more details about each of these REST points and how you can tune their settings with an `application.properties` file (in `src/main/resources`), you can read detailed https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints[docs about the endpoints].
+For more details about each of these REST endpoints and how you can tune their settings
+with an `application.properties` file (in `src/main/resources`), see the
+the http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints[documentation about the endpoints].
 
-== View Spring Boot's starters
-You have seen some of https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#using-boot-starter[Spring Boot's "starters"]. You can see them all https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters[here in source code].
+== View Spring Boot's Starters
 
-== JAR support and Groovy support
-The last example showed how Spring Boot makes it easy to wire beans you may not be aware that you need. And it showed how to turn on convenient management services.
+You have seen some of
+http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#using-boot-starter[Spring Boot's "`starters`"].
+You can see them all
+https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters[here in source code].
 
-But Spring Boot does yet more. It supports not only traditional WAR file deployments, but also makes it easy to put together executable JARs thanks to Spring Boot's loader module. The various guides demonstrate this dual support through the `spring-boot-gradle-plugin` and `spring-boot-maven-plugin`.
+== JAR Support and Groovy Support
 
-On top of that, Spring Boot also has Groovy support, allowing you to build Spring MVC web apps with as little as a single file.
+The last example showed how Spring Boot lets you wire beans that you may not be aware you
+need. It also showed how to turn on convenient management services.
 
-Create a new file called **app.groovy** and put the following code in it:
+However, Spring Boot does more than that. It supports not only traditional WAR file
+deployments but also lets you put together executable JARs, thanks to Spring Boot's loader
+module. The various guides demonstrate this dual support through the
+`spring-boot-gradle-plugin` and `spring-boot-maven-plugin`.
 
-[source,groovy]
+On top of that, Spring Boot also has Groovy support, letting you build Spring MVC web
+applications with as little as a single file.
+
+Create a new file called `app.groovy` and put the following code in it:
+
+====
+[source,java]
 ----
 @RestController
 class ThisWillActuallyRun {
 
     @RequestMapping("/")
     String home() {
-        return "Hello World!"
+        return "Hello, World!"
     }
 
 }
 ----
+====
 
-NOTE: It doesn't matter where the file is. You can even fit an application that small inside a https://twitter.com/rob_winch/status/364871658483351552[single tweet]!
+NOTE: It does not matter where the file is. You can even fit an application that small
+inside a https://twitter.com/rob_winch/status/364871658483351552[single tweet]!
 
 Next, https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#getting-started-installing-the-cli[install Spring Boot's CLI].
 
-Run it as follows:
+Run the Groovy application by running the following command:
 
+====
+[source,bash]
 ----
 $ spring run app.groovy
 ----
+====
 
-NOTE: This assumes you shut down the previous application, to avoid a port collision.
+NOTE: Shut down the previous application, to avoid a port collision.
 
-From a different terminal window:
+From a different terminal window, run the following curl command (shown with its output):
+
+====
+[source,bash]
 ----
 $ curl localhost:8080
-Hello World!
+Hello, World!
 ----
+====
 
-Spring Boot does this by dynamically adding key annotations to your code and using https://groovy.codehaus.org/Grape[Groovy Grape] to pull down libraries needed to make the app run.
+Spring Boot does this by dynamically adding key annotations to your code and using
+http://groovy.codehaus.org/Grape[Groovy Grape] to pull down the libraries that are needed
+to make the app run.
 
 == Summary
-Congratulations! You built a simple web application with Spring Boot and learned how it can ramp up your development pace. You also turned on some handy production services.
-This is only a small sampling of what Spring Boot can do. Checkout https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle[Spring Boot's online docs]
-if you want to dig deeper.
+
+Congratulations! You built a simple web application with Spring Boot and learned how it
+can ramp up your development pace. You also turned on some handy production services.
+This is only a small sampling of what Spring Boot can do. See
+http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle[Spring Boot's online docs]
+for much more information.
 
 == See Also
 
