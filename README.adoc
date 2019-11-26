@@ -44,7 +44,7 @@ NOTE: Spring Boot doesn't generate code or make edits to your files. Instead, wh
 Now you can create a web controller for a simple web application.
 
 `src/main/java/hello/HelloController.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::initial/src/main/java/hello/HelloController.java[]
 ----
@@ -55,7 +55,7 @@ The class is flagged as a `@RestController`, meaning it's ready for use by Sprin
 Here you create an `Application` class with the components:
 
 `src/main/java/hello/Application.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
@@ -149,7 +149,7 @@ include::complete/pom.xml[tag=tests]
 Now write a simple unit test that mocks the servlet request and response through your endpoint:
 
 `src/test/java/hello/HelloControllerTest.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/test/java/hello/HelloControllerTest.java[]
 ----
@@ -159,7 +159,7 @@ The `MockMvc` comes from Spring Test and allows you, via a set of convenient bui
 As well as mocking the HTTP request cycle we can also use Spring Boot to write a very simple full-stack integration test. For example, instead of (or as well as) the mock test above we could do this:
 
 `src/test/java/hello/HelloControllerIT.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/test/java/hello/HelloControllerIT.java[]
 ----
