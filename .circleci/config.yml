@@ -39,5 +39,7 @@ jobs:
 
       # run tests!
       - run: mvn -f complete/pom.xml integration-test
+      - run: pwd
+      - run: ls
       - store_test_results:
-          path: failsafe-reports
+          path: repo/failsafe-reports
