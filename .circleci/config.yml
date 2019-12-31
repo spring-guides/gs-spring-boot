@@ -42,4 +42,4 @@ jobs:
       - run: pwd
       - run: ls
       - store_test_results:
-          path: repo/failsafe-reports
+          path: complete/target/failsafe-reports
