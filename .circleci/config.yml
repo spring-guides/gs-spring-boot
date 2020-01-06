@@ -38,6 +38,7 @@ jobs:
           key: v1-dependencies-{{ checksum "complete/pom.xml" }}
 
       # run tests!
+      - run: echo "Running Tests now..."
       - run: mvn -f complete/pom.xml integration-test
       - run: pwd
       - run: ls
