@@ -42,7 +42,7 @@ jobs:
       - run: pwd
       - run: ls
       - store_test_results:
-          path: complete/target/failsafe-reports
+          path: complete/target/surefire-reports
       - store_artifacts: # See circleci.com/docs/2.0/artifacts/ for more details.
           path: complete/target/gs-spring-boot-0.1.0.jar
           destination: artifact-file
