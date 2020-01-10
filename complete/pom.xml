@@ -24,6 +24,14 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<!-- tag::actuator[] -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!-- end::actuator[] -->
+
+		<!-- tag::tests[] -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -35,6 +43,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- end::tests[] -->
 	</dependencies>
 
 	<build>

@@ -13,10 +13,15 @@ repositories {
 }
 
 dependencies {
+	// tag::actuator[]
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	// end::actuator[]
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// tag::tests[]
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	// end::tests[]
 }
 
 test {
