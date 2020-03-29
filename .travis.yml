@@ -1,7 +1,6 @@
 language: java
 os: linux
 dist: bionic
+arch: amd64
 jdk:
 - openjdk11
-script:
-- test/run.sh
