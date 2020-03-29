@@ -1,3 +1,5 @@
+image:https://travis-ci.org/raackley/gs-spring-boot.svg?branch=master["Build Status", link="https://travis-ci.org/raackley/gs-spring-boot"]
+
 :spring_boot_version: 2.2.2.RELEASE
 :spring-boot: https://github.com/spring-projects/spring-boot
 :toc:
