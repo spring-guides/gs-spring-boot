@@ -423,7 +423,7 @@ Hello, World!
 ====
 
 Spring Boot does this by dynamically adding key annotations to your code and using
-http://groovy.codehaus.org/Grape[Groovy Grape] to pull down the libraries that are needed
+http://www.groovy-lang.org/Grape[Groovy Grape] to pull down the libraries that are needed
 to make the app run.
 
 == Summary
