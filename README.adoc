@@ -314,7 +314,6 @@ management.trace.http-org.springframework.boot.actuate.autoconfigure.trace.http.
 
 The actuator exposes the following:
 
-* errors
 * http://localhost:8080/actuator/health[actuator/health]
 * http://localhost:8080/actuator/info[actuator/info]
 * http://localhost:8080/actuator[actuator]
