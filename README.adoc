@@ -320,7 +320,9 @@ The actuator exposes the following:
 
 NOTE: There is also an `/actuator/shutdown` endpoint, but, by default, it is visible only
 through JMX. To http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints-enabling-endpoints[enable it as an HTTP endpoint], add
-`management.endpoints.web.exposure.include=health,info,shutdown` to your `application.properties` file.
+`management.endpoint.shutdown.enabled=true`
+and expose it with `management.endpoints.web.exposure.include=health,info,shutdown`
+to your `application.properties` file.
 However, you probably should not enable the shutdown endpoint for a publicly available
 application.
 
@@ -341,11 +343,11 @@ added the necessary line (shown in the preceding note) to `application.propertie
 [source,bash]
 ----
 $ curl -X POST localhost:8080/actuator/shutdown
-{"timestamp":1401820343710,"error":"Method Not Allowed","status":405,"message":"Request method 'POST' not supported"}
+{"timestamp":1401820343710,"error":"Not Found","status":404,"message":"","path":"/actuator/shutdown"}
 ----
 ====
 
-Because we did not enable it, the request is blocked (because the endpoint does not
+Because we did not enable it, the requested endpoint is not available (because the endpoint does not
 exist).
 
 For more details about each of these REST endpoints and how you can tune their settings
