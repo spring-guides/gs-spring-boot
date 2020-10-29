@@ -320,7 +320,7 @@ The actuator exposes the following:
 
 NOTE: There is also an `/actuator/shutdown` endpoint, but, by default, it is visible only
 through JMX. To http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints-enabling-endpoints[enable it as an HTTP endpoint], add
-to your `application.properties` file `management.endpoint.shutdown.enabled=true`
+`management.endpoint.shutdown.enabled=true` to your `application.properties` file
 and expose it with `management.endpoints.web.exposure.include=health,info,shutdown`.
 However, you probably should not enable the shutdown endpoint for a publicly available
 application.
