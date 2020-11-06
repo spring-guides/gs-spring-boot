@@ -1,5 +1,5 @@
 # Maven
-- task: Maven@3
+- task: Maven
   inputs:
     mavenPomFile: 'https://dev.azure.com/vinitjhaaec/Mave/_git/Mave?path=%2Fcomplete%2Fpom.xml'
     publishJUnitResults: true
