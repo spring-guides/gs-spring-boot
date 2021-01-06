@@ -1,0 +1,190 @@
+body{
+    padding: 0;
+    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+    text-shadow: 3px 3px #000000d2;
+}
+h2{
+    font-size: 5rem;
+}
+li{
+    display: inline;
+    vertical-align: middle;
+}
+ul{
+    padding: 0;
+}
+a{
+    padding: 3vh;
+    text-decoration: none;
+    color: white;
+}
+p{
+    font-size: 3rem;
+}
+
+.panels{
+    position:relative;
+    height:100%;
+    min-height:100%;
+    width:100%;
+    z-index:1000;
+}
+#first-panel{
+    background-image: url("images/artur-rutkowski-h2CPeqTzaaY-unsplash.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: -99; 
+}
+.panels .navbar .scroll{
+    margin-top: 10vh;
+    color: white;
+    opacity: 0.1;
+    -webkit-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease
+}
+
+.panels .navbar .scroll.appear{
+    opacity: 1;
+}
+.nav-button{
+    text-align: center;
+    height: 10vh;
+    width: 20vh;
+    border: none;
+    margin: 5vh;
+    border-radius: 20px;
+    font-size: 3vh;
+    display: inline-block;
+    background: transparent;
+}
+.navbar{
+    font-size: 3vh;
+    margin-top: 20vh;
+    height: auto;
+    text-align: center;
+}
+#logo{
+    margin: auto;
+    width: 55vh;
+    height: 30vh;
+}
+#second-panel{
+    background-image: url("images/keith-misner-h0Vxgz5tyXA-unsplash.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: 0 3px 8px 8px black inset;
+    margin-top: 60%;
+    height: auto;
+    padding-bottom: 3vh;
+}
+.containers{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: auto;
+}
+.container{
+    background-color: rgba(12, 12, 12, 0.7);
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    color: white;
+    width: 30vh;
+    height: 55vh;
+    padding: 5vh;
+    margin: auto;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    -webkit-transition: all 0.8s ease;
+    -o-transition: all 0.8s ease;
+    transition: all 0.8s ease
+}
+
+.container:hover{
+    box-shadow: 12px 12px rgba(10, 10, 10, 0.7);
+    transform: scale(1.05);
+}
+
+.order-button{
+    margin: auto;
+    margin-top: 10vh;
+    border-radius: 45px;
+    background-color: rgba(48, 33, 17, 0.95);
+    border-style: none;
+    height: 8vh;
+    width: 20vh;
+    text-align: center;
+    font-size: 3vh;
+    font-family: 'Times New Roman', Times, serif;
+    text-shadow: 3px 3px #000000d8;
+    text-shadow: 0px  -1px 0px rgba(0,0,0,.5);
+    -webkit-box-shadow: 0px 6px 0px #000000c5, 0px 3px 15px rgba(0,0,0,.4);
+    -moz-box-shadow: 0px 6px 0px #000000c5, 0px 3px 15px rgba(0,0,0,.4);
+    box-shadow: 0px 6px 0px #000000c5, 0px 3px 15px rgba(0,0,0,.4); 
+    -webkit-transition: all .1s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+
+.order-button:hover{
+    background-color: rgb(48, 33, 17);
+    -webkit-box-shadow: 0px 2px 0px #000000c5, 0px 1px 6px rgba(0,0,0,.4), inset 0px 1px 0px rgba(48, 33, 17, 1), inset 0px 0px 3px rgba(48, 33, 17, 1);
+    -moz-box-shadow: 0px 2px 0px #000000c5, 0px 1px 6px rgba(0,0,0,.4), inset 0px 1px 0px rgba(48, 33, 17, 1), inset 0px 0px 3px rgba(48, 33, 17, 1);
+    box-shadow: 0px 2px 0px #000000c5, 0px 1px 6px rgba(0,0,0,.4), inset 0px 1px 0px rgba(48, 33, 17, 1), inset 0px 0px 3px rgba(48, 33, 17, 1);
+    -webkit-transform: translate(0, 4px);
+    -moz-transform: translate(0, 4px);
+    transform: translate(0, 4px);
+}
+
+.inner-container{
+    padding: 2vh;
+    height: auto;
+    width: auto;
+    background-color: rgba(10, 10, 10, 0.7);
+}
+
+#info-text{
+    text-align: center;
+    color: #0000008a;
+    text-shadow: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+@media (max-width: 600px){
+#logo{
+    width: 45vh;
+    height: 25vh;
+}
+.nav-button{
+    margin: 1vh;
+}
+.container{
+    margin-left: auto;
+    margin-right: auto;
+    height: 50vh;
+    width: 35vh;
+}
+#second-panel{
+    margin-top: 100vh;
+}
+p{
+    font-size: 1.5rem;
+}
+h2{
+    font-size: 3rem;
+    margin: 2vh;
+}
+.order-button{
+    margin-top: 5vh;
+    font-size: 4vh;
+}
+}
+

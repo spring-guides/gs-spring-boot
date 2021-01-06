@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+    <title>Bakery</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./libraries/hover-min.css">
+    <meta content="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+ <div class="panels" id="first-panel">
+     .
+    <header class="navbar">
+        <img id="logo" src="images/beczka.png">
+        <ul>
+            <li><button class="nav-button hvr-rectangle-out"><a onclick="showAlert()" href="#">Contact</a></button></li>
+            <li><button class="nav-button hvr-rectangle-out"><a onclick="showAlert()" href="#">About us</a></li>
+            <li><button class="nav-button hvr-rectangle-out"><a onclick="showAlert()" href="#">Products</a></button></li>
+        </ul>
+        <p class="scroll">Scroll down</p>
+    </header>
+ </div>
+ <div class="panels" id="second-panel">
+    <div class="containers">
+        <div class="container" style="background-image: url('https://images.unsplash.com/photo-1559811814-e2c57b5e69df?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80');">
+            <header class="inner-container">
+                <h2>Bread</h2>
+                <p>We make crunchy and natural bread</p>
+            </header>
+            <button onclick="showAlert()" class="order-button"><a href="#">Order</a></button>
+        </div>
+        <div class="container" style="background-image: url('https://images.unsplash.com/photo-1583338917451-face2751d8d5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80');">
+            <header class="inner-container">
+                <h2>Cakes</h2>
+                <p>We bake tasety cakes for you</p>
+            </header>
+            <button onclick="showAlert()" class="order-button"><a href="#">Order</a></button>
+        </div>
+        <div class="container" style="background-image: url('https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=706&q=80');">
+            <header class="inner-container">
+                <h2>Catering</h2>
+                <p>We prepare food for your events</p>
+            </header>
+            <button onclick="showAlert()" class="order-button"><a href="#">Order</a></button>
+        </div>
+    </div>
+    <p id="info-text">This is only a sample website</p>
+</div>
+
+<script src="/js/text-appear.js"></script>
+<script src="/js/button-clicked.js"></script>
+</body>
