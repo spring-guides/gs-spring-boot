@@ -1,4 +1,4 @@
-:spring_boot_version: 2.4.4
+:spring_boot_version: 2.5.0
 :spring-boot: https://github.com/spring-projects/spring-boot
 :toc:
 :icons: font
@@ -54,7 +54,7 @@ them to your application context.
 [[scratch]]
 == Starting with Spring Initializr
 
-If you use Maven, visit the https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.4&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=spring-boot&name=spring-boot&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.spring-boot&dependencies=web[Spring Initializr] to generate a new project with the required dependencies (Spring Web).
+If you use Maven, visit the https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.5.0&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=spring-boot&name=spring-boot&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.spring-boot&dependencies=web[Spring Initializr] to generate a new project with the required dependencies (Spring Web).
 
 The following listing shows the `pom.xml` file that is created when you choose Maven:
 
@@ -65,7 +65,7 @@ include::initial/pom.xml[]
 ----
 ====
 
-If you use Gradle, visit the https://start.spring.io/#!type=gradle-project&language=java&platformVersion=2.4.4&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=spring-boot&name=spring-boot&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.spring-boot&dependencies=web[Spring Initializr] to generate a new project with the required dependencies (Spring Web).
+If you use Gradle, visit the https://start.spring.io/#!type=gradle-project&language=java&platformVersion=2.5.0&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=spring-boot&name=spring-boot&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.spring-boot&dependencies=web[Spring Initializr] to generate a new project with the required dependencies (Spring Web).
 
 The following listing shows the `build.gradle` file that is created when you choose Gradle:
 
