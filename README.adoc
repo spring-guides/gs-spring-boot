@@ -9,7 +9,7 @@ This guide provides a sampling of how {spring-boot}[Spring Boot] helps you accel
 application development. As you read more Spring Getting Started guides, you will see more
 use cases for Spring Boot. This guide is meant to give you a quick taste of Spring Boot.
 If you want to create your own Spring Boot-based project, visit
-http://start.spring.io/[Spring Initializr], fill in your project details, pick your
+https://start.spring.io/[Spring Initializr], fill in your project details, pick your
 options, and download a bundled up project as a zip file.
 
 == What You Will build
@@ -103,7 +103,7 @@ include::initial/src/main/java/com/example/springboot/HelloController.java[]
 ====
 
 The class is flagged as a `@RestController`, meaning it is ready for use by Spring MVC to
-handle web requests. `@RequestMapping` maps `/` to the `index()` method. When invoked from
+handle web requests. `@GetMapping` maps `/` to the `index()` method. When invoked from
 a browser or by using curl on the command line, the method returns pure text. That is
 because `@RestController` combines `@Controller` and `@ResponseBody`, two annotations that
 results in web requests returning data rather than a view.
@@ -258,7 +258,7 @@ include::complete/src/test/java/com/example/springboot/HelloControllerIT.java[]
 
 The embedded server starts on a random port because of
 `webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT`, and the actual port is
-discovered at runtime with `@LocalServerPort`.
+configured automatically in the base URL for the `TestRestTemplate`.
 
 == Add Production-grade Services
 
@@ -315,19 +315,17 @@ management.endpoint.logfile-org.springframework.boot.actuate.autoconfigure.loggi
 management.endpoints.jmx-org.springframework.boot.actuate.autoconfigure.endpoint.jmx.JmxEndpointProperties
 management.endpoints.web-org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties
 management.endpoints.web.cors-org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties
-management.health.status-org.springframework.boot.actuate.autoconfigure.health.HealthIndicatorProperties
+management.health.diskspace-org.springframework.boot.actuate.autoconfigure.system.DiskSpaceHealthIndicatorProperties
 management.info-org.springframework.boot.actuate.autoconfigure.info.InfoContributorProperties
 management.metrics-org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties
 management.metrics.export.simple-org.springframework.boot.actuate.autoconfigure.metrics.export.simple.SimpleProperties
 management.server-org.springframework.boot.actuate.autoconfigure.web.server.ManagementServerProperties
-management.trace.http-org.springframework.boot.actuate.autoconfigure.trace.http.HttpTraceProperties
 ----
 ====
 
 The actuator exposes the following:
 
 * http://localhost:8080/actuator/health[actuator/health]
-* http://localhost:8080/actuator/info[actuator/info]
 * http://localhost:8080/actuator[actuator]
 
 NOTE: There is also an `/actuator/shutdown` endpoint, but, by default, it is visible only
@@ -393,7 +391,7 @@ Create a new file called `app.groovy` and put the following code in it:
 @RestController
 class ThisWillActuallyRun {
 
-    @RequestMapping("/")
+    @GetMapping("/")
     String home() {
         return "Hello, World!"
     }
@@ -437,7 +435,7 @@ to make the app run.
 Congratulations! You built a simple web application with Spring Boot and learned how it
 can ramp up your development pace. You also turned on some handy production services.
 This is only a small sampling of what Spring Boot can do. See
-http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle[Spring Boot's online docs]
+http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle[Spring Boot's online docs]
 for much more information.
 
 == See Also
