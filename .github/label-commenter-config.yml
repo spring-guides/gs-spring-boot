@@ -1,0 +1,48 @@
+# .github/label-commenter-config.yml
+
+labels:
+  - name: invalid
+    labeled:
+      issue:
+        body: Please follow the issue templates.
+        action: close
+      pr:
+        body: Thank you @{{ pull_request.user.login }} for suggesting this. Please follow the pull request templates.
+        action: close
+    unlabeled:
+      issue:
+        body: Thank you for following the template. The repository owner will reply.
+        action: open
+  - name: forum
+    labeled:
+      issue:
+        body: |
+          Please ask questions about GitHub Actions at the following forum.
+          https://github.community/c/github-actions
+        action: close
+  - name: wontfix
+    labeled:
+      issue:
+        body: 이 작업은 진행되지 않겠지만, 당신의 의견에 감사드립니다. This will not be worked on but we appreciate your contribution.
+        action: close
+    unlabeled:
+      issue:
+        body: This has become active again.
+        action: open
+  - name: duplicate
+    labeled:
+      issue:
+        body: This issue already exists.
+        action: close
+  - name: good first issue
+    labeled:
+      issue:
+        body: This issue is easy for contributing. Everyone can work on this.
+  - name: proposal
+    labeled:
+      issue:
+        body: Thank you @{{ issue.user.login }} for suggesting this.
+  - name: 액션짱
+    labeled:
+      issue:
+        body: 안녕하세요 @{{ issue.user.login }} 님 액션은 참 멋진 것 같아요! 🚀
