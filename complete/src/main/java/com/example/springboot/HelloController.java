@@ -8,7 +8,12 @@ public class HelloController {
 
 	@GetMapping("/")
 	public String index() {
-		return "Hello Azure with Github Actions!<br/><br/>Greetings from Spring Boot!";
+		return "Greetings from Spring Boot!";
+	}
+
+	@GetMapping("/actions")
+	public String actions() {
+		return "Hello Azure with Github Actions! 0930 19시";
 	}
 
 }
