@@ -1,3 +1,5 @@
+[![Build and deploy JAR app to Azure Web App - webapp-0928](https://github.com/gwagdalf/gs-spring-boot/actions/workflows/main_webapp-0928.yml/badge.svg)](https://github.com/gwagdalf/gs-spring-boot/actions/workflows/main_webapp-0928.yml)
+
 :spring_boot_version: 2.5.0
 :spring-boot: https://github.com/spring-projects/spring-boot
 :toc:
