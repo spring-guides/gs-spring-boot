@@ -13,7 +13,7 @@ public class HelloController {
 
 	@GetMapping("/actions")
 	public String actions() {
-		return "Hello Azure with Github Actions!";
+		return "Hello Azure with Github Actions! 0930 14시";
 	}
 
 }
