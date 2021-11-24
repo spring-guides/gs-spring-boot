@@ -1,0 +1,20 @@
+version: v1.0
+name: Heroku deployment
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Deploy
+    task:
+      secrets:
+        - name: heroku-http
+      env_vars:
+        - name: HEROKU_APP_NAME
+          value: heroku-app-name
+      jobs:
+        - name: Push code
+          commands:
+            - checkout --use-cache
+            - 'heroku git:remote -a $HEROKU_APP_NAME'
+            - 'git push heroku -f $SEMAPHORE_GIT_BRANCH:master'

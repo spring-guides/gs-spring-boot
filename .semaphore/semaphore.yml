@@ -13,3 +13,8 @@ blocks:
             - checkout
             - sem-version java 11
             - mvn -B package --file pom.xml
+promotions:
+  - name: Deploy on Heroku
+    pipeline_file: pipeline_2.yml
+    auto_promote:
+      when: branch = 'master' AND result = 'passed'
