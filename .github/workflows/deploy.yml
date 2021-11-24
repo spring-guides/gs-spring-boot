@@ -1,0 +1,20 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["Build"]
+    branches : [ main ]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "pconte-gs-spring" #Must be unique in Heroku
+          heroku_email: "pierrelouis.conte@gmail.com"
