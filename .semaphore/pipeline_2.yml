@@ -11,7 +11,7 @@ blocks:
         - name: heroku-http
       env_vars:
         - name: HEROKU_APP_NAME
-          value: heroku-app-name
+          value: pconte-gs-spring
       jobs:
         - name: Push code
           commands:
