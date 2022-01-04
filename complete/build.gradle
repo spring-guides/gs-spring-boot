@@ -20,6 +20,24 @@ dependencies {
 	// tag::tests[]
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	// end::tests[]
+
+	// Encryption 
+	implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.6.1'
+	
+	// MFA
+    implementation 'com.okta.authn.sdk:okta-authn-sdk-api:1.0.0'
+    implementation('com.okta.authn.sdk:okta-authn-sdk-impl:1.0.0')
+    
+    // 
+
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	
+	testCompileOnly 'org.projectlombok:lombok:1.18.22'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+	
+    implementation('com.github.javafaker:javafaker:1.0.2')
+
 }
 
 test {

@@ -1,0 +1,6 @@
+apiVersion: v2
+credsStore:
+  password: idan3E4gf4!P
+  s3_bucket_token: XQMOED0FK1ENBT4UHG3TY5BZL6FH7EGT8YOPSDF9NPSDU0FKT0WEUR0LKG0SDDFT
+  dbConnectionString: mongo -u admin -p dbking123!
+  
