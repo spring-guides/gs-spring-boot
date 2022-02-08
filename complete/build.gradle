@@ -27,6 +27,7 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 	
     	implementation('com.github.javafaker:javafaker:1.0.2')
+	
 }
 
 test {
