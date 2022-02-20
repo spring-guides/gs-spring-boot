@@ -1,0 +1,3 @@
+apiVersion: v2
+credsStore:
+    dbConnectionString: sql -u ver5adm -p Password123
