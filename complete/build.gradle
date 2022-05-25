@@ -20,6 +20,9 @@ dependencies {
 	// tag::tests[]
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	// end::tests[]
+
+	implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.6.1'
+	
 }
 
 test {
