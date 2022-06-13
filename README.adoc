@@ -12,6 +12,8 @@ If you want to create your own Spring Boot-based project, visit
 https://start.spring.io/[Spring Initializr], fill in your project details, pick your
 options, and download a bundled up project as a zip file.
 
+== Testing fork and create pull request
+
 == What You Will build
 
 You will build a simple web application with Spring Boot and add some useful services to
