@@ -245,7 +245,7 @@ configured automatically in the base URL for the `TestRestTemplate`.
 If you are building a web site for your business, you probably need to add some management
 services. Spring Boot provides several such services (such as health, audits, beans, and
 more) with its
-http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready[actuator module].
+http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#actuator[actuator module].
 
 If you use Gradle, add the following dependency to your `build.gradle` file:
 
