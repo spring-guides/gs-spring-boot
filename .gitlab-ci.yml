@@ -67,7 +67,7 @@ verify:jdk8:
 # To deploy packages from CI, create a `ci_settings.xml` file
 # For deploying packages to GitLab's Maven Repository: See https://docs.gitlab.com/ee/user/packages/maven_repository/index.html#create-maven-packages-with-gitlab-cicd for more details.
 # Please note: The GitLab Maven Repository is currently only available in GitLab Premium / Ultimate.
-# For `master` or `main` branch run `mvn deploy` automatically. To bring in a PR
+# For `master` or `main` branch run `mvn deploy` automatically. To bring in a PR commit
 deploy:jdk8:
   tags:
     - test
