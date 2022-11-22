@@ -1,0 +1,83 @@
+version: v2beta1
+name: gs-spring-boot-moc
+
+# This is a list of `images` that DevSpace can build for this project
+# We recommend to skip image building during development (devspace dev) as much as possible
+images:
+  app:
+    image: ixaksdev4.azurecr.io/gs-spring-boot-moc
+    dockerfile: ./Dockerfile
+    buildKit:
+      inCluster: {}
+
+# This is a list of `deployments` that DevSpace can create for this project
+deployments:
+  app:
+    # This deployment uses `helm` but you can also define `kubectl` deployments or kustomizations
+    helm:
+      # We are deploying this project with the Helm chart you provided
+      chart:
+        name: component-chart
+        repo: https://charts.devspace.sh
+      # Under `values` we can define the values for this Helm chart used during `helm install/upgrade`
+      # You may also use `valuesFiles` to load values from files, e.g. valuesFiles: ["values.yaml"]
+      values:
+        containers:
+          - image: ixaksdev4.azurecr.io/gs-spring-boot-moc
+            livenessProbe:
+              httpGet:
+                path: /
+                port: 8080
+            resources:
+              requests:
+                memory: 1Gi
+                cpu: 1
+              limits:
+                memory: 4Gi
+                cpu: 1
+        service:
+          ports:
+            - port: 8080
+
+# This is a list of `dev` containers that are based on the containers created by your deployments
+dev:
+  app:
+    # Search for the container that runs this image
+    imageSelector: ixaksdev4.azurecr.io/gs-spring-boot-moc
+    # Replace the container image with this dev-optimized image (allows to skip image building during development)
+    devImage: ghcr.io/loft-sh/devspace-containers/java-maven:3-openjdk-17-slim
+    # Sync files between the local filesystem and the development container
+    sync:
+      - path: ./
+    # Open a terminal and use the following command to start it
+    terminal:
+      command: ./devspace_start.sh
+    # Inject a lightweight SSH server into the container (so your IDE can connect to the remote dev env)
+    ssh:
+      enabled: true
+      localHostname: gs-spring-boot-moc.devspace
+    # Make the following commands from my local machine available inside the dev container
+    proxyCommands:
+      - command: devspace
+      - command: kubectl
+      - command: helm
+      - command: git
+    # Forward the following ports to be able access your application via localhost
+    ports:
+      - port: "8080"
+    # Open the following URLs once they return an HTTP status code other than 502 or 503
+    # open:
+    #   - url: http://localhost:8080
+
+# This is a list of `pipelines` that DevSpace can execute (you can define your own)
+pipelines:
+  dev: |-
+    # Deploy the application and then start dev
+    run_default_pipeline dev
+
+    # Open VSCode as soon as we are done
+    code --folder-uri vscode-remote://ssh-remote+gs-spring-boot-moc.devspace/app
+
+commands:
+  vscode: |-
+    code --folder-uri vscode-remote://ssh-remote+gs-spring-boot-moc.devspace/app
