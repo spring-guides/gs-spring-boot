@@ -113,7 +113,7 @@ To run the application, run the following command in a terminal window (in the `
 directory:
 
 ====
-[subs="attributes"]
+[source,text]
 ----
 ./gradlew bootRun
 ----
@@ -123,7 +123,7 @@ If you use Maven, run the following command in a terminal window (in the `comple
 directory:
 
 ====
-[subs="attributes"]
+[source,text]
 ----
 ./mvnw spring-boot:run
 ----
@@ -180,7 +180,7 @@ command (shown with its output):
 ====
 [source,text]
 ----
-$ curl localhost:8080
+$ curl http://localhost:8080
 Greetings from Spring Boot!
 ----
 ====
@@ -320,7 +320,7 @@ You can check the health of the application by running the following command:
 ====
 [source,bash]
 ----
-$ curl localhost:8080/actuator/health
+$ curl http://localhost:8080/actuator/health
 {"status":"UP"}
 ----
 ====
@@ -331,7 +331,7 @@ added the necessary line (shown in the preceding note) to `application.propertie
 ====
 [source,bash]
 ----
-$ curl -X POST localhost:8080/actuator/shutdown
+$ curl -X POST http://localhost:8080/actuator/shutdown
 {"timestamp":1401820343710,"error":"Not Found","status":404,"message":"","path":"/actuator/shutdown"}
 ----
 ====
@@ -401,7 +401,7 @@ From a different terminal window, run the following curl command (shown with its
 ====
 [source,bash]
 ----
-$ curl localhost:8080
+$ curl http://localhost:8080
 Hello, World!
 ----
 ====
