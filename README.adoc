@@ -69,6 +69,8 @@ NOTE: If your IDE has the Spring Initializr integration, you can complete this p
 
 NOTE: You can also fork the project from Github and open it in your IDE or other editor.
 
+NOTE: For Spring 3.0 you need Java 17 or later, regardless using Spring Initializr or not.
+
 [[initial]]
 == Create a Simple Web Application
 
