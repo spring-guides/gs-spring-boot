@@ -6,3 +6,4 @@ resources:
 namespace: default
 commonLabels:
   app: test-app
+image: placeholder
