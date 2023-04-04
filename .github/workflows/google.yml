@@ -22,9 +22,9 @@ env:
   GAR_LOCATION: us-west1 # TODO: update region of the Artifact Registry
   GKE_CLUSTER: autopilot-cluster-1    # TODO: update to cluster name
   GKE_ZONE: us-west1   # TODO: update to cluster zone
-  DEPLOYMENT_NAME: gke-gs-spring-boot # TODO: update to deployment name
+  DEPLOYMENT_NAME: gke-gs-spring-boot-test # TODO: update to deployment name
   REPOSITORY: test # TODO: update to Artifact Registry docker repository
-  IMAGE: static-site
+  IMAGE: test-project
 
 jobs:
   setup-build-publish-deploy:
@@ -51,7 +51,7 @@ jobs:
     - name: Docker configuration
       uses: 'docker/login-action@v1'
       with:
-        registry: $GAR_LOCATION-docker.pkg.dev 
+        registry: ${{ GAR_LOCATION }}-docker.pkg.dev 
         username: 'oauth2accesstoken'
         password: '${{ steps.auth.outputs.access_token }}'
     # Get the GKE credentials so we can deploy to the cluster
@@ -65,7 +65,7 @@ jobs:
     - name: Build
       run: |-
         docker build \
-          --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
+          --tag "${{ $GAR_LOCATION }}-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
