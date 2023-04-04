@@ -22,7 +22,7 @@ env:
   GAR_LOCATION: us-west1 # TODO: update region of the Artifact Registry
   GKE_CLUSTER: autopilot-cluster-1    # TODO: update to cluster name
   GKE_ZONE: us-west1   # TODO: update to cluster zone
-  DEPLOYMENT_NAME: gke-gs-spring-boot-test # TODO: update to deployment name
+  DEPLOYMENT_NAME: test-app # TODO: update to deployment name
   REPOSITORY: test # TODO: update to Artifact Registry docker repository
   IMAGE: test-project
 
