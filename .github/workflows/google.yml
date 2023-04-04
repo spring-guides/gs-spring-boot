@@ -42,7 +42,7 @@ jobs:
 
     # Alternative option - authentication via credentials json
     - id: 'auth'
-    name: 'Authenticate to Google Cloud'
+      name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
       with:
         credentials_json: '${{ env.PROJECT_SECRET }}'
