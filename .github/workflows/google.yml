@@ -18,6 +18,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  PROJECT_SECRET: ${{ secrets.GKE_DEPLOY_KEY }}
   GAR_LOCATION: us-west1 # TODO: update region of the Artifact Registry
   GKE_CLUSTER: autopilot-cluster-1    # TODO: update to cluster name
   GKE_ZONE: us-west1   # TODO: update to cluster zone
@@ -52,7 +53,7 @@ jobs:
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'
       with:
-        credentials_json: '${{ GKE_DEPLOY_KEY }}'
+        credentials_json: '${{ env.PROJECT_SECRET }}'
 
     - name: Docker configuration
       run: |-
