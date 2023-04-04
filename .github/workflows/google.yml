@@ -48,7 +48,7 @@ jobs:
 
     - name: Docker configuration
       run: |-
-        echo ${{env.PROJECT_SECRET}} | docker login -u _json_key --password-stdin https://$GAR_LOCATION-docker.pkg.dev
+        cat ${{env.PROJECT_SECRET}} | docker login -u _json_key --password-stdin https://$GAR_LOCATION-docker.pkg.dev
     # Get the GKE credentials so we can deploy to the cluster
     - name: Set up GKE credentials
       uses: google-github-actions/get-gke-credentials@v0
