@@ -30,7 +30,7 @@ jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
-    environment: production
+    environment: test
 
     permissions:
       contents: 'read'
@@ -49,11 +49,11 @@ jobs:
         token_format: 'access_token'
     #log into docker registry
     - name: Docker configuration
-    uses: 'docker/login-action@v1'
-    with:
-      registry: $GAR_LOCATION-docker.pkg.dev 
-      username: 'oauth2accesstoken'
-      password: '${{ steps.auth.outputs.access_token }}'
+      uses: 'docker/login-action@v1'
+      with:
+        registry: $GAR_LOCATION-docker.pkg.dev 
+        username: 'oauth2accesstoken'
+        password: '${{ steps.auth.outputs.access_token }}'
     # Get the GKE credentials so we can deploy to the cluster
     - name: Set up GKE credentials
       uses: google-github-actions/get-gke-credentials@v0
