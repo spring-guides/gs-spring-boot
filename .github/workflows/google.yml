@@ -24,7 +24,7 @@ env:
   GKE_ZONE: us-west1   # TODO: update to cluster zone
   DEPLOYMENT_NAME: test-app # TODO: update to deployment name
   REPOSITORY: test # TODO: update to Artifact Registry docker repository
-  IMAGE: test-project
+  IMAGE: test-app
 
 jobs:
   setup-build-publish-deploy:
