@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
 - service.yaml
 - deployment.yaml
-namespace: test-app.sandbox.playground.dev
+namespace: default
 commonLabels:
   app: test-app
