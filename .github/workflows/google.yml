@@ -45,7 +45,7 @@ jobs:
       uses: 'google-github-actions/auth@v0'
       with:
         credentials_json: '${{ env.PROJECT_SECRET }}'
-
+    echo "passed credential loading"
     - name: Docker configuration
       run: |-
         echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://$GAR_LOCATION-docker.pkg.dev
