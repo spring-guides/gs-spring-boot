@@ -42,13 +42,18 @@ jobs:
 
     # Alternative option - authentication via credentials json
     - id: 'auth'
-      uses: 'google-github-actions/auth@v0'
+    name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
       with:
         credentials_json: '${{ env.PROJECT_SECRET }}'
-
+        token_format: 'access_token'
+    #log into docker registry
     - name: Docker configuration
-      run: |-
-        cat ${{env.PROJECT_SECRET}} | docker login -u _json_key --password-stdin https://$GAR_LOCATION-docker.pkg.dev
+    uses: 'docker/login-action@v1'
+    with:
+      registry: $GAR_LOCATION-docker.pkg.dev 
+      username: 'oauth2accesstoken'
+      password: '${{ steps.auth.outputs.access_token }}'
     # Get the GKE credentials so we can deploy to the cluster
     - name: Set up GKE credentials
       uses: google-github-actions/get-gke-credentials@v0
