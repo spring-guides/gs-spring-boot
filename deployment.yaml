@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: test-app
-        image: test-app
+        image: test/test-app
         ports:
         - name: http
           containerPort: 8080
