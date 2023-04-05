@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: test-app
 spec:
-  progressDeadlineSeconds: 30
+  progressDeadlineSeconds: 120
   replicas: 1
   selector:
     matchLabels:
