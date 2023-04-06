@@ -3,12 +3,11 @@ kind: Deployment
 metadata:
   name: test-app
 spec:
-  progressDeadlineSeconds: 120
   replicas: 2
   selector:
     matchLabels:
       app: test-app
-   strategy:
+    strategy:
       type: RollingUpdate
       rollingUpdate:
          maxSurge: 0
