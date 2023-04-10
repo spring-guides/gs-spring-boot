@@ -1,35 +1,43 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: test-app
-spec:
-  ports:
-  - port: 80
-    targetPort: 8080
-    protocol: TCP
-    name: http
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: "apps/v1"
+kind: "Deployment"
 metadata:
-  name: test-app
+  name: "test-app"
+  namespace: "default"
+  labels:
+    app: "test-app"
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      app: test-app
+      app: "test-app"
   template:
     metadata:
       labels:
-        app: test-app
+        app: "test-app"
     spec:
       containers:
-      - name: test-app
-        image: test-app:latest
-        ports:
-        - name: http
-          containerPort: 8080
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
+      - name: "test-app-sha256-1"
+        image: "us-west1-docker.pkg.dev/applied-buckeye-382618/test/test-app@sha256:e73bb74882962828f2168cabd659271af48281b455b738796483b10ad7f48f68"
+---
+apiVersion: "autoscaling/v2"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "test-app-hpa-reva"
+  namespace: "default"
+  labels:
+    app: "test-app"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "test-app"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      target:
+        type: "Utilization"
+        averageUtilization: 80
