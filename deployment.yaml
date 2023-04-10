@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: test-app
-        image: applied-buckeye-382618/test/test-app:latest
+        image: us-west1-docker.pkg.dev/applied-buckeye-382618/test/test-app
         ports:
         - name: http
           containerPort: 8080
