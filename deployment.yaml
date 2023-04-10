@@ -1,24 +1,24 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: test-app
-# spec:
-#   replicas: 2
-#   selector:
-#     matchLabels:
-#       app: test-app
-#   template:
-#     metadata:
-#       labels:
-#         app: test-app
-#     spec:
-#       containers:
-#       - name: test-app
-#         image: us-west1-docker.pkg.dev/applied-buckeye-382618/test/test-app
-#         ports:
-#         - name: http
-#           containerPort: 8080
-#         readinessProbe:
-#           httpGet:
-#             path: /
-#             port: 8080
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-app
+  template:
+    metadata:
+      labels:
+        app: test-app
+    spec:
+      containers:
+      - name: test-app
+        image: us-west1-docker.pkg.dev/applied-buckeye-382618/test/test-app
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
