@@ -83,7 +83,7 @@ jobs:
       # run: kubectl apply -f deployment.yaml
       run: |-
         # add sha to image
-        envsubst '$GITHUB_SHA' < deployment.yaml
+        envsubst '$GITHUB_SHA' < deployment.yaml.tmpl > deplyment.yaml
         # replacing the image name in the k8s template
         ./kustomize edit set image LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
         ./kustomize build . | kubectl apply -f -
