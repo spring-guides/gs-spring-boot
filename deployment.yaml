@@ -17,8 +17,8 @@ spec:
         app: "test-app"
     spec:
       containers:
-      - name: "test-app-sha256-1"
-        image: "us-west1-docker.pkg.dev/applied-buckeye-382618/test/test-app@sha256:e73bb74882962828f2168cabd659271af48281b455b738796483b10ad7f48f68"
+      - name: "test-app"
+        image: "us-west1-docker.pkg.dev/applied-buckeye-382618/test/test-app:latest"
 ---
 apiVersion: "autoscaling/v2"
 kind: "HorizontalPodAutoscaler"
