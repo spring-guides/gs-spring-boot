@@ -12,6 +12,10 @@ repositories {
 	mavenCentral()
 }
 
+springBoot {
+     mainClass = "com.example.springboot.Application"
+}
+
 dependencies {
 	// tag::actuator[]
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
