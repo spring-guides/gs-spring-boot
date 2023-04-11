@@ -8,7 +8,7 @@ COPY test-app/mvnw .
 COPY test-app/.mvn .mvn
 COPY test-app/pom.xml .
 COPY test-app/src src
-RUN chmod +x mvnw
+
 RUN ./mvnw dependency:go-offline
 RUN ./mvnw clean install
  
