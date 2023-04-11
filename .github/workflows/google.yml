@@ -67,9 +67,9 @@ jobs:
       #Run maven unit test
       run: |- 
         cd ${{ env.PROJECT_SRC_ROOT }}
-        chmod +x mvnw
-        ./mvnw -version
-        ./mvnw test
+        chmod +x gradlew
+        ./gradlew -version
+        ./gradlew test
         cd ..
 
     # Build the Docker image
