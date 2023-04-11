@@ -5,5 +5,6 @@ COPY test-app/gradlew .
 COPY test-app/gradle gradle
 COPY test-app/build.gradle .
 RUN ./gradlew bootJar
+RUN ls -a
 COPY target/*.jar *.jar
 ENTRYPOINT ["java","-jar","/*.jar"]
