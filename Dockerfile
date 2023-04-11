@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine as build
+FROM eclipse-temurin:11.0.16_8-jdk-alpine as build
 WORKDIR /temp/test-app
 
 COPY test-app/mvnw .
@@ -10,7 +10,7 @@ RUN chmod +x mvnw
 RUN ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:11.0.16_8-jdk-alpine
 VOLUME /tmp
 ARG DEPENDENCY=/temp/test-app/target/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
