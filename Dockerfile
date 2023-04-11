@@ -1,10 +1,10 @@
 FROM eclipse-temurin:17-jdk-alpine as build
-WORKDIR /
+WORKDIR /temp/test-app
 
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-COPY src src
+COPY test-app/mvnw .
+COPY test-app/.mvn .mvn
+COPY test-app/pom.xml .
+COPY test-app/src src
 
 RUN ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
