@@ -69,7 +69,7 @@ jobs:
         ls
         cd ${{ env.PROJECT_SRC_ROOT }}
         chmod +x mvnw
-        mvnw test
+        ./mvnw test
         cd ..
 
     # Build the Docker image
