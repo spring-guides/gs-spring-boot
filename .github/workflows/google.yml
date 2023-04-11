@@ -66,8 +66,10 @@ jobs:
     - name: Test
       #Run maven unit test
       run: |- 
-        chmod +x ${{ env.PROJECT_SRC_ROOT }}/mvnw
-        ${{ env.PROJECT_SRC_ROOT }}/mvnw test
+        cd ${{ env.PROJECT_SRC_ROOT }}
+        chmod +x mvnw
+        mvnw test
+        cd ..
 
     # Build the Docker image
     - name: Build
