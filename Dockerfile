@@ -4,10 +4,12 @@ RUN addgroup appgroup; adduser --ingroup appgroup --disabled-password apprunner
 USER apprunner
 
 WORKDIR /opt/app
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
+COPY test-app/mvnw .
+COPY test-app/.mvn .mvn
+COPY test-app/pom.xml .
+COPY test-app/src src
+RUN chmod +x mvnw
 RUN ./mvnw dependency:go-offline
-COPY ./src ./src
 RUN ./mvnw clean install
  
 FROM eclipse-temurin:17-jdk-alpine
