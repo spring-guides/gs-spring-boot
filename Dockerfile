@@ -6,6 +6,7 @@ COPY test-app/.mvn .mvn
 COPY test-app/pom.xml .
 COPY test-app/src src
 
+RUN chmod +x mvnw
 RUN ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
