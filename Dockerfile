@@ -7,7 +7,7 @@ COPY test-app/build.gradle .
 RUN ./gradlew dependencies
  
 COPY test-app/src src
-RUN ./gradlew build unpack -x test
+RUN ./gradlew assemble 
 RUN mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
  
 FROM eclipse-temurin:17-jdk-alpine
