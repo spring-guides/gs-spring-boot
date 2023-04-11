@@ -20,24 +20,24 @@ spec:
       - name: "test-app-container"
         image: "test-app"
 ---
-apiVersion: "autoscaling/v2"
-kind: "HorizontalPodAutoscaler"
-metadata:
-  name: "test-app-hpa-reva"
-  namespace: "default"
-  labels:
-    app: "test-app"
-spec:
-  scaleTargetRef:
-    kind: "Deployment"
-    name: "test-app"
-    apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 2
-  metrics:
-  - type: "Resource"
-    resource:
-      name: "cpu"
-      target:
-        type: "Utilization"
-        averageUtilization: 80
+# apiVersion: "autoscaling/v2"
+# kind: "HorizontalPodAutoscaler"
+# metadata:
+#   name: "test-app-hpa-reva"
+#   namespace: "default"
+#   labels:
+#     app: "test-app"
+# spec:
+#   scaleTargetRef:
+#     kind: "Deployment"
+#     name: "test-app"
+#     apiVersion: "apps/v1"
+#   minReplicas: 1
+#   maxReplicas: 2
+#   metrics:
+#   - type: "Resource"
+#     resource:
+#       name: "cpu"
+#       target:
+#         type: "Utilization"
+#         averageUtilization: 80
