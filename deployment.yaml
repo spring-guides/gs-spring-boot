@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: "test-app"
-        image: "placeholder"
+        image: "test-app"
 ---
 apiVersion: "autoscaling/v2"
 kind: "HorizontalPodAutoscaler"
