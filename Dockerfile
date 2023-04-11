@@ -1,5 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine
-VOLUME /tmp
-ARG JAR_FILE
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM openjdk:11
+EXPOSE 8080
+ADD target/test-app.jar test-app.jar
+ENTRYPOINT ["java","-jar","/test-app.jar"]

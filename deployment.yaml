@@ -7,7 +7,7 @@ metadata:
   labels:
     app: "test-app"
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: "test-app"
@@ -33,7 +33,7 @@ spec:
     name: "test-app"
     apiVersion: "apps/v1"
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 2
   metrics:
   - type: "Resource"
     resource:
