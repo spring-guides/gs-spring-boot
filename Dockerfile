@@ -1,5 +1,5 @@
 FROM eclipse-temurin:17-jdk-alpine as build
-WORKDIR /test-app
+WORKDIR /
 
 COPY mvnw .
 COPY .mvn .mvn
