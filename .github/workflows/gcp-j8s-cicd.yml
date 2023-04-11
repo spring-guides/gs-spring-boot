@@ -19,17 +19,17 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   PROJECT_SECRET: ${{ secrets.GKE_DEPLOY_KEY }}
-  GAR_LOCATION: us-west1 # TODO: update region of the Artifact Registry
-  GKE_CLUSTER: autopilot-cluster-1    # TODO: update to cluster name
-  GKE_ZONE: us-west1   # TODO: update to cluster zone
-  DEPLOYMENT_NAME: test-app # TODO: update to deployment name
-  REPOSITORY: test # TODO: update to Artifact Registry docker repository
+  GAR_LOCATION: us-west1 # update region of the Artifact Registry
+  GKE_CLUSTER: autopilot-cluster-1    # update to cluster name
+  GKE_ZONE: us-west1   # update to cluster zone
+  DEPLOYMENT_NAME: test-app # update to deployment name
+  REPOSITORY: test # update to Artifact Registry docker repository
   PROJECT_SRC_ROOT: test-app
   IMAGE: test-app
 
 jobs:
   setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+    name: Test, Build, Publish and Deploy
     runs-on: ubuntu-latest
     environment: test
 
@@ -37,6 +37,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
 
+    #code is in jdk-17 level, springboot 3, veri fanci
     steps:
     - name: Setup jdk-17
       uses: actions/setup-java@main
@@ -102,7 +103,7 @@ jobs:
      
 
       run: |-
-        kubectl set image -f deployment.yaml.tmpl  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA --local -o yaml > deployment.yaml
+        kubectl set image -f deployment.template  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA --local -o yaml > deployment.yaml
         kubectl apply -f ./deployment.yaml
       # run: |-
         # replacing the image name in the k8s template
