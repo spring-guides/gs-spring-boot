@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: "test-app"
-        image: "us-west1-docker.pkg.dev/applied-buckeye-382618/test/test-app:$GITHUB_SHA"
+        image: "us-west1-docker.pkg.dev/applied-buckeye-382618/test/test-app"
 ---
 apiVersion: "autoscaling/v2"
 kind: "HorizontalPodAutoscaler"
