@@ -70,7 +70,7 @@ jobs:
         location: ${{ env.GKE_ZONE }}
 
     #Run test
-    - name: Test
+    - name: Test & Build
       #Run maven unit test
       run: |-
         java --version
@@ -78,16 +78,14 @@ jobs:
         chmod +x gradlew
         ./gradlew -version
         ./gradlew test
-        echo "Test Complete-----"
+        echo "---Test Complete-----"
         ./gradlew bootJar
-        echo "Build complete----"
-        ls -a
+        echo "----Build complete----"
+        ls /build/libs
         cd ..
-        echo "back at project root: "
-        ls -a
 
     # Build the Docker image
-    - name: Build Docker
+    - name: Build Docker Image
       run: |-
         docker build \
           --tag "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA" \
