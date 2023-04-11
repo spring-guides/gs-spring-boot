@@ -10,7 +10,7 @@
 #
 # For more support on how to run the workflow, please visit https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke-kustomize
 
-name: Build and Deploy to GKE
+name: Test, Build, and Deploy to GKE
 
 on:
   push:
@@ -24,6 +24,7 @@ env:
   GKE_ZONE: us-west1   # TODO: update to cluster zone
   DEPLOYMENT_NAME: test-app # TODO: update to deployment name
   REPOSITORY: test # TODO: update to Artifact Registry docker repository
+  PROJECT_SRC_ROOT: test-app
   IMAGE: test-app
 
 jobs:
@@ -60,6 +61,11 @@ jobs:
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_ZONE }}
+
+    #Run test
+    - name: Test
+      #Run maven unit test
+      run: |- ${{ env.PROJECT_SRC_ROOT }}/mvnw test
 
     # Build the Docker image
     - name: Build
