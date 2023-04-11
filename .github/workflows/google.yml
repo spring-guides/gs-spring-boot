@@ -65,7 +65,8 @@ jobs:
     #Run test
     - name: Test
       #Run maven unit test
-      run: |- ${{ env.PROJECT_SRC_ROOT }}/mvnw test
+      run: |- 
+        ${{ env.PROJECT_SRC_ROOT }}/mvnw test
 
     # Build the Docker image
     - name: Build
