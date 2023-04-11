@@ -78,10 +78,16 @@ jobs:
         chmod +x gradlew
         ./gradlew -version
         ./gradlew test
+        echo "Test Complete-----"
+        ./gradlew bootJar
+        echo "Build complete----"
+        ls -a
         cd ..
+        echo "back at project root: "
+        ls -a
 
     # Build the Docker image
-    - name: Build
+    - name: Build Docker
       run: |-
         docker build \
           --tag "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA" \
