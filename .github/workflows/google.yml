@@ -83,8 +83,9 @@ jobs:
       # run: kubectl apply -f deployment.yaml
      
 
-      run: kubectl set image -f deployment.yaml.tmpl  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA --local -o yaml > deployment.yaml
-      run: kubectl apply -f ./deployment.yaml
+      run: |-
+        kubectl set image -f deployment.yaml.tmpl  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA --local -o yaml > deployment.yaml
+        kubectl apply -f ./deployment.yaml
       # run: |-
         # replacing the image name in the k8s template
         # ./kustomize edit set image LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
