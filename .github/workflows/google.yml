@@ -66,6 +66,7 @@ jobs:
     - name: Test
       #Run maven unit test
       run: |- 
+        ls
         cd ${{ env.PROJECT_SRC_ROOT }}
         chmod +x mvnw
         mvnw test
