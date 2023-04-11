@@ -81,7 +81,7 @@ jobs:
         echo "---Test Complete-----"
         ./gradlew bootJar
         echo "----Build complete----"
-        ls /build/libs
+        ls build/libs
         cd ..
 
     # Build the Docker image
