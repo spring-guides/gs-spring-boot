@@ -1,20 +1,19 @@
 FROM eclipse-temurin:17-jdk-alpine as build
-
-WORKDIR /opt/app
-COPY test-app/mvnw .
-COPY test-app/.mvn .mvn
-COPY test-app/pom.xml .
+WORKDIR /workspace/app
+ 
+COPY test-app/gradlew .
+COPY test-app/gradle gradle
+COPY test-app/build.gradle .
+RUN ./gradlew dependencies
+ 
 COPY test-app/src src
-RUN chmod +x mvnw
-RUN ./mvnw dependency:go-offline
-RUN ./mvnw clean install -DskipTests
+RUN ./gradlew build unpack -x test
+RUN mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
  
 FROM eclipse-temurin:17-jdk-alpine
-WORKDIR /opt/app
-EXPOSE 8080
-RUN ls -a /opt/app
-COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
-#Using a local user instead of root
-RUN addgroup appgroup; adduser --ingroup appgroup --disabled-password apprunner
-USER apprunner
-ENTRYPOINT ["java", "-jar", "/opt/app/*.jar" ]
+VOLUME /tmp
+ARG DEPENDENCY=/workspace/app/build/dependency
+COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
+ENTRYPOINT ["java","-cp","app:app/lib/*","Application.class"]
