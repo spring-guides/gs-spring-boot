@@ -31,6 +31,7 @@ jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
+    java: 17
     environment: test
 
     permissions:
@@ -65,7 +66,7 @@ jobs:
     #Run test
     - name: Test
       #Run maven unit test
-      run: |- 
+      run: |-
         java --version
         cd ${{ env.PROJECT_SRC_ROOT }}
         chmod +x gradlew
