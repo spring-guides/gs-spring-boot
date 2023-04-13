@@ -55,7 +55,7 @@ jobs:
       with:
         credentials_json: '${{ env.PROJECT_SECRET }}'
         token_format: 'access_token'
-    #log into docker registry
+    #authenticate into docker registry
     - name: Docker configuration
       uses: 'docker/login-action@v1'
       with:
@@ -107,7 +107,7 @@ jobs:
      
 
       run: |-
-        kubectl set image -f deployment.template  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA --local -o yaml > deployment.yaml
+        kubectl set image -f deployment.template.yaml  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA --local -o yaml > deployment.yaml
         kubectl apply -f ./deployment.yaml
       # run: |-
         # replacing the image name in the k8s template
