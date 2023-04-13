@@ -1,5 +1,3 @@
-[![Test, Build, and Deploy to GKE](https://github.com/xihu-infosys/gs-spring-boot-forked/actions/workflows/gcp-j8s-cicd.yml/badge.svg)](https://github.com/xihu-infosys/gs-spring-boot-forked/actions/workflows/gcp-j8s-cicd.yml)
-
 :spring_boot_version: 2.5.0
 :spring-boot: https://github.com/spring-projects/spring-boot
 :toc:
