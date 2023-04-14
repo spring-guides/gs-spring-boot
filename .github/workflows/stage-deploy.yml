@@ -7,8 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Select a tag'
+        description: 'Enter a tag'
         required: true
+        type: text
 
 
 env:
