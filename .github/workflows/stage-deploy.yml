@@ -94,7 +94,8 @@ jobs:
       with:
         bump_version_scheme: minor
         use_github_release_notes: true
-        max_commits: 100: stage_
+        max_commits: 100
+        tag_prefix: stage_
     - name: get tag-release info
       run: |
         echo "Received stage tag name ${{ steps.tag-release.outputs.tag_name }}"
