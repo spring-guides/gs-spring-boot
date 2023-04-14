@@ -104,7 +104,7 @@ jobs:
     - name: Deploy to GCP K8s cluster
       # run: kubectl apply -f deployment.yaml
       run: |-
-        kubectl set image -f deployment.template.yaml  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ steps.tag-release.outputs.version }} --local -o yaml > deployment.yaml
+        kubectl set image -f deployment.template.cicd.yaml  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ steps.tag-release.outputs.version }} --local -o yaml > deployment.yaml
         kubectl apply -f ./deployment.yaml
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide

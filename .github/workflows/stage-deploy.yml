@@ -1,16 +1,87 @@
-name: Deploy a release to stage
-
-concurrency: stage
+name: Test, Build, and Deploy to Staging Environment
+concurrency: 
+  group: stage
+  cancel-in-progress: true
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Enter a release tag - here comes betsie'
+        required: true
+        type: string
 
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  PROJECT_SECRET: ${{ secrets.GKE_DEPLOY_KEY }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GAR_LOCATION: us-west1 # update region of the Artifact Registry
+  GKE_CLUSTER: autopilot-cluster-1    # update to cluster name
+  GKE_ZONE: us-west1   # update to cluster zone
+  DEPLOYMENT_NAME: test-app-stage # update to deployment name
+  REPOSITORY: test # update to Artifact Registry docker repository
+  PROJECT_SRC_ROOT: test-app
+  IMAGE: test-app-stage
+  
 
 jobs:
-  deployment:
+  setup-build-publish-deploy:
+    name: Test, Build, Publish and Deploy
     runs-on: ubuntu-latest
     environment: stage
+
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+      pull-requests: read
+
+    #code is in jdk-17 level, springboot 3, veri fanci
     steps:
-      - name: getting Artifact
-        run: echo "Begin stage deployment"
-       
+    - name: Setup jdk-17
+      uses: actions/setup-java@main
+      with:
+        java-version: 17
+        distribution: 'adopt'
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with: 
+        ref: '${{ inputs.print_tags }}'
+
+    # Alternative option - authentication via credentials json
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ env.PROJECT_SECRET }}'
+        token_format: 'access_token'
+
+    #authenticate into docker registry
+    - name: Docker configuration
+      uses: 'docker/login-action@v1'
+      with:
+        registry: ${{ env.GAR_LOCATION }}-docker.pkg.dev
+        username: 'oauth2accesstoken'
+        password: '${{ steps.auth.outputs.access_token }}'
+        
+    # Get the GKE credentials so we can deploy to the cluster
+    - name: Set up GKE credentials
+      uses: google-github-actions/get-gke-credentials@v0
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+
+    #Run test
+    - name: Test & Build
+      run: |-
+        java --version
+        cd ${{ env.PROJECT_SRC_ROOT }}
+        chmod +x gradlew
+        ./gradlew -version
+        ./gradlew test
+        echo "---Test Complete-----"
+        ./gradlew bootJar
+        echo "----Build complete----"
+        ls build/libs
+        cd ..

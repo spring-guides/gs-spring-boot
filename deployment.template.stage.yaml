@@ -1,0 +1,43 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "test-app-stage"
+  namespace: "default"
+  labels:
+    app: "test-app-stage"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "test-app-stage"
+  template:
+    metadata:
+      labels:
+        app: "test-app-stage"
+    spec:
+      containers:
+      - name: "test-app-stage-container"
+        image: "test-app-stage-container"
+---
+# apiVersion: "autoscaling/v2"
+# kind: "HorizontalPodAutoscaler"
+# metadata:
+#   name: "test-app-hpa-reva"
+#   namespace: "default"
+#   labels:
+#     app: "test-app"
+# spec:
+#   scaleTargetRef:
+#     kind: "Deployment"
+#     name: "test-app"
+#     apiVersion: "apps/v1"
+#   minReplicas: 1
+#   maxReplicas: 5
+#   metrics:
+#   - type: "Resource"
+#     resource:
+#       name: "cpu"
+#       target:
+#         type: "Utilization"
+#         averageUtilization: 80
