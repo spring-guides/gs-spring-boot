@@ -46,7 +46,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with: 
-        ref: ${{ inputs.print_tags }}
+        fetch-depth: 0
+
+    -name: checkout the release tag
+      run: git checkout ${{ inputs.print_tags }}
 
     # Alternative option - authentication via credentials json
     - id: 'auth'
