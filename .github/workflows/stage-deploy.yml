@@ -7,9 +7,8 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Enter a release tag - here comes betsie'
+        description: 'Select a tag'
         required: true
-        type: string
 
 
 env:
