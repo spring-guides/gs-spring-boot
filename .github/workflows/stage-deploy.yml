@@ -11,6 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     evironment: stage
     steps:
-      -name: getting Artifact
-       run: echo "Begin stage deployment"
+      - name: getting Artifact
+        run: echo "Begin stage deployment"
        
