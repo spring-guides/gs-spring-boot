@@ -46,7 +46,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with: 
-        ref: ref/tags/'${{ inputs.print_tags }}'
+        ref: ${{ inputs.print_tags }}
 
     # Alternative option - authentication via credentials json
     - id: 'auth'
