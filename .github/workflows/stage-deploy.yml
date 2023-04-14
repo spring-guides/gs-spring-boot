@@ -75,6 +75,7 @@ jobs:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_ZONE }}
 
+
     #Run test
     - name: Test & Build
       run: |-
