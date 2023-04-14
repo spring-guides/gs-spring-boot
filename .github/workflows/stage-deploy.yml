@@ -4,11 +4,7 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Select a tag'
-        required: true
+  workflow_dispatch
 
 
 env:
