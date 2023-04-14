@@ -1,15 +1,3 @@
-# This workflow will build a docker container, publish it to Google Container Registry, and deploy it to GKE when there is a push to the "main" branch.
-#
-# To configure this workflow:
-#
-# 1. Ensure that your repository contains the necessary configuration for your Google Kubernetes Engine cluster, including deployment.yml, kustomization.yml, service.yml, etc.
-#
-# 2. Create and configure a Workload Identity Provider for GitHub (https://github.com/google-github-actions/auth#setting-up-workload-identity-federation)
-#
-# 3. Change the values for the GAR_LOCATION, GKE_ZONE, GKE_CLUSTER, IMAGE, REPOSITORY and DEPLOYMENT_NAME environment variables (below).
-#
-# For more support on how to run the workflow, please visit https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke-kustomize
-
 name: Test, Build, and Deploy to GKE
 
 on:
@@ -19,6 +7,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   PROJECT_SECRET: ${{ secrets.GKE_DEPLOY_KEY }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GAR_LOCATION: us-west1 # update region of the Artifact Registry
   GKE_CLUSTER: autopilot-cluster-1    # update to cluster name
   GKE_ZONE: us-west1   # update to cluster zone
@@ -26,6 +15,7 @@ env:
   REPOSITORY: test # update to Artifact Registry docker repository
   PROJECT_SRC_ROOT: test-app
   IMAGE: test-app
+  
 
 jobs:
   setup-build-publish-deploy:
@@ -34,8 +24,9 @@ jobs:
     environment: test
 
     permissions:
-      contents: 'read'
+      contents: 'write'
       id-token: 'write'
+      pull-requests: read
 
     #code is in jdk-17 level, springboot 3, veri fanci
     steps:
@@ -55,6 +46,7 @@ jobs:
       with:
         credentials_json: '${{ env.PROJECT_SECRET }}'
         token_format: 'access_token'
+
     #authenticate into docker registry
     - name: Docker configuration
       uses: 'docker/login-action@v1'
@@ -62,6 +54,7 @@ jobs:
         registry: ${{ env.GAR_LOCATION }}-docker.pkg.dev 
         username: 'oauth2accesstoken'
         password: '${{ steps.auth.outputs.access_token }}'
+        
     # Get the GKE credentials so we can deploy to the cluster
     - name: Set up GKE credentials
       uses: google-github-actions/get-gke-credentials@v0
@@ -101,17 +94,28 @@ jobs:
     #   run: |-
     #     curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
     #     chmod u+x ./kustomize
+
+    #tag release, using github release notes and version# control
+    - id: tag-release
+      uses: rymndhng/release-on-push-action@master
+      with:
+        bump_version_scheme: minor
+        use_github_release_notes: true
+        max_commits: 100
+    - name: get tag-release info
+        run: |
+          echo "Received tag name ${{ steps.release.outputs.tag_name }}"
+          echo "Received release version ${{ steps.release.outputs.version }}"
+
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       # run: kubectl apply -f deployment.yaml
-     
-
       run: |-
         kubectl set image -f deployment.template.yaml  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA --local -o yaml > deployment.yaml
         kubectl apply -f ./deployment.yaml
+        kubectl rollout status deployment/$DEPLOYMENT_NAME
+        kubectl get services -o wide
       # run: |-
         # replacing the image name in the k8s template
         # ./kustomize edit set image LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
         # ./kustomize build . | kubectl apply -f -
-        # kubectl rollout status deployment/$DEPLOYMENT_NAME
-        # kubectl get services -o wide
