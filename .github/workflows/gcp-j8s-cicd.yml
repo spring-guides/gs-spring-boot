@@ -64,7 +64,6 @@ jobs:
 
     #Run test
     - name: Test & Build
-      #Run maven unit test
       run: |-
         java --version
         cd ${{ env.PROJECT_SRC_ROOT }}
@@ -76,24 +75,6 @@ jobs:
         echo "----Build complete----"
         ls build/libs
         cd ..
-
-    # Build the Docker image
-    - name: Build Docker Image
-      run: |-
-        docker build \
-          --tag "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
-          .
-    # Push the Docker image to Google Artifact Registry
-    - name: Publish
-      run: |-
-        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
-    # Set up kustomize
-    # - name: Set up Kustomize
-    #   run: |-
-    #     curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-    #     chmod u+x ./kustomize
 
     #tag release, using github release notes and version# control
     - id: tag-release
@@ -107,11 +88,23 @@ jobs:
         echo "Received tag name ${{ steps.tag-release.outputs.tag_name }}"
         echo "Received release version ${{ steps.tag-release.outputs.version }}"
 
+     # Build Docker image
+    - name: Build Docker Image
+      run: |-
+        docker build \
+          --tag "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:${{ steps.tag-release.outputs.version }}" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          .
+    # Push the Docker image to Google Artifact Registry
+    - name: Publish
+      run: |-
+        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
     # Deploy the Docker image to the GKE cluster
-    - name: Deploy
+    - name: Deploy to GCP K8s cluster
       # run: kubectl apply -f deployment.yaml
       run: |-
-        kubectl set image -f deployment.template.yaml  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA --local -o yaml > deployment.yaml
+        kubectl set image -f deployment.template.yaml  test-app-container=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ steps.tag-release.outputs.version }} --local -o yaml > deployment.yaml
         kubectl apply -f ./deployment.yaml
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
