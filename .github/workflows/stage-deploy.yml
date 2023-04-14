@@ -91,16 +91,17 @@ jobs:
 
     #tag release, using github release notes and version# control
     - id: tag-release
-      uses: rymndhng/release-on-push-action@master
-      with:
-        bump_version_scheme: minor
-        use_github_release_notes: true
-        max_commits: 100
-        tag_prefix: stage_
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: stage_${{ github.event.inputs.tag }}
+          release_name: Stage Release ${{ github.event.inputs.tag }}
+          
     - name: get tag-release info
       run: |
-        echo "Received stage tag name ${{ steps.tag-release.outputs.tag_name }}"
-        echo "Received stage release version ${{ steps.tag-release.outputs.version }}"
+        echo "Received stage tag name ${{ steps.tag-release.outputs.id }}"
+        echo "Received stage release version ${{ steps.tag-release.outputs.id }}"
 
      # Build Docker image
     - name: Build Docker Image
