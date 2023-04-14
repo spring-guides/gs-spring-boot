@@ -1,4 +1,4 @@
-name: deploy a release to stage
+name: Deploy a release to stage
 
 concurrency: stage
 
@@ -9,7 +9,7 @@ on:
 jobs:
   deployment:
     runs-on: ubuntu-latest
-    evironment: stage
+    environment: stage
     steps:
       - name: getting Artifact
         run: echo "Begin stage deployment"
