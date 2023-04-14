@@ -103,9 +103,9 @@ jobs:
         use_github_release_notes: true
         max_commits: 100
     - name: get tag-release info
-        run: |
-          echo "Received tag name ${{ steps.release.outputs.tag_name }}"
-          echo "Received release version ${{ steps.release.outputs.version }}"
+      run: |
+        echo "Received tag name ${{ steps.release.outputs.tag_name }}"
+        echo "Received release version ${{ steps.release.outputs.version }}"
 
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
