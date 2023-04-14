@@ -99,7 +99,7 @@ jobs:
     # Push the Docker image to Google Artifact Registry
     - name: Publish
       run: |-
-        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
+        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ steps.tag-release.outputs.version }}"
     # Deploy the Docker image to the GKE cluster
     - name: Deploy to GCP K8s cluster
       # run: kubectl apply -f deployment.yaml
