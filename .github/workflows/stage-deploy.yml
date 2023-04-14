@@ -87,3 +87,24 @@ jobs:
         echo "----Build complete----"
         ls build/libs
         cd ..
+
+    #tag release, using github release notes and version# control
+    - id: tag-release
+      uses: rymndhng/release-on-push-action@master
+      with:
+        bump_version_scheme: minor
+        use_github_release_notes: true
+        max_commits: 100: stage_
+    - name: get tag-release info
+      run: |
+        echo "Received stage tag name ${{ steps.tag-release.outputs.tag_name }}"
+        echo "Received stage release version ${{ steps.tag-release.outputs.version }}"
+
+     # Build Docker image
+    - name: Build Docker Image
+      run: |-
+        docker build \
+          --tag "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:${{ steps.tag-release.outputs.version }}" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          .
