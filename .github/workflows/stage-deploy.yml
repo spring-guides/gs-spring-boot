@@ -1,0 +1,16 @@
+name: deploy a release to stage
+
+concurrency: stage
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    evironment: stage
+    steps:
+      -name: getting Artifact
+       run: echo "Begin stage deployment"
+       
