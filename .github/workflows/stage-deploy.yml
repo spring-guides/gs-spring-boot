@@ -4,7 +4,11 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Select a tag'
+        required: true
 
 
 env:
@@ -45,7 +49,7 @@ jobs:
         fetch-depth: 0
 
     - name: checkout the release tag
-      run: git checkout ${{ inputs.print_tags }}
+      run: git checkout ${{ inputs.tag }}
 
     # Alternative option - authentication via credentials json
     - id: 'auth'
