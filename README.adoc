@@ -410,6 +410,10 @@ Spring Boot does this by dynamically adding key annotations to your code and usi
 http://www.groovy-lang.org/Grape[Groovy Grape] to pull down the libraries that are needed
 to make the app run.
 
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_mainhead.adoc[]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_with_both.adoc[]
+
 == Summary
 
 Congratulations! You built a simple web application with Spring Boot and learned how it
