@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '3.1.0'
-	id 'io.spring.dependency-management' version '1.1.0'
-	id 'java'
+        id 'org.springframework.boot' version '3.1.0'
+        id 'io.spring.dependency-management' version '1.1.0'
+        id 'java'
 }
 
 group = 'com.example'
@@ -9,19 +9,25 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-	mavenCentral()
+        mavenCentral()
 }
 
 dependencies {
-	// tag::actuator[]
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	// end::actuator[]
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	// tag::tests[]
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
-	// end::tests[]
+        // tag::actuator[]
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        // end::actuator[]
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        // tag::tests[]
+        testImplementation('org.springframework.boot:spring-boot-starter-test')
+        // end::tests[]
+        // Encryption 
+        implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.6.1'
+
+        // MFA
+        implementation 'com.okta.authn.sdk:okta-authn-sdk-api:1.0.0'
+        implementation('com.okta.authn.sdk:okta-authn-sdk-impl:1.0.0')
 }
 
 test {
-	useJUnitPlatform()
+        useJUnitPlatform()
 }
