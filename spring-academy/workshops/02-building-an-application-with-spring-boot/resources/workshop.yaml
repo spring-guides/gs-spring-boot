@@ -1,0 +1,78 @@
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: spring-guides-building-an-application-with-spring-boot
+spec:
+  title: Building an Application with Spring Boot
+  description: "Building an Application with Spring Boot"
+  workshop:
+    image: jdk17-environment:*
+    files:
+      - image: # Note: format is {repository-name}-files
+          url: $(image_repository)/spring-guides-files:latest
+        includePaths:
+          - /workshops/02-building-an-application-with-spring-boot/workshop/**
+        newRootPath: workshops/02-building-an-application-with-spring-boot
+      - path: .local/share/code-server/extensions
+        image:
+          url: ghcr.io/vmware-tanzu-learning/vscode-java-extensions-$(platform_arch)-files:2.1.0
+  session:
+    namespaces:
+      budget: medium
+    resources:
+      memory: 2Gi
+    applications:
+      terminal:
+        enabled: true
+        layout: split
+      editor:
+        enabled: true
+    dashboards:
+      - name: Spring Initializr
+        url: "$(ingress_protocol)://initializr-$(session_namespace).$(ingress_domain)"
+    ingresses:
+      - name: initializr
+        protocol: http
+        host: initializr.$(workshop_namespace).svc.cluster.local
+        port: 8080
+  environment:
+    objects:
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: initializr
+          labels:
+            app: initializr
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: initializr
+          template:
+            metadata:
+              labels:
+                app: initializr
+            spec:
+              containers:
+                - name: dashboard
+                  image: ghcr.io/vmware-tanzu-labs/educates-spring-initializr:2.0
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                    - name: 8080-tcp
+                      containerPort: 8080
+                      protocol: TCP
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          name: initializr
+          labels:
+            app: initializr
+        spec:
+          type: ClusterIP
+          selector:
+            app: initializr
+          ports:
+            - name: 8080-tcp
+              port: 8080
+              targetPort: 8080
+              protocol: TCP

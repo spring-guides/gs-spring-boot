@@ -1,0 +1,25 @@
+name: "Deploy to Penguin Production"
+run-name: Deploy Penguin Content and Metadata from ${{ github.ref_name }} to Production
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+**"
+
+jobs:
+  build:
+    name: Deploy to Penguin (Production)
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Deploy content
+        env:
+          PENGUINCTL_APIURL: ${{ secrets.PENGUINCTL_APIURL }}
+          PENGUINCTL_APITOKEN: ${{ secrets.PENGUINCTL_APITOKEN }}
+        run: |
+          cd spring-academy
+          make deploy

@@ -1,0 +1,28 @@
+modules:
+  01-overview:
+    name: "Overview"
+    exit_sign: Continue
+  02-learn-what-you-can-do:
+    name: "Learn What You Can Do with Spring Boot"
+    exit_sign: Continue
+  03-starting-with-spring-initializr:
+    name: "Starting with Spring Initializr"
+    exit_sign: Continue
+  04-create-web-application:
+    name: "Create a Simple Web Application"
+    exit_sign: Continue
+  05-run-application:
+    name: "Run the Application"
+    exit_sign: Continue
+  06-add-tests:
+    name: "Add Tests"
+    exit_sign: Continue
+  07-production-services:
+    name: "Add Production-grade Services"
+    exit_sign: Continue
+  08-executable-jar:
+    name: "Build an executable JAR or WAR"
+    exit_sign: Continue
+  99-summary:
+    name: "Summary"
+    exit_sign: Finish

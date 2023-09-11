@@ -1,0 +1,12 @@
+name: Building an Application with Spring Boot
+modules:
+  activate:
+    - 01-overview
+    - 02-learn-what-you-can-do
+    - 03-starting-with-spring-initializr
+    - 04-create-web-application
+    - 05-run-application
+    - 06-add-tests
+    - 07-production-services
+    - 08-executable-jar
+    - 99-summary

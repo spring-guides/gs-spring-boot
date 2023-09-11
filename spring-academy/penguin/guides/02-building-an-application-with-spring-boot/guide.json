@@ -1,0 +1,16 @@
+{
+  "id": "spring-academy-guides-building-an-application-with-spring-boot",
+  "slug": "building-an-application-with-spring-boot",
+  "title": "Building an Application with Spring Boot",
+  "status": "live",
+  "type": "lab",
+  "duration": 3600,
+  "entitlements": ["auth"],
+  "instructors": [],
+  "level": "beginner",
+  "topics": ["java", "spring-boot", "web"],
+  "settings": {
+    "educates": "spring-guides-building-an-application-with-spring-boot",
+    "manualCompletion": true
+  }
+}

@@ -1,0 +1,78 @@
+To run the application, use the **Editor**: . Find the
+`SpringbootApplication.java` file . Right-click and select the **Run
+Java** option in the context menu.
+
+You should see output similar to the following:
+
+```text
+Let's inspect the beans provided by Spring Boot:
+applicationAvailability
+applicationTaskExecutor
+basicErrorController
+beanNameHandlerMapping
+beanNameViewResolver
+characterEncodingFilter
+commandLineRunner
+...
+org.springframework.boot.autoconfigure.AutoConfigurationPackages
+org.springframework.boot.autoconfigure.aop.AopAutoConfiguration
+org.springframework.boot.autoconfigure.aop.AopAutoConfiguration$ClassProxyingConfiguration
+org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration
+org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration
+org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration
+org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration
+org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration
+org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration$StringHttpMessageConverterConfiguration
+org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration
+org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration$MappingJackson2HttpMessageConverterConfiguration
+org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration
+org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$Jackson2ObjectMapperBuilderCustomizerConfiguration
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonMixinConfiguration
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperBuilderConfiguration
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperConfiguration
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$ParameterNamesModuleConfiguration
+org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration
+org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration
+org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration
+org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration
+org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration
+org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration
+org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration$TomcatWebServerFactoryCustomizerConfiguration
+org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletConfiguration
+org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration
+org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryConfiguration$EmbeddedTomcat
+org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration
+org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter
+org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$DefaultErrorViewResolverConfiguration
+org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration
+org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration
+org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration$TomcatWebSocketConfiguration
+...
+tomcatServletWebServerFactory
+tomcatServletWebServerFactoryCustomizer
+tomcatWebServerFactoryCustomizer
+viewControllerHandlerMapping
+viewNameTranslator
+viewResolver
+webServerFactoryCustomizerBeanPostProcessor
+websocketServletWebServerCustomizer
+welcomePageHandlerMapping
+welcomePageNotAcceptableHandlerMapping
+```
+
+You can clearly see `org.springframework.boot.autoconfigure` beans.
+There is also a `tomcatServletWebServerFactory`.
+
+Now run the service with curl (in the **Terminal** window), by running
+the following command (shown with its output):
+
+    $ curl localhost:8080
+    Greetings from Spring Boot!

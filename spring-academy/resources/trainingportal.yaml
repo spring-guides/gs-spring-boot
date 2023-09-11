@@ -1,0 +1,14 @@
+apiVersion: training.educates.dev/v1beta1
+kind: TrainingPortal
+metadata:
+  name: spring-academy
+spec:
+  portal:
+    registration:
+      type: anonymous
+    updates:
+      workshop: true
+    sessions:
+      maximum: 15
+  workshops:
+    - name: spring-guides-building-an-application-with-spring-boot
