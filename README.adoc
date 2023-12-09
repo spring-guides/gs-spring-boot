@@ -1,4 +1,4 @@
-:spring_boot_version: 2.5.0
+:spring_boot_version: 3.1.0
 :spring-boot: https://github.com/spring-projects/spring-boot
 :toc:
 :icons: font
@@ -19,7 +19,7 @@ it.
 
 == What You Need
 
-:java_version: 1.8
+:java_version: 17
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/how_to_complete_this_guide.adoc[]
@@ -54,7 +54,7 @@ them to your application context.
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.5.5&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=spring-boot&name=spring-boot&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.spring-boot&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion=17&groupId=com.example&artifactId=spring-boot&name=spring-boot&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.spring-boot&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
 To manually initialize the project:
 
@@ -247,7 +247,7 @@ configured automatically in the base URL for the `TestRestTemplate`.
 If you are building a web site for your business, you probably need to add some management
 services. Spring Boot provides several such services (such as health, audits, beans, and
 more) with its
-http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready[actuator module].
+http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#actuator[actuator module].
 
 If you use Gradle, add the following dependency to your `build.gradle` file:
 
@@ -352,7 +352,7 @@ http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingl
 You can see them all
 https://github.com/spring-projects/spring-boot/tree/main/spring-boot-project/spring-boot-starters[here in source code].
 
-== JAR Support and Groovy Support
+== JAR Support
 
 The last example showed how Spring Boot lets you wire beans that you may not be aware you
 need. It also showed how to turn on convenient management services.
@@ -362,55 +362,6 @@ deployments but also lets you put together executable JARs, thanks to Spring Boo
 module. The various guides demonstrate this dual support through the
 `spring-boot-gradle-plugin` and `spring-boot-maven-plugin`.
 
-On top of that, Spring Boot also has Groovy support, letting you build Spring MVC web
-applications with as little as a single file.
-
-Create a new file called `app.groovy` and put the following code in it:
-
-====
-[source,java]
-----
-@RestController
-class ThisWillActuallyRun {
-
-    @GetMapping("/")
-    String home() {
-        return "Hello, World!"
-    }
-
-}
-----
-====
-
-NOTE: It does not matter where the file is. You can even fit an application that small
-inside a https://twitter.com/rob_winch/status/364871658483351552[single tweet]!
-
-Next, https://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#getting-started-installing-the-cli[install Spring Boot's CLI].
-
-Run the Groovy application by running the following command:
-
-====
-[source,bash]
-----
-$ spring run app.groovy
-----
-====
-
-NOTE: Shut down the previous application, to avoid a port collision.
-
-From a different terminal window, run the following curl command (shown with its output):
-
-====
-[source,bash]
-----
-$ curl http://localhost:8080
-Hello, World!
-----
-====
-
-Spring Boot does this by dynamically adding key annotations to your code and using
-http://www.groovy-lang.org/Grape[Groovy Grape] to pull down the libraries that are needed
-to make the app run.
 
 == Summary
 
