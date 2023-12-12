@@ -69,6 +69,8 @@ NOTE: If your IDE has the Spring Initializr integration, you can complete this p
 
 NOTE: You can also fork the project from Github and open it in your IDE or other editor.
 
+NOTE: For Spring 3.0 you need Java 17 or later, regardless of whether you use Spring Initializr.
+
 [[initial]]
 == Create a Simple Web Application
 
@@ -113,7 +115,7 @@ To run the application, run the following command in a terminal window (in the `
 directory:
 
 ====
-[subs="attributes"]
+[source,text]
 ----
 ./gradlew bootRun
 ----
@@ -123,7 +125,7 @@ If you use Maven, run the following command in a terminal window (in the `comple
 directory:
 
 ====
-[subs="attributes"]
+[source,text]
 ----
 ./mvnw spring-boot:run
 ----
@@ -180,7 +182,7 @@ command (shown with its output):
 ====
 [source,text]
 ----
-$ curl localhost:8080
+$ curl http://localhost:8080
 Greetings from Spring Boot!
 ----
 ====
@@ -320,7 +322,7 @@ You can check the health of the application by running the following command:
 ====
 [source,bash]
 ----
-$ curl localhost:8080/actuator/health
+$ curl http://localhost:8080/actuator/health
 {"status":"UP"}
 ----
 ====
@@ -331,7 +333,7 @@ added the necessary line (shown in the preceding note) to `application.propertie
 ====
 [source,bash]
 ----
-$ curl -X POST localhost:8080/actuator/shutdown
+$ curl -X POST http://localhost:8080/actuator/shutdown
 {"timestamp":1401820343710,"error":"Not Found","status":404,"message":"","path":"/actuator/shutdown"}
 ----
 ====
@@ -359,6 +361,7 @@ However, Spring Boot does more than that. It supports not only traditional WAR f
 deployments but also lets you put together executable JARs, thanks to Spring Boot's loader
 module. The various guides demonstrate this dual support through the
 `spring-boot-gradle-plugin` and `spring-boot-maven-plugin`.
+
 
 == Summary
 
