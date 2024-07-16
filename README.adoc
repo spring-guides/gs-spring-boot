@@ -229,12 +229,12 @@ narrow it down if you want to build something different.
 As well as mocking the HTTP request cycle, you can also use Spring Boot to write a simple
 full-stack integration test. For example, instead of (or as well as) the mock test shown
 earlier, we could create the following test (from
-`src/test/java/com/example/springboot/HelloControllerIT.java`):
+`src/test/java/com/example/springboot/HelloControllerITest.java`):
 
 ====
 [source,java]
 ----
-include::complete/src/test/java/com/example/springboot/HelloControllerIT.java[]
+include::complete/src/test/java/com/example/springboot/HelloControllerITest.java[]
 ----
 ====
 
