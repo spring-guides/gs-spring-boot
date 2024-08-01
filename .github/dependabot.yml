@@ -21,7 +21,7 @@ updates:
       - "/initial"
       - "/complete"
     ignore:
-      - dependency-name: "org.springframework.*"
+      - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
     schedule:
       interval: "monthly"
