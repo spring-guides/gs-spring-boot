@@ -1,4 +1,4 @@
-name: gs-spring-boot-suriya
+name: gs-spring-boot-suriya  #suriya-main
 
 on:
   workflow_dispatch:
