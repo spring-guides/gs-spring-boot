@@ -22,7 +22,7 @@ jobs:
       - name: "set up Maven"
         uses: actions/setup-java@v4
         with:
-          maven-version: 3.8.2
+          maven-version: 4.0.0
 
       - name: "build jar with maven"
         run: |
