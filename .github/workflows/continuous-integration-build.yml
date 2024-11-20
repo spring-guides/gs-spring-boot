@@ -1,13 +1,91 @@
-name: CI Build
+name: gs-spring-boot-suriya
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
+    push:
+      branches:
+        -main
 
 jobs:
-  build:
-    uses: spring-guides/getting-started-macros/.github/workflows/build_initial_complete_maven_gradle.yml@main
+  deploy-gs-spring-boot-suriya:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "checkout to branch"
+        uses: actions/checkout@v4
+
+      - name: "setting up java 17"
+        uses: actions/checkout@v4
+        with:
+          distribution: "Spring Boot"
+          java-version: "17"
+
+      - name: "set up Maven"
+        uses: actions/setup-java@v4
+        with:
+          maven-version: 3.8.2
+
+      - name: "build jar with maven"
+        run: |
+          #!/bin/bash
+          
+          mvn package --file pom.xml
+        shell: bash
+
+      - name: "Building docker image"
+        run: |
+          #!/bin/bash
+          
+          docker build -t spring-boot .
+          shell: bash
+
+      - name: "Setup GCP SDK"
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: "Configure Service Account"
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: "${{ secrets.SERVICE_ACCOUNT_CREDS }}"
+
+      - name: "Configure k8 component"
+        run: |
+          #!/bin/bash
+          
+          gcloud components install kubectl gke-gcloud-auth-plugin
+          
+          gcloud config set project prefab-icon-441814-j7
+          
+          gcloud config set compute/region us-central1
+          
+          gcloud container clusters get-credentials surya-gke-cluster --region=us-central1
+          
+          kubectl version --client
+        shell: bash
+
+      - name: "Setting up Docker Credentials"
+        run: |
+          #!/bin/bash
+          
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+        shell: bash
+
+      - name: "Upload image to gcp artifacts"
+        run: |
+          #!/bin/bash
+          
+          docker tag spring-boot:latest us-central1-docker.pkg.dev/prefab-icon-441814-j7/surya-artifact/spring-boot:latest
+          
+          docker push us-central1-docker.pkg.dev/prefab-icon-441814-j7/surya-artifact/spring-boot:latest
+
+      - name: "Create spring-boot stream deployment"
+        run: |
+          #!/bin/bash
+          
+          kubectl apply -f deployment.yml --validate=false
+          kubectl rollout restart deployment
+          
+          shell: bash
+          working-directory: deployment-k8
+          
+
+
+

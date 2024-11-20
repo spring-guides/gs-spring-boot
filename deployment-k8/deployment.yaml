@@ -1,0 +1,71 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: springboot-deployment
+  namespace: surya-namespace
+spec:
+  replicas: 15
+  revisionHistoryLimit: 5
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      run: springboot-deployment
+  template:
+    metadata:
+      labels:
+        run: springboot-deployment
+    spec:
+      containers:
+        - name: springboot-deployment
+          image: us-central1-docker.pkg.dev/prefab-icon-441814-j7/surya-artifact/spring-boot:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: APP_NAME
+              value: surya-gcp-streams
+            - name: ENV_PROFILE
+              value: TEST
+          resources:
+            limits:
+              cpu: 600m
+              memory: 2Gi
+            requests:
+              cpu: 90m
+              memory: 1Gi
+          livenessProbe:
+            exec:
+              command:
+                - /bin/true
+            initial Delay Seconds: 120
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 5
+            timeoutSeconds: 30
+          readinessProbe:
+            exec:
+              command:
+                - /bin/true
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 5
+            timeoutSeconds: 30
+          securityContext:
+            runAsUser: 1005
+            capabilities:
+              drop:
+                - KILL
+                - MKNOD
+                - SYS_CHROOT
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      schedulerName: default-scheduler
