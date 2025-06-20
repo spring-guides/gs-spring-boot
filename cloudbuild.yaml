@@ -30,7 +30,3 @@ steps:
   id: Deploy
 images:
 - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/ramzi-spring-boot-repo/gs-spring-boot:$COMMIT_SHA'
-
-
-options:
-  logsBucket: 'gs://gs-spring-boot-build-logs-weighty-diorama' 
