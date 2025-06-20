@@ -1,0 +1,32 @@
+steps:
+# Build the Docker image
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'build'
+    - '-t'
+    - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/ramzi-spring-boot-repo/gs-spring-boot:$COMMIT_SHA'
+    - '.'
+  id: Build
+# Push the Docker image to Google Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'push'
+    - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/ramzi-spring-boot-repo/gs-spring-boot:$COMMIT_SHA'
+  id: Push
+
+# Deploy the image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+    - 'run'
+    - 'deploy'
+    - 'gs-spring-boot-service' # Dein Cloud Run Service Name
+    - '--image'
+    - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/ramzi-spring-boot-repo/gs-spring-boot:$COMMIT_SHA'
+    - '--allow-unauthenticated' # Erlaubt öffentlichen Zugriff. Entferne dies für private Apps.
+    - '--platform'
+    - 'managed'
+    - '--region'
+    - 'europe-west1' # Deine gewünschte Region
+  id: Deploy
+images:
+- 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/ramzi-spring-boot-repo/gs-spring-boot:$COMMIT_SHA'
