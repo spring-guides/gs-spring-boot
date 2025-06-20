@@ -9,5 +9,5 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080 # Expose the port your Spring Boot app listens on (default 8080)
+EXPOSE 8080 # <-- NUR DIE PORTNUMMER, KEIN KOMMENTAR HIER
 ENTRYPOINT ["java","-jar","app.jar"]
