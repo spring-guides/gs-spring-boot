@@ -30,3 +30,8 @@ steps:
   id: Deploy
 images:
 - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/ramzi-spring-boot-repo/gs-spring-boot:$COMMIT_SHA'
+
+# Füge diesen Abschnitt GENAU HIER hinzu, auf der gleichen Einrückungsebene wie 'steps' und 'images'
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+# Beachte: 'logsBucket' wird hier NICHT direkt angegeben, Cloud Build sucht den Bucket selbst in der Region.
