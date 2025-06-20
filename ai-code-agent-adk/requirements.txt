@@ -1,5 +1,5 @@
-google-adk
+google-adk>=1.4.0 # Ensure you get a recent version, or a specific stable one
 google-cloud-secret-manager
 google-cloud-build
 requests
-google-cloud-aiplatform # For Vertex AI Gemini
+google-cloud-aiplatform
