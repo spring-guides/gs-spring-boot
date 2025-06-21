@@ -26,9 +26,11 @@ steps:
   - '--allow-unauthenticated'
   - '--service-account'
   - 'ai-code-agent@weighty-diorama-463514-a1.iam.gserviceaccount.com'
-  - '--timeout=600s'
-  - '--memory=2G'
-  - '--cpu=1'
+  - '--timeout=600s' # This is the Cloud Run *request* timeout (up to 10 minutes)
+  - '--memory=16Gi' # KEEP THIS at 16GB, as previous attempts showed OOM even with 2GB
+  - '--cpu=4'      # KEEP THIS at 4 cores, as more processing power can help startup
+  # --- ADD THESE GUNICORN ENVIRONMENT VARIABLES ---
+  - '--set-env-vars=GUNICORN_TIMEOUT=300,GUNICORN_WORKERS=1,GUNICORN_THREADS=8'
   env:
   - 'PROJECT_ID=weighty-diorama-463514-a1'
 
