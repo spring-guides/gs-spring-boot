@@ -1,41 +1,38 @@
-# cloudbuild.yaml in your repository root
-
 steps:
-# This step builds your Docker image
 - name: 'gcr.io/cloud-builders/docker'
   args:
-    - 'build'
-    - '-t'
-    - 'gcr.io/$PROJECT_ID/ai-code-agent-adk-image:latest'
-    - '--build-arg=GOOGLE_ENTRYPOINT=python main.py' # This arg isn't strictly needed if CMD in Dockerfile is python main.py
-    - '.' # Build context is the current directory (repo root)
-  dir: 'ai-code-agent-adk' # IMPORTANT: Set the working directory for this step to your app's folder
-
-# This step deploys the built image to Cloud Run
+  - 'build'
+  - '-t'
+  # Update the image tag here to point to Artifact Registry
+  - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/cloud-run-source-deploy/ai-code-agent-adk-image:latest'
+  - '.'
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'push'
+  # Update the image to push to Artifact Registry
+  - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/cloud-run-source-deploy/ai-code-agent-adk-image:latest'
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
-    - 'run'
-    - 'deploy'
-    - 'ai-code-agent-adk-service' # Your Cloud Run service name
-    - '--image'
-    - 'gcr.io/$PROJECT_ID/ai-code-agent-adk-image:latest'
-    - '--platform'
-    - 'managed'
-    - '--region'
-    - 'europe-west1' # Your region
-    - '--allow-unauthenticated' # Or --no-allow-unauthenticated
-    - '--timeout=600s' # 10 minutes timeout
-    - '--memory=2G' # Or 4G
-    - '--cpu=1' # Ensure at least 1 CPU
+  - 'run'
+  - 'deploy'
+  - 'ai-code-agent-adk-service'
+  - '--image'
+  # Update the image used for deployment to Cloud Run
+  - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/cloud-run-source-deploy/ai-code-agent-adk-image:latest'
+  - '--platform'
+  - 'managed'
+  - '--region'
+  - 'europe-west1'
+  - '--allow-unauthenticated'
+  - '--service-account'
+  - 'ai-code-agent@weighty-diorama-463514-a1.iam.gserviceaccount.com'
+  - '--timeout=600s'
+  - '--memory=2G'
+  - '--cpu=1'
+  env:
+  - 'PROJECT_ID=weighty-diorama-463514-a1'
 
-options:
-  # This is the CRUCIAL part to fix the logging error
-  # It explicitly tells Cloud Build to send logs to Cloud Logging only,
-  # bypassing the need for specific bucket permissions for your custom SA.
-  logging: CLOUD_LOGGING_ONLY
-
-# Optional: If you want to use a specific service account for this build
-# (e.g., ai-code-agent@...) uncomment and specify.
-# If you leave this out, Cloud Build will use its default service account,
-# which is generally fine and has permissions for CLOUD_LOGGING_ONLY.
-# serviceAccount: 'projects/weighty-diorama-463514-a1/serviceAccounts/ai-code-agent@weighty-diorama-463514-a1.iam.gserviceaccount.com'
+images:
+# This section tells Cloud Build to automatically push this image after the build step.
+# It should also reflect the Artifact Registry path.
+- 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/cloud-run-source-deploy/ai-code-agent-adk-image:latest'
