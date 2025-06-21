@@ -5,7 +5,6 @@ FROM python:3.13-slim-bookworm
 WORKDIR /app
 
 # Copy requirements.txt and install dependencies
-# This step is cached by Docker if requirements.txt doesn't change
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -18,16 +17,11 @@ COPY . .
 ENV PORT 8080
 EXPOSE 8080
 
-# Command to run your application
-# This directly executes your main.py
+# --- Set Gunicorn environment variables for ADK's internal server ---
+ENV GUNICORN_TIMEOUT=300
+ENV GUNICORN_WORKERS=1
+ENV GUNICORN_THREADS=8
+
+# Command to run your application.
+# This directly executes your main.py, and adk.run_server will start the web server.
 CMD ["python", "main.py"]
-
-# For Gunicorn + Uvicorn:
-CMD ["gunicorn", "-w", "1", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:8080"]
-# Make sure your main.py uses os.environ.get('PORT') correctly for the port:
-# `port = int(os.environ.get("PORT", "8080"))` and then use `port` in bind.
-# So the CMD might be:
-# CMD ["gunicorn", "-w", "1", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:" + os.environ.get("PORT", "8080")]
-
-# OR, if just using uvicorn directly (less common for production):
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "$PORT", "--workers", "1"]

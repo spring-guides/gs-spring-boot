@@ -3,13 +3,11 @@ steps:
   args:
   - 'build'
   - '-t'
-  # Update the image tag here to point to Artifact Registry
   - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/cloud-run-source-deploy/ai-code-agent-adk-image:latest'
   - '.'
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'push'
-  # Update the image to push to Artifact Registry
   - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/cloud-run-source-deploy/ai-code-agent-adk-image:latest'
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
@@ -17,7 +15,6 @@ steps:
   - 'deploy'
   - 'ai-code-agent-adk-service'
   - '--image'
-  # Update the image used for deployment to Cloud Run
   - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/cloud-run-source-deploy/ai-code-agent-adk-image:latest'
   - '--platform'
   - 'managed'
@@ -26,15 +23,14 @@ steps:
   - '--allow-unauthenticated'
   - '--service-account'
   - 'ai-code-agent@weighty-diorama-463514-a1.iam.gserviceaccount.com'
-  - '--timeout=600s' # This is the Cloud Run *request* timeout (up to 10 minutes)
-  - '--memory=16Gi' # KEEP THIS at 16GB, as previous attempts showed OOM even with 2GB
-  - '--cpu=4'      # KEEP THIS at 4 cores, as more processing power can help startup
-  # --- ADD THESE GUNICORN ENVIRONMENT VARIABLES ---
-  - '--set-env-vars=GUNICORN_TIMEOUT=300,GUNICORN_WORKERS=1,GUNICORN_THREADS=8'
+  - '--timeout=600s'
+  - '--memory=16Gi'
+  - '--cpu=4'
+  # Remove --set-env-vars here as they are now in Dockerfile
+  # If you prefer to keep them here for visibility/override, it's fine,
+  # but the Dockerfile is generally where container-specific ENV vars belong.
   env:
   - 'PROJECT_ID=weighty-diorama-463514-a1'
 
 images:
-# This section tells Cloud Build to automatically push this image after the build step.
-# It should also reflect the Artifact Registry path.
 - 'europe-west1-docker.pkg.dev/weighty-diorama-463514-a1/cloud-run-source-deploy/ai-code-agent-adk-image:latest'
