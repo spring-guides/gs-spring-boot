@@ -11,6 +11,7 @@ This phase focuses on setting up the foundational project structure for the Plan
 
 2. **Package and Directory Structure**
    - Created the base package `com.planespotter` and relevant sub-packages for domain, application, and infrastructure layers.
+   - Removed any remnants of the old `com.example` package.
 
 3. **Java File Placeholders**
    - Created empty Java files with package declarations as placeholders for future implementation.
