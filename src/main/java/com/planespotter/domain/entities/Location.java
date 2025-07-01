@@ -1,0 +1,1 @@
+package com.planespotter.domain.entities;
