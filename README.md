@@ -22,5 +22,10 @@ This phase focuses on setting up the foundational project structure for the Plan
 - This phase does not include any functional code implementation.
 - The project is set up to adhere to Clean Architecture principles, ensuring a clear separation of concerns.
 
+## Phase 2: Entities and Use Cases Implementation
+
+### Objective
+- Implement the core domain entities and application-specific use cases for the "Plane Spotter Application" backend.
+
 ### Next Phase
-- The next phase will involve implementing the entities and use cases within the established structure.
+- The next phase will involve completing the API layer, database persistence, and architectural tests.
