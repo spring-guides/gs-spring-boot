@@ -27,5 +27,17 @@ This phase focuses on setting up the foundational project structure for the Plan
 ### Objective
 - Implement the core domain entities and application-specific use cases for the "Plane Spotter Application" backend.
 
+### Tasks Completed
+
+1. **Domain Entities**
+   - Implemented `Flight`, `AircraftType`, `Airport`, and `Location` entities with Lombok annotations for brevity.
+
+2. **Use Cases**
+   - Developed use cases: `GetFlightsByAirport`, `FilterFlightsByAircraftType`, and `AnalyzeDepartureFrequency`.
+
+3. **Infrastructure Setup**
+   - Defined `FlightDataGateway` and `FlightRepository` interfaces.
+   - Implemented `MockFlightDataApiImpl` for mock data provision.
+
 ### Next Phase
 - The next phase will involve completing the API layer, database persistence, and architectural tests.
