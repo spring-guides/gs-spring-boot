@@ -1,17 +1,14 @@
 package com.planespotter.application.use_cases;
 
-import com.planespotter.domain.entities.Flight;
 import org.springframework.stereotype.Service;
+import com.planespotter.domain.entities.Flight;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FilterFlightsByAircraftType {
-
     public List<Flight> execute(List<Flight> flights, String aircraftIcaoCode) {
-        return flights.stream()
-                .filter(flight -> aircraftIcaoCode.equals(flight.getAircraftIcao()))
-                .collect(Collectors.toList());
+        // Implement logic to filter flights by aircraftIcaoCode
+        return flights;
     }
 }
