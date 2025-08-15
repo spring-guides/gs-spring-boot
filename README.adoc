@@ -10,7 +10,7 @@ application development. As you read more Spring Getting Started guides, you wil
 use cases for Spring Boot. This guide is meant to give you a quick taste of Spring Boot.
 If you want to create your own Spring Boot-based project, visit
 https://start.spring.io/[Spring Initializr], fill in your project details, pick your
-options, and download a bundled up project as a zip file.
+options, and download a bundled-up project as a zip file.
 
 == What You Will build
 
@@ -60,27 +60,32 @@ To manually initialize the project:
 
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java.
+. Choose either Gradle or Maven and the language you want to use.
 . Click *Dependencies* and select *Spring Web*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 
-NOTE: You can also fork the project from Github and open it in your IDE or other editor.
+NOTE: You can also fork the project from GitHub and open it in your IDE or other editor.
 
 NOTE: For Spring 3.0 you need Java 17 or later, regardless of whether you use Spring Initializr.
 
 [[initial]]
 == Create a Simple Web Application
 
-Now you can create a web controller for a simple web application, as the following listing
-(from `src/main/java/com/example/springboot/HelloController.java`) shows:
+Now you can create a web controller for a simple web application, as the following listing shows:
 
 ====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::initial/src/main/java/com/example/springboot/HelloController.java[]
+----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::initial-kotlin/src/main/kotlin/com/example/springboot/HelloController.kt[]
 ----
 ====
 
@@ -93,19 +98,24 @@ results in web requests returning data rather than a view.
 == Create an Application class
 
 The Spring Initializr creates a simple application class for you. However, in this case,
-it is too simple. You need to modify the application class to match the following listing
-(from `src/main/java/com/example/springboot/Application.java`):
+it is too simple. You need to modify the application class to match the following listing:
 
 ====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/com/example/springboot/Application.java[]
+----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/springboot/Application.kt[]
 ----
 ====
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/spring-boot-application-new-path.adoc[]
 
-There is also a `CommandLineRunner` method marked as a `@Bean`, and this runs on start up.
+There is also a `CommandLineRunner` method marked as a `@Bean`, and this runs on startup.
 It retrieves all the beans that were created by your application or that were
 automatically added by Spring Boot. It sorts them and prints them out.
 
@@ -176,7 +186,7 @@ viewControllerHandlerMapping
 
 You can clearly see `org.springframework.boot.autoconfigure` beans. There is also a `tomcatEmbeddedServletContainerFactory`.
 
-Now run the service with curl (in a separate terminal window), by running the following
+Now run the service with curl (in a separate terminal window) by running the following
 command (shown with its output):
 
 ====
@@ -192,12 +202,20 @@ Greetings from Spring Boot!
 You will want to add a test for the endpoint you added, and Spring Test provides some
 machinery for that.
 
-If you use Gradle, add the following dependency to your `build.gradle` file:
+If you use Gradle, add the following dependency to your `build.gradle(.kts)` file:
 
-[source,groovy,indent=0]
+====
+[source,groovy,indent=0,subs="verbatim,quotes",role="primary"]
+.Groovy
 ----
 include::complete/build.gradle[tag=tests]
 ----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/build.gradle.kts[tag=tests]
+----
+====
 
 If you use Maven, add the following to your `pom.xml` file:
 
@@ -207,13 +225,18 @@ include::complete/pom.xml[tag=tests]
 ----
 
 Now write a simple unit test that mocks the servlet request and response through your
-endpoint, as the following listing (from
-`src/test/java/com/example/springboot/HelloControllerTest.java`) shows:
+endpoint, as the following listing shows:
 
 ====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/test/java/com/example/springboot/HelloControllerTest.java[]
+----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/test/kotlin/com/example/springboot/HelloControllerTest.kt[]
 ----
 ====
 
@@ -228,13 +251,18 @@ narrow it down if you want to build something different.
 
 As well as mocking the HTTP request cycle, you can also use Spring Boot to write a simple
 full-stack integration test. For example, instead of (or as well as) the mock test shown
-earlier, we could create the following test (from
-`src/test/java/com/example/springboot/HelloControllerITest.java`):
+earlier, we could create the following test:
 
 ====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/test/java/com/example/springboot/HelloControllerITest.java[]
+----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/test/kotlin/com/example/springboot/HelloControllerITest.kt[]
 ----
 ====
 
@@ -244,17 +272,25 @@ configured automatically in the base URL for the `TestRestTemplate`.
 
 == Add Production-grade Services
 
-If you are building a web site for your business, you probably need to add some management
+If you are building a website for your business, you probably need to add some management
 services. Spring Boot provides several such services (such as health, audits, beans, and
 more) with its
 http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#actuator[actuator module].
 
-If you use Gradle, add the following dependency to your `build.gradle` file:
+If you use Gradle, add the following dependency to your `build.gradle(.kts)` file:
 
-[source,groovy,indent=0]
+====
+[source,groovy,indent=0,subs="verbatim,quotes",role="primary"]
+.Groovy
 ----
 include::complete/build.gradle[tag=actuator]
 ----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/build.gradle.kts[tag=actuator]
+----
+====
 
 If you use Maven, add the following dependency to your `pom.xml` file:
 
@@ -283,8 +319,8 @@ directory):
 ----
 ====
 
-You should see that a new set of RESTful end points have been added to the application.
-These are management services provided by Spring Boot. The following listing shows typical
+You should see that a new set of RESTful end points has been added to the application.
+These are management services provided by Spring Boot. The following listing shows a typical
 output:
 
 ====
@@ -342,7 +378,7 @@ Because we did not enable it, the requested endpoint is not available (because t
 exist).
 
 For more details about each of these REST endpoints and how you can tune their settings
-with an `application.properties` file (in `src/main/resources`), see the
+with an `application.properties` file (in `src/main/resources`), see
 the http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#production-ready-endpoints[documentation about the endpoints].
 
 == View Spring Boot's Starters

@@ -13,9 +13,13 @@ repositories {
     mavenCentral()
 }
 dependencies {
+    // tag::actuator[]
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    // end::actuator[]
     implementation("org.springframework.boot:spring-boot-starter-web")
+    // tag::tests[]
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // end::tests[]
 }
 
 kotlin {
