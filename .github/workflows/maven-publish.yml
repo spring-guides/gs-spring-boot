@@ -34,3 +34,12 @@ jobs:
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml  --file initial/pom.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: target/*.jar
+        asset_name: your-artifact.jar
+        asset_content_type: application/java-archive
