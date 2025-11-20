@@ -60,7 +60,7 @@ To manually initialize the project:
 
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use: Kotlin or Java.
+. Choose either Gradle or Maven and the language you want to use.
 . Click *Dependencies* and select *Spring Web*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
@@ -68,8 +68,6 @@ This service pulls in all the dependencies you need for an application and does 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 
 NOTE: You can also fork the project from GitHub and open it in your IDE or other editor.
-
-NOTE: For Spring 3.0 you need Java 17 or later, regardless of whether you use Spring Initializr.
 
 [[initial]]
 == Create a Simple Web Application
@@ -146,43 +144,17 @@ You should see output similar to the following:
 ----
 Let's inspect the beans provided by Spring Boot:
 application
+applicationAvailability
+applicationTaskExecutor
+applicationTaskExecutorAsyncConfigurer
+basicErrorController
 beanNameHandlerMapping
-defaultServletHandlerMapping
-dispatcherServlet
-embeddedServletContainerCustomizerBeanPostProcessor
-handlerExceptionResolver
-helloController
-httpRequestHandlerAdapter
-messageSource
-mvcContentNegotiationManager
-mvcConversionService
-mvcValidator
-org.springframework.boot.autoconfigure.MessageSourceAutoConfiguration
-org.springframework.boot.autoconfigure.PropertyPlaceholderAutoConfiguration
-org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration
-org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration$DispatcherServletConfiguration
-org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration$EmbeddedTomcat
-org.springframework.boot.autoconfigure.web.ServerPropertiesAutoConfiguration
-org.springframework.boot.context.embedded.properties.ServerProperties
-org.springframework.context.annotation.ConfigurationClassPostProcessor.enhancedConfigurationProcessor
-org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor
-org.springframework.context.annotation.internalAutowiredAnnotationProcessor
-org.springframework.context.annotation.internalCommonAnnotationProcessor
-org.springframework.context.annotation.internalConfigurationAnnotationProcessor
-org.springframework.context.annotation.internalRequiredAnnotationProcessor
-org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration
-propertySourcesBinder
-propertySourcesPlaceholderConfigurer
-requestMappingHandlerAdapter
-requestMappingHandlerMapping
-resourceHandlerMapping
-simpleControllerHandlerAdapter
-tomcatEmbeddedServletContainerFactory
-viewControllerHandlerMapping
+beanNameViewResolver
+...
 ----
 ====
 
-You can clearly see `org.springframework.boot.autoconfigure` beans. There is also a `tomcatEmbeddedServletContainerFactory`.
+You can see `org.springframework.boot.autoconfigure` beans. There is also a `tomcatServletWebServerFactory` one.
 
 Now run the service with curl (in a separate terminal window) by running the following
 command (shown with its output):
