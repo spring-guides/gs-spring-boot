@@ -5,7 +5,8 @@ pipeline {
         TELEGRAM_CHAT_ID = credentials('telegram_chat_id')
     }
     tools {
-        maven 'MAVEN_HOME'
+        maven 'Maven 3.3.9'
+        jdk 'jdk8'
     }
     stages {
         stage('Pre-build') {
