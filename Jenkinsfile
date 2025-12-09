@@ -19,7 +19,7 @@ pipeline {
         },
         stage('Post-build'){
             steps {
-                archiveArtifacts artifacts: '**/*.txt'
+                archiveArtifacts artifacts: '**/*.jar'
             }
         },
     post {
