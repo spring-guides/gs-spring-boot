@@ -10,22 +10,23 @@ pipeline {
                 echo 'Preparing to build...'
                 sh  'curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_ID -d text="Start pipline"'
             }
-        },
+        }
         stage('Build') {
             steps {
                 echo 'Building...'
                 mvn clean install
             }
-        },
+        }
         stage('Post-build'){
             steps {
                 archiveArtifacts artifacts: '**/*.jar'
             }
-        },
+        }
+    }
     post {
         success {
             sh  'curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_ID -d text="Pipline success"'
-            },
+            }
         failure {
             sh  'curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_ID -d text="Pipline failed"'
              }
