@@ -1,21 +1,21 @@
 package com.example.springboot
 
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.client.getForEntity
+import org.springframework.test.web.servlet.client.RestTestClient
+import org.springframework.test.web.servlet.client.expectBody
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class HelloControllerITest {
-
-    @Autowired
-    private lateinit var template: TestRestTemplate
+@AutoConfigureRestTestClient
+class HelloControllerITest @Autowired constructor(private val client: RestTestClient) {
 
     @Test
     fun getHello() {
-        val response = template.getForEntity<String>("/")
-        assertThat(response.body).isEqualTo("Greetings from Spring Boot!")
+        client.get().uri("/")
+            .exchangeSuccessfully()
+            .expectBody<String>()
+            .isEqualTo("Greetings from Spring Boot!")
     }
 }

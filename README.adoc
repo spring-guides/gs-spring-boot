@@ -54,7 +54,7 @@ them to your application context.
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&&packaging=jar&jvmVersion=17&groupId=com.example&artifactId=spring-boot&name=spring-boot&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.springboot&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=gradle-project&language=java&packaging=jar&jvmVersion=17&groupId=com.example&artifactId=spring-boot&packageName=com.example.springboot&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
 To manually initialize the project:
 
@@ -238,7 +238,7 @@ include::complete-kotlin/src/test/kotlin/com/example/springboot/HelloControllerI
 
 The embedded server starts on a random port because of
 `webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT`, and the actual port is
-configured automatically in the base URL for the `TestRestTemplate`.
+configured automatically in the base URL for the `RestTestClient`.
 
 == Add Production-grade Services
 
