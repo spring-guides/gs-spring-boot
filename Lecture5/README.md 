@@ -1,0 +1,16 @@
+## Nginx on Ubuntu
+1. Add PPA repo for nginx.![Alt text](Lecture5/images/AddNginxPPA.png)
+2. Detect not Found version of nginx-stable.![Alt text](Lecture5/images/404NginxStable.png)
+3. Remove Not found nginx version this PPA.![Alt text](Lecture5/images/PpaPurgeNginxStable.png)
+4. The NGINX PPAs are no longer used for 22.04 or 24.04. That's why I use ondrej/nginx
+5. Install Nginx with ppa release.![Alt text](Lecture5/images/InstallNginxPPA.png)
+6. Start Nginx.![Alt text](Lecture5/images/NginxHomePage.png)
+5. Service run with command `systemctl start nginx`. In the nginx.server we can find description of behavior on the start.![Alt text](Lecture5/images/NginxServer.png)
+6. Systemd run Nginx master process.![Alt text](Lecture5/images/SystemdRunMater.png)
+7. Open descriptor of master process.![Alt text](Lecture5/images/OpenDescriptors.png):
+- 0 - redirect stdin to /dev/null
+- 1 - redirect stdout to /dev/null
+- 2,3,4 - log files
+All others sockets connected to the specific port
+8. Reading logs `sudo tail -n 50 /var/log/nginx/access.log`.![Alt text](Lecture5/images/ReadNginxLogs.png)
+9. Changed access log file path in "/etc/nginx/nginx.conf" than use `sudo systemctl reload nginx` to reload configuration.![Alt text](Lecture5/images/ChangeNginxLogPath.png)
