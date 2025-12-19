@@ -9,14 +9,14 @@ import org.springframework.context.annotation.Bean
 @SpringBootApplication
 class Application {
 
-    @Bean
-    fun commandLineRunner(ctx: ApplicationContext) = CommandLineRunner {
-        println("Let's inspect the beans provided by Spring Boot:")
-        val beanNames = ctx.beanDefinitionNames
-        beanNames.sorted().forEach { println(it) }
-    }
+  @Bean
+  fun commandLineRunner(ctx: ApplicationContext) = CommandLineRunner {
+    println("Let's inspect the beans provided by Spring Boot:")
+    val beanNames = ctx.beanDefinitionNames
+    beanNames.sorted().forEach { println(it) }
+  }
 }
 
 fun main(args: Array<String>) {
-    runApplication<Application>(*args)
+  runApplication<Application>(*args)
 }

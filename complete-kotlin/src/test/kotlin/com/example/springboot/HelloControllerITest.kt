@@ -11,11 +11,11 @@ import org.springframework.test.web.servlet.client.expectBody
 @AutoConfigureRestTestClient
 class HelloControllerITest @Autowired constructor(private val client: RestTestClient) {
 
-    @Test
-    fun getHello() {
-        client.get().uri("/")
-            .exchangeSuccessfully()
-            .expectBody<String>()
-            .isEqualTo("Greetings from Spring Boot!")
-    }
+  @Test
+  fun getHello() {
+    client.get().uri("/")
+      .exchangeSuccessfully()
+      .expectBody<String>()
+      .isEqualTo("Greetings from Spring Boot!")
+  }
 }

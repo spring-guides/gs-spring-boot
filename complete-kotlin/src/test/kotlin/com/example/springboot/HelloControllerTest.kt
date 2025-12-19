@@ -12,13 +12,13 @@ import org.springframework.test.web.servlet.get
 @AutoConfigureMockMvc
 class HelloControllerTest @Autowired constructor(private val mvc: MockMvc) {
 
-    @Test
-    fun getHello() {
-        mvc.get("/") {
-            accept(MediaType.APPLICATION_JSON)
-        }.andExpect {
-            status { isOk() }
-            content { string("Greetings from Spring Boot!") }
-        }
+  @Test
+  fun getHello() {
+    mvc.get("/") {
+      accept(MediaType.APPLICATION_JSON)
+    }.andExpect {
+      status { isOk() }
+      content { string("Greetings from Spring Boot!") }
     }
+  }
 }
