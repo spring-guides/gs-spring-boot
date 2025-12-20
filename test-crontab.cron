@@ -1,0 +1,2 @@
+# Run script every day at 2 AM
+0 2 * * * /media/sf_jenkins-project/gs-spring-boot/cron-backup.sh

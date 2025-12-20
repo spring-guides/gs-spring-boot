@@ -1,0 +1,9 @@
+[Unit]
+Description=Check website availability and write result to a log file
+
+[Service]
+Type=oneshot
+ExecStart=/media/sf_jenkins-project/gs-spring-boot/health-check.sh
+
+[Install]
+WantedBy=multi-user.target
