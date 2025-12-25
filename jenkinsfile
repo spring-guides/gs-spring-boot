@@ -1,43 +1,57 @@
-pipeline {
-agent any
-stages {
-stage(&#39;build&#39;) {
-steps {
-sh &#39;&#39;&#39;
-cd initial
-./mvnw package
-&#39;&#39;&#39;
-}
-}
-stage(&#39;deploy&#39;) {
-steps {
-sh &#39;&#39;&#39;
-USER=petclinicapp
-GROUP=petclinicapp
-S3_BUCKET=petclinicapp
-BUILD_FILE_NAME=petclinicapp-v1.jar
-LOCAL_FILE_PATH=/home/$USER/$BUILD_FILE_NAME
-aws s3 cp $WORKSPACE/initial/target/$BUILD_FILE_NAME s3://$S3_BUCKET
-output=$(aws ec2 describe-instances \
---filter &quot;Name=tag:appname,Values=petclinic&quot; &quot;Name=instance-state-name,Values=running&quot; \
 
---query &quot;Reservations[*].Instances[*].[InstanceId,PublicIpAddress]&quot; \
---output json)
-ips=$(echo &quot;$output&quot; | jq -r &#39;.[][][1]&#39;)
-echo &quot;$ips&quot;
-for ip in $ips; do
-echo &quot;-----------------------------------------------------&quot;
-echo &quot;Connecting to $ip&quot;
-ssh -o StrictHostKeyChecking=no -i /home/jenkins/petclinicappkey.pem ubuntu@$ip &lt;&lt; EOF
-sudo aws s3 cp s3://$S3_BUCKET/$BUILD_FILE_NAME $LOCAL_FILE_PATH
-sudo systemctl restart petclinicapp.service
-echo &quot;Running command on $ip&quot;
-echo &quot;-----------------------------------------------------&quot;
-EOF
-done
-&#39;&#39;&#39;
-}
-}
-}
-}
+pipeline {
+    agent any
+
+    environment {
+        USER = 'petclinicapp'
+        GROUP = 'petclinicapp'
+        S3_BUCKET = 'petclinicapp'
+        BUILD_FILE_NAME = 'petclinicapp-v1.jar'
+        LOCAL_FILE_PATH = "/home/${USER}/${BUILD_FILE_NAME}"
+        KEY_FILE = "/home/jenkins/petclinicappkey.pem"
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    sh '''
+                        cd initial
+                        ./mvnw clean package
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    sh '''
+                        # Upload artifact to S3
+                        aws s3 cp $WORKSPACE/initial/target/$BUILD_FILE_NAME s3://$S3_BUCKET
+
+                        # Fetch EC2 instance IPs
+                        output=$(aws ec2 describe-instances \
+                            --filters "Name=tag:appname,Values=petclinic" "Name=instance-state-name,Values=running" \
+                            --query "Reservations[*].Instances[*].[InstanceId,PublicIpAddress]" \
+                            --output json)
+                        ips=$(echo "$output" | jq -r '.[][][1]')
+                        echo "EC2 IPs: $ips"
+
+                        # Deploy artifact on each instance
+                        for ip in $ips; do
+                            echo "-----------------------------------------------------"
+                            echo "Deploying to $ip"
+                            ssh -o StrictHostKeyChecking=no -i $KEY_FILE ubuntu@$ip << EOF
+                                sudo aws s3 cp s3://$S3_BUCKET/$BUILD_FILE_NAME $LOCAL_FILE_PATH
+                                sudo systemctl restart petclinicapp.service
+                                echo "Deployment completed on $ip"
+                            EOF
+                            echo "-----------------------------------------------------"
+                        done
+                    '''
+                }
+            }
+        }
+    }
 }
