@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.get
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class HelloControllerTest @Autowired constructor(private val mvc: MockMvc) {
+class HelloControllerTest(@Autowired private val mvc: MockMvc) {
 
   @Test
   fun getHello() {
