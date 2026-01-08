@@ -1,13 +1,12 @@
-
 pipeline {
     agent any
 
     environment {
-        // Define your variables here
-        BUILD_FILE_NAME = 'spring-boot-initial-0.0.1-SNAPSHOT.jar'  // Maven JAR name
-        S3_BUCKET = 'petclinicapp'                                   // S3 bucket name
-        KEY_FILE = '/path/to/your/key.pem'                           // SSH key for EC2
-        LOCAL_FILE_PATH = '/home/ubuntu/petclinicapp/petclinicapp.jar' // Path on EC2
+        // Build artifact details
+        BUILD_FILE_NAME = 'spring-boot-initial-0.0.1-SNAPSHOT.jar'
+        S3_BUCKET = 'petclinicappmybucket'   // <-- your created bucket name
+        KEY_FILE = '/home/labuser/petclinic-key.pem'   // <-- SSH private key for EC2
+        LOCAL_FILE_PATH = '/home/ubuntu/petclinicapp/petclinicapp.jar' // path on EC2
     }
 
     stages {
@@ -33,7 +32,7 @@ pipeline {
                         # Upload artifact to S3
                         aws s3 cp \$WORKSPACE/initial/target/\$BUILD_FILE_NAME s3://\$S3_BUCKET
 
-                        # Fetch EC2 instance IPs
+                        # Fetch running EC2 instance IPs with tag appname=petclinic
                         output=\$(aws ec2 describe-instances \\
                             --filters "Name=tag:appname,Values=petclinic" "Name=instance-state-name,Values=running" \\
                             --query "Reservations[*].Instances[*].[InstanceId,PublicIpAddress]" \\
@@ -41,12 +40,21 @@ pipeline {
                         ips=\$(echo "\$output" | jq -r '.[][][1]')
                         echo "EC2 IPs: \$ips"
 
-                        # Deploy artifact on each instance
+                        # Deploy artifact on each EC2 instance
                         for ip in \$ips; do
                             echo "-----------------------------------------------------"
                             echo "Deploying to \$ip"
                             ssh -o StrictHostKeyChecking=no -i \$KEY_FILE ubuntu@\$ip << EOF
+                                # Ensure AWS CLI is installed on EC2
+                                if ! command -v aws &> /dev/null; then
+                                    echo "AWS CLI not found on \$ip"
+                                    exit 1
+                                fi
+
+                                # Download artifact from S3 to EC2
                                 sudo aws s3 cp s3://\$S3_BUCKET/\$BUILD_FILE_NAME \$LOCAL_FILE_PATH
+
+                                # Restart Spring Boot service
                                 sudo systemctl restart petclinicapp.service
                                 echo "Deployment completed on \$ip"
                             EOF
