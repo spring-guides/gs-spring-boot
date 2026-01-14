@@ -2,23 +2,20 @@ pipeline {
     agent any
 
     environment {
-        // Define your variables here
-        BUILD_FILE_NAME = 'spring-boot-initial-0.0.1-SNAPSHOT.jar'  // Maven JAR name
-        S3_BUCKET = 'petclinicappmybucket'                          // <-- your created bucket name
+        USER = 'petclinicapp'
+        GROUP = 'petclinicapp'
+        S3_BUCKET = 'petclinicappmy'
+        BUILD_FILE_NAME = 'petclinicapp-v1.jar'
+        LOCAL_FILE_PATH = "/home/${USER}/${BUILD_FILE_NAME}"
+        SSH_KEY = '/home/jenkins/petclinicappkey.pem'
     }
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/hinakeshar1234/gs-spring-boot.git', branch: 'main'
-            }
-        }
-
         stage('Build') {
             steps {
                 dir('initial') {
-                    sh './mvnw clean package'
+                    sh './mvnw package'
                 }
             }
         }
@@ -26,22 +23,43 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
+                    // Upload to S3
                     sh """
-                        # Upload artifact to S3
-                        aws s3 cp \$WORKSPACE/initial/target/\$BUILD_FILE_NAME s3://\$S3_BUCKET
-                        echo "Artifact uploaded to S3 bucket: \$S3_BUCKET"
+                        aws s3 cp ${WORKSPACE}/initial/target/${BUILD_FILE_NAME} s3://${S3_BUCKET}/
                     """
+
+                    // Get running EC2 instances with tag appname=petclinic
+                    def output = sh(
+                        script: """
+                            aws ec2 describe-instances \
+                            --filters "Name=tag:appname,Values=petclinic" "Name=instance-state-name,Values=running" \
+                            --query "Reservations[*].Instances[*].[InstanceId,PublicIpAddress]" \
+                            --output json
+                        """,
+                        returnStdout: true
+                    ).trim()
+
+                    def ips = sh(
+                        script: "echo '${output}' | jq -r '.[][][1]'",
+                        returnStdout: true
+                    ).trim().split("\n")
+
+                    // Loop through EC2 IPs
+                    for (ip in ips) {
+                        echo "-----------------------------------------------------"
+                        echo "Connecting to ${ip}"
+
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ubuntu@${ip} << 'EOF'
+                                sudo aws s3 cp s3://${S3_BUCKET}/${BUILD_FILE_NAME} ${LOCAL_FILE_PATH}
+                                sudo systemctl restart petclinicapp.service
+                                echo "App deployed and restarted on ${ip}"
+                            EOF
+                        """
+                        echo "-----------------------------------------------------"
+                    }
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Check logs for details.'
         }
     }
 }
