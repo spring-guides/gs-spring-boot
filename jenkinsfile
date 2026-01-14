@@ -1,29 +1,27 @@
-
 pipeline {
     agent any
 
     environment {
-        USER = 'petclinicapp'
-        GROUP = 'petclinicapp'
-        S3_BUCKET = 'petclinicappmy'
+        S3_BUCKET = 'petclinicapp-bucket'
         BUILD_FILE_NAME = 'petclinicapp-v1.jar'
-        LOCAL_FILE_PATH = "/home/${USER}/${BUILD_FILE_NAME}"
-        SSH_KEY = '/var/lib/jenkins/petclinicappkey.pem' // Updated path
+        LOCAL_FILE_PATH = '/home/petclinicapp/petclinicapp-v1.jar'
+        SSH_KEY = '/home/jenkins/petclinicappkey.pem'
     }
 
     stages {
 
         stage('Checkout SCM') {
             steps {
-                echo "Checking out code from GitHub..."
-                git branch: 'main', url: 'https://github.com/hinakeshar1234/gs-spring-boot.git'
+                echo 'Checking out code from GitHub...'
+                git branch: 'main',
+                    url: 'https://github.com/hinakeshar1234/gs-spring-boot.git'
             }
         }
 
         stage('Build') {
             steps {
                 dir('initial') {
-                    echo "Building project using Maven wrapper..."
+                    echo 'Building project using Maven wrapper...'
                     sh './mvnw clean package'
                 }
             }
@@ -32,37 +30,37 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    echo "Uploading JAR to S3..."
-                    sh "aws s3 cp ${WORKSPACE}/initial/target/${BUILD_FILE_NAME} s3://${S3_BUCKET}/"
+                    echo 'Uploading JAR to S3...'
+                    sh """
+                        aws s3 cp \
+                        ${WORKSPACE}/initial/target/${BUILD_FILE_NAME} \
+                        s3://${S3_BUCKET}/${BUILD_FILE_NAME}
+                    """
 
-                    echo "Fetching running EC2 instances with tag appname=petclinic..."
-                    def output = sh(
+                    echo 'Fetching running EC2 instances...'
+                    def ips = sh(
                         script: """
                             aws ec2 describe-instances \
-                            --filters "Name=tag:appname,Values=petclinic" "Name=instance-state-name,Values=running" \
-                            --query "Reservations[*].Instances[*].[InstanceId,PublicIpAddress]" \
-                            --output json
+                            --filters "Name=tag:appname,Values=petclinic" \
+                                      "Name=instance-state-name,Values=running" \
+                            --query "Reservations[*].Instances[*].PublicIpAddress" \
+                            --output text
                         """,
                         returnStdout: true
-                    ).trim()
-
-                    def ips = sh(
-                        script: "echo '${output}' | jq -r '.[][][1]'",
-                        returnStdout: true
-                    ).trim().split("\n")
+                    ).trim().split()
 
                     for (ip in ips) {
-                        echo "-----------------------------------------------------"
-                        echo "Deploying to EC2 instance: ${ip}"
+                        echo "Deploying to EC2: ${ip}"
 
                         sh """
-                            ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ubuntu@${ip} << 'EOF'
-                                sudo aws s3 cp s3://${S3_BUCKET}/${BUILD_FILE_NAME} ${LOCAL_FILE_PATH}
+                            ssh -o StrictHostKeyChecking=no \
+                            -i ${SSH_KEY} ubuntu@${ip} << EOF
+                                sudo aws s3 cp \
+                                s3://${S3_BUCKET}/${BUILD_FILE_NAME} \
+                                ${LOCAL_FILE_PATH}
                                 sudo systemctl restart petclinicapp.service
-                                echo "App deployed and restarted on ${ip}"
                             EOF
                         """
-                        echo "-----------------------------------------------------"
                     }
                 }
             }
@@ -71,10 +69,10 @@ pipeline {
 
     post {
         success {
-            echo "Pipeline completed successfully!"
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            echo "Pipeline failed! Check console output for details."
+            echo 'Pipeline failed! Check console logs.'
         }
     }
 }
