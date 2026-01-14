@@ -8,15 +8,23 @@ pipeline {
         S3_BUCKET = 'petclinicappmy'
         BUILD_FILE_NAME = 'petclinicapp-v1.jar'
         LOCAL_FILE_PATH = "/home/${USER}/${BUILD_FILE_NAME}"
-        SSH_KEY = '/home/jenkins/petclinicappkey.pem'
+        SSH_KEY = '/var/lib/jenkins/petclinicappkey.pem' // Updated path
     }
 
     stages {
 
+        stage('Checkout SCM') {
+            steps {
+                echo "Checking out code from GitHub..."
+                git branch: 'main', url: 'https://github.com/hinakeshar1234/gs-spring-boot.git'
+            }
+        }
+
         stage('Build') {
             steps {
                 dir('initial') {
-                    sh './mvnw package'
+                    echo "Building project using Maven wrapper..."
+                    sh './mvnw clean package'
                 }
             }
         }
@@ -24,12 +32,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Upload to S3
-                    sh """
-                        aws s3 cp ${WORKSPACE}/initial/target/${BUILD_FILE_NAME} s3://${S3_BUCKET}/
-                    """
+                    echo "Uploading JAR to S3..."
+                    sh "aws s3 cp ${WORKSPACE}/initial/target/${BUILD_FILE_NAME} s3://${S3_BUCKET}/"
 
-                    // Get running EC2 instances with tag appname=petclinic
+                    echo "Fetching running EC2 instances with tag appname=petclinic..."
                     def output = sh(
                         script: """
                             aws ec2 describe-instances \
@@ -45,10 +51,9 @@ pipeline {
                         returnStdout: true
                     ).trim().split("\n")
 
-                    // Loop through EC2 IPs
                     for (ip in ips) {
                         echo "-----------------------------------------------------"
-                        echo "Connecting to ${ip}"
+                        echo "Deploying to EC2 instance: ${ip}"
 
                         sh """
                             ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ubuntu@${ip} << 'EOF'
@@ -61,6 +66,15 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline completed successfully!"
+        }
+        failure {
+            echo "Pipeline failed! Check console output for details."
         }
     }
 }
