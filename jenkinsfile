@@ -1,9 +1,8 @@
+
 pipeline {
     agent any
 
     environment {
-        USER = "petclinicapp"
-        GROUP = "petclinicapp"
         S3_BUCKET = "petclinicapp-bucketmy"
         BUILD_FILE_NAME = "petclinicapp-v1.jar"
         LOCAL_FILE_PATH = "/home/petclinicapp/petclinicapp-v1.jar"
@@ -14,7 +13,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo "Checking out code from GitHub"
+                echo "Checkout source code"
                 git branch: 'main',
                     url: 'https://github.com/hinakeshar1234/gs-spring-boot.git'
             }
@@ -22,7 +21,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "Building Spring Boot application"
+                echo "Build Spring Boot app from initial folder"
                 sh '''
                 cd initial
                 chmod +x mvnw
@@ -33,7 +32,7 @@ pipeline {
 
         stage('Upload to S3') {
             steps {
-                echo "Uploading JAR to S3 bucket"
+                echo "Upload JAR to S3"
                 sh '''
                 aws s3 cp $WORKSPACE/initial/target/$BUILD_FILE_NAME s3://$S3_BUCKET/
                 '''
@@ -43,22 +42,21 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    echo "Fetching running EC2 instances"
+                    echo "Fetch running EC2 instances"
 
                     def ips = sh(
                         script: '''
                         aws ec2 describe-instances \
-                        --filters "Name=tag:appname,Values=petclinic" \
-                                  "Name=instance-state-name,Values=running" \
-                        --query "Reservations[*].Instances[*].PublicIpAddress" \
-                        --output text
+                          --filters "Name=tag:appname,Values=petclinic" \
+                                    "Name=instance-state-name,Values=running" \
+                          --query "Reservations[*].Instances[*].PublicIpAddress" \
+                          --output text
                         ''',
                         returnStdout: true
                     ).trim().split()
 
                     for (ip in ips) {
-                        echo "Deploying to EC2: ${ip}"
-
+                        echo "Deploying to ${ip}"
                         sh """
                         ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ubuntu@${ip} << EOF
                         sudo aws s3 cp s3://${S3_BUCKET}/${BUILD_FILE_NAME} ${LOCAL_FILE_PATH}
@@ -73,10 +71,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ Pipeline completed successfully"
+            echo "✅ BUILD & DEPLOYMENT SUCCESS"
         }
         failure {
-            echo "❌ Pipeline failed – check console output"
+            echo "❌ PIPELINE FAILED – check console output"
         }
     }
 }
