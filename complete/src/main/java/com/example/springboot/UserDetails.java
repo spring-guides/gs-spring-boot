@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.example.springboot; 
 
 import com.github.javafaker.Faker;
 import lombok.Builder;
