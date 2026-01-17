@@ -29,7 +29,7 @@ public class UserDetails implements Serializable {
 
     public static UserDetails getAdmin() {
         return randomUser();
-    }
+    } 
 
     public static UserDetails getUser() {
         return randomUser();
