@@ -45,24 +45,28 @@ jobs:
     needs: docker
 
     steps:
-      - name: Checkout GitOps repo
-        uses: actions/checkout@v4
-        with:
-          repository: Narayan1989/myapp-helm-gitops
-          token: ${{ secrets.GITOPS_TOKEN }}
-          path: gitops
+     - name: Checkout GitOps repo
+       uses: actions/checkout@v4
+       with:
+        repository: Narayan1989/myapp-helm-gitops
+        token: ${{ secrets.GITOPS_TOKEN }}
+        path: gitops
 
-      - name: Update image tag in Helm values
-        run: |
-          SHORT_SHA=${GITHUB_SHA::7}
+     - name: Update image tag in Helm values
+       run: |
+        SHORT_SHA=${GITHUB_SHA::7}
 
-          cd gitops/myapp-chart
+        cd gitops/myapp-chart
 
-          sed -i "s/tag:.*/tag: \"$SHORT_SHA\"/g" values.yaml
+        # safer YAML update (recommended)
+        yq -i '.image.tag = strenv(SHORT_SHA)' values.yaml
 
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add values.yaml
-          git commit -m "Update image tag to $SHORT_SHA"
-          git push origin main
+        git add values.yaml
+
+        git diff --cached --quiet || git commit -m "Update image tag to $SHORT_SHA"
+
+        git pull origin main --rebase
+        git push origin main
