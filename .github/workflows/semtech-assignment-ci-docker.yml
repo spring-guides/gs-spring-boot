@@ -6,6 +6,9 @@ on:
       - feature/**
       - main
 
+permissions:
+  contents: write
+
 jobs:
   build:
     uses: ./.github/workflows/reusable-java-build.yml
@@ -13,6 +16,8 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     needs: build
+    outputs:
+      short_sha: ${{ steps.sha.outputs.short_sha }}
 
     steps:
       - name: Checkout code
@@ -25,7 +30,8 @@ jobs:
           path: complete/target
 
       - name: Set short SHA
-        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+        id: sha
+        run: echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -35,40 +41,43 @@ jobs:
 
       - name: Build Docker Image
         working-directory: complete
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ env.SHORT_SHA }} .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ steps.sha.outputs.short_sha }} .
 
       - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ env.SHORT_SHA }}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ steps.sha.outputs.short_sha }}
 
   gitops:
     runs-on: ubuntu-latest
     needs: docker
 
     steps:
-     - name: Checkout GitOps repo
-       uses: actions/checkout@v4
-       with:
-        repository: Narayan1989/myapp-helm-gitops
-        token: ${{ secrets.GITOPS_TOKEN }}
-        path: gitops
+      - name: Checkout GitOps repo
+        uses: actions/checkout@v4
+        with:
+          repository: Narayan1989/myapp-helm-gitops
+          token: ${{ secrets.GITOPS_TOKEN }}
+          path: gitops
 
-     - name: Update image tag in Helm values
-       run: |
-        SHORT_SHA=${GITHUB_SHA::7}
+      - name: Install yq
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
 
-        cd gitops/myapp-chart
+      - name: Update image tag in Helm values
+        run: |
+          SHORT_SHA=${{ needs.docker.outputs.short_sha }}
 
-        # safer YAML update (recommended)
-        yq -i '.image.tag = strenv(SHORT_SHA)' values.yaml
+          cd gitops/myapp-chart
 
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull origin main --rebase
 
-        git add values.yaml
+          yq -i '.image.tag = strenv(SHORT_SHA)' values.yaml
 
-        git diff --cached --quiet || git commit -m "Update image tag to $SHORT_SHA"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-        git pull origin main --rebase
-        git push origin main
+          git add values.yaml
 
-  #test      
+          git diff --cached --quiet || git commit -m "Update image tag to $SHORT_SHA"
+
+          git push origin main
