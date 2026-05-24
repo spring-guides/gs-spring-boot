@@ -65,19 +65,21 @@ jobs:
 
       - name: Update image tag in Helm values
         run: |
-          SHORT_SHA=${{ needs.docker.outputs.short_sha }}
+         export SHORT_SHA=${{ needs.docker.outputs.short_sha }}
 
-          cd gitops/myapp-chart
+         cd gitops/myapp-chart
 
-          git pull origin main --rebase
+         git pull origin main --rebase
 
-          yq -i '.image.tag = strenv(SHORT_SHA)' values.yaml
+         yq -i '.image.tag = strenv(SHORT_SHA)' values.yaml
 
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+         cat values.yaml   # 👈 DEBUG (VERY IMPORTANT)
 
-          git add values.yaml
+         git config user.name "github-actions[bot]"
+         git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git diff --cached --quiet || git commit -m "Update image tag to $SHORT_SHA"
+         git add values.yaml
 
-          git push origin main
+         git diff --cached --quiet || git commit -m "Update image tag to $SHORT_SHA"
+
+         git push origin main
