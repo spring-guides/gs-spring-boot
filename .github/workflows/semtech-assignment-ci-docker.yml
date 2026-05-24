@@ -48,7 +48,7 @@ jobs:
       - name: Checkout GitOps repo
         uses: actions/checkout@v4
         with:
-          repository: Narayan1989/myapphelm-gitops
+          repository: Narayan1989/myapp-helm-gitops
           token: ${{ secrets.GITOPS_TOKEN }}
           path: gitops
 
@@ -60,9 +60,9 @@ jobs:
 
           sed -i "s/tag:.*/tag: \"$SHORT_SHA\"/g" values.yaml
 
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add values.yaml
           git commit -m "Update image tag to $SHORT_SHA"
-          git push    
+          git push origin main
