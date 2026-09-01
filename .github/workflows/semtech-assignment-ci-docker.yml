@@ -1,0 +1,85 @@
+name: Semtech Assignment CI-CD
+
+on:
+  push:
+    branches:
+      - feature/**
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    uses: ./.github/workflows/reusable-java-build.yml
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: build
+    outputs:
+      short_sha: ${{ steps.sha.outputs.short_sha }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: jar-file
+          path: complete/target
+
+      - name: Set short SHA
+        id: sha
+        run: echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        working-directory: complete
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ steps.sha.outputs.short_sha }} .
+
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ steps.sha.outputs.short_sha }}
+
+  gitops:
+    runs-on: ubuntu-latest
+    needs: docker
+
+    steps:
+      - name: Checkout GitOps repo
+        uses: actions/checkout@v4
+        with:
+          repository: Narayan1989/myapp-helm-gitops
+          token: ${{ secrets.GITOPS_TOKEN }}
+          path: gitops
+
+      - name: Install yq
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
+
+      - name: Update image tag in Helm values
+        run: |
+         export SHORT_SHA=${{ needs.docker.outputs.short_sha }}
+
+         cd gitops/myapp-chart
+
+         git pull origin main --rebase
+
+         yq -i '.image.tag = strenv(SHORT_SHA)' values.yaml
+
+         cat values.yaml   # 👈 DEBUG (VERY IMPORTANT)
+
+         git config user.name "github-actions[bot]"
+         git config user.email "github-actions[bot]@users.noreply.github.com"
+
+         git add values.yaml
+
+         git diff --cached --quiet || git commit -m "Update image tag to $SHORT_SHA"
+
+         git push origin main
