@@ -1,18 +1,18 @@
-name: Merge Dependabot PR
+# name: Merge Dependabot PR
 
-on:
-  pull_request:
-    branches:
-      - main
-      - '*.x'
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#       - '*.x'
 
-run-name: Merge Dependabot PR ${{ github.ref_name }}
+# run-name: Merge Dependabot PR ${{ github.ref_name }}
 
-jobs:
-  merge-dependabot-pr:
-    permissions: write-all
-    uses: spring-io/spring-github-workflows/.github/workflows/spring-merge-dependabot-pr.yml@v7
-    with:
-      mergeArguments: --auto --rebase
-      autoMerge: true
+# jobs:
+#   merge-dependabot-pr:
+#     permissions: write-all
+#     uses: spring-io/spring-github-workflows/.github/workflows/spring-merge-dependabot-pr.yml@v7
+#     with:
+#       mergeArguments: --auto --rebase
+#       autoMerge: true
 

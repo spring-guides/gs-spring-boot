@@ -1,0 +1,41 @@
+name: Semtech Assignment CI-CD
+
+on:
+  push:
+    branches:
+      - feature/**
+      - main
+
+jobs:
+  build:
+    uses: ./.github/workflows/reusable-java-build.yml
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: jar-file
+          path: complete/target
+
+      - name: Set short SHA
+        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        working-directory: complete
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ env.SHORT_SHA }} .
+
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/hello-app:${{ env.SHORT_SHA }}
