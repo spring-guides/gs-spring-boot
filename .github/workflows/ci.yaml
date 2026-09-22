@@ -1,0 +1,97 @@
+name: Java CI
+
+on:
+    push:
+      branches: 
+        - main
+    pull_request:
+      branches:
+        - main
+
+env:
+  PACKAGE_NAME: backend-jar
+
+jobs:
+  compile:
+    name: Compile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+      
+      - name: Build
+        working-directory: ./complete
+        run: ./mvnw clean compile
+  
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: 
+      - compile
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+      
+      - name: Testing
+        working-directory: ./complete
+        run: ./mvnw clean test
+  
+  package:
+    name: Package
+    runs-on: ubuntu-latest
+    needs: 
+      - test
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+      
+      - name: Package
+        working-directory: ./complete
+        run: ./mvnw clean package -DskipTests
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.PACKAGE_NAME }}
+          path: complete/target/spring-boot-complete-*.jar
+          if-no-files-found: error
+      
+  verify-artifact:
+    name: Verify-Artifact
+    runs-on: ubuntu-latest
+    needs: 
+      - package
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ env.PACKAGE_NAME }}
+      - name: Verify artifact
+        run: ls
+
+      
+
+  
+    
+    
+        
+
+
