@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: IAM User assigned to Contractors group with EC2, S3, and EKS access
+
+Resources:
+
+  ContractorsGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: Contractors
+      Policies:
+        - PolicyName: ContractorsPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+
+              # EC2 access (read-only)
+              - Effect: Allow
+                Action:
+                  - ec2:Describe*
+                Resource: "*"
+
+              # S3 access (list + read objects in specific bucket)
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:GetObject
+                Resource:
+                  - arn:aws:s3:::my-specific-bucket
+                  - arn:aws:s3:::my-specific-bucket/*
+
+              # EKS access (read-only cluster info)
+              - Effect: Allow
+                Action:
+                  - eks:DescribeCluster
+                Resource: "*"
+
+  ContractorUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: contractor-user
+
+  AddUserToContractorsGroup:
+    Type: AWS::IAM::UserToGroupAddition
+    Properties:
+      GroupName: !Ref ContractorsGroup
+      Users:
+        - !Ref ContractorUser

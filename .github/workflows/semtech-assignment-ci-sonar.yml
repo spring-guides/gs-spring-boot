@@ -1,0 +1,40 @@
+# name: SonarCloud Analysis
+
+# on:
+#   push:
+#     branches:
+#       - main
+#       - feature/**
+#   pull_request:
+#     types: [opened, synchronize, reopened]
+
+# jobs:
+#   sonarqube:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
+
+#       - name: Set up Java
+#         uses: actions/setup-java@v4
+#         with:
+#           distribution: temurin
+#           java-version: 17
+
+#       - name: Build project
+#         working-directory: complete
+#         run: mvn clean compile
+
+#       - name: SonarCloud Scan
+#         working-directory: complete
+#         env:
+#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#         run: |
+#           mvn sonar:sonar \
+#             -Dsonar.projectKey=narayan1989 \
+#             -Dsonar.organization=narayan1989 \
+#             -Dsonar.host.url=https://sonarcloud.io \
+#             -Dsonar.login=$SONAR_TOKEN

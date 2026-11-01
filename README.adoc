@@ -381,3 +381,117 @@ The following guides may also be helpful:
 * https://spring.io/guides/gs/serving-web-content/[Serving Web Content with Spring MVC]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
+
+
+
+# Spring Boot DevOps CI/CD Pipeline Project
+
+This project demonstrates a complete DevOps workflow using a Spring Boot application integrated with CI/CD pipelines, code quality tools, containerization, reusable workflows, and AWS infrastructure provisioning.
+
+
+## 🚀 Project Overview
+
+This repository is a fork of a Spring Boot application extended with DevOps practices including:
+
+- GitHub Actions CI/CD pipelines
+- Docker containerization
+- SonarCloud static code analysis
+- CodeQL security scanning
+- Reusable workflows in GitHub Actions
+- AWS CloudFormation for IAM provisioning
+
+## 🛠️ Tech Stack
+
+- Java 17 (Spring Boot)
+- Maven
+- Docker
+- GitHub Actions
+- SonarCloud
+- CodeQL
+- AWS CloudFormation (IAM)
+
+## 📂 Project Structure
+```
+.github/workflows/
+semtech-assignment-ci-sonar.yaml
+semtech-assignment-ci-docker.yaml
+codeql.yml
+reusable-java-build.yml
+```
+
+cloudformation/template.yaml
+
+complete/
+Spring Boot Application Source Code
+
+## 🔄 CI/CD Workflows (GitHub Actions)
+
+### 1️⃣ Docker Workflow
+- Builds Docker image
+- Pushes image to DockerHub
+- Uses reusable workflow for Java build
+
+### 2️⃣ SonarCloud Workflow
+- Performs static code analysis
+- Runs on push and pull requests
+- Displays Quality Gate in GitHub PR
+
+
+### 3️⃣ CodeQL Workflow
+- Performs security analysis of Java code
+- Detects vulnerabilities and code issues
+
+### 4️⃣ Reusable Workflow
+- Common Java build logic
+- Used by Docker workflow to avoid duplication
+
+## 🐳 Docker Integration
+
+- Builds Spring Boot application into Docker image
+- Uses Maven build artifact (JAR)
+- Tags image using Git commit SHA
+- Pushes image to DockerHub
+
+## 🔍 Code Quality & Security
+
+### SonarCloud
+- Code quality analysis
+- Bug and vulnerability detection
+- PR decoration enabled
+
+### CodeQL
+- Security scanning for Java code
+- Detects insecure coding patterns
+
+## ☁️ AWS Infrastructure (CloudFormation)
+
+Using AWS CloudFormation:
+
+- IAM User creation
+- IAM Group: `Contractors`
+- Permissions:
+  - EC2 (Describe access)
+  - S3 (List & Read access)
+  - EKS (Describe cluster access)
+- User assigned to Contractors group
+
+---
+
+## ⚙️ How to Run Locally
+
+### Build project
+```bash
+mvn clean package
+
+# Run application
+mvn spring-boot:run
+
+# Access endpoints
+http://localhost:8080/
+http://localhost:8080/hello
+
+🐳 Docker Run
+# Build image example
+docker build -t springboot-app .
+Run container
+docker run -p 8080:8080 springboot-app
